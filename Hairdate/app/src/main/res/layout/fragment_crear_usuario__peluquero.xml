@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="409dp"
-            android:layout_height="182dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
             android:gravity="center"
@@ -33,13 +33,44 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="505dp"
+            android:layout_gravity="top"
             android:layout_marginBottom="171dp"
+            android:gravity="top"
             android:orientation="vertical"
             android:paddingTop="170dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+
+            <TextView
+                android:id="@+id/txt_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Nombre" />
+
+            <EditText
+                android:id="@+id/edTxt_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+
+            <TextView
+                android:id="@+id/txt_apellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Apellidos" />
+
+            <EditText
+                android:id="@+id/edTxt_apellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" />
 
             <TextView
                 android:id="@+id/txt_usuario"
@@ -70,6 +101,12 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/btn_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrar" />
 
         </LinearLayout>
 

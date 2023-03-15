@@ -75,9 +75,17 @@
                 android:id="@+id/txt_crear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="none"
                 android:clickable="true"
+                android:focusableInTouchMode="false"
+                android:forceHasOverlappingRendering="false"
                 android:gravity="center"
-                android:text="Crear usuario" />
+                android:linksClickable="false"
+                android:pointerIcon="none"
+                android:singleLine="false"
+                android:text="Crear usuario"
+                android:textAllCaps="false"
+                android:textIsSelectable="false" />
         </LinearLayout>
 
         <LinearLayout

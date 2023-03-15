@@ -1,12 +1,22 @@
 package com.example.hairdate;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import kotlin.jvm.internal.Intrinsics;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,7 @@ public class inicioSesion_Peluquero extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView crear;
 
     public inicioSesion_Peluquero() {
         // Required empty public constructor
@@ -60,5 +71,23 @@ public class inicioSesion_Peluquero extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_inicio_sesion__peluquero, container, false);
+    }
+    public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
+        Intrinsics.checkNotNullParameter(view, "view");
+        super.onViewCreated(view, savedInstanceState);
+        crear = (TextView) view.findViewById(R.id.txt_crear);
+        crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"¿Quieres crear una cuenta?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                    public final void onClick(DialogInterface dialogo, int id) {
+                        Navigation.findNavController(view).navigate(R.id.action_inicioSesion_Peluquero_to_crearUsuario_Peluquero);
+                    }
+                })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
+                android.app.AlertDialog alerta = constructorDialogo.create();
+                alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
+                alerta.show();
+            }
+        }));
     }
 }
