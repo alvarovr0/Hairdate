@@ -33,7 +33,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="505dp"
+            android:layout_height="507dp"
             android:layout_gravity="top"
             android:layout_marginBottom="171dp"
             android:gravity="top"
@@ -59,33 +59,18 @@
 
 
             <TextView
-                android:id="@+id/txt_apellidos"
+                android:id="@+id/txt_correo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Apellidos" />
+                android:text="Correo" />
 
             <EditText
-                android:id="@+id/edTxt_apellidos"
+                android:id="@+id/edTxt_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPassword" />
-
-            <TextView
-                android:id="@+id/txt_usuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Usuario" />
-
-            <EditText
-                android:id="@+id/edTxt_usuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:inputType="textEmailAddress" />
 
             <TextView
                 android:id="@+id/txt_contrasena"
