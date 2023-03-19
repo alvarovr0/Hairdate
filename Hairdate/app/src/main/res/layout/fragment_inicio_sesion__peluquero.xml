@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/fondo"
     tools:context=".inicioSesion_Peluquero">
 
     <LinearLayout
@@ -83,7 +84,7 @@
                 android:linksClickable="false"
                 android:pointerIcon="none"
                 android:singleLine="false"
-                android:text="Crear usuario"
+                android:text="@string/create_account"
                 android:textAllCaps="false"
                 android:textIsSelectable="false" />
         </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fondo"
     tools:context=".Principal">
 
 
@@ -22,12 +23,24 @@
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent">
 
+
+            <TextView
+                android:id="@+id/txt_bienvenida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="60dp"
+                android:gravity="center"
+                android:text="¡Bienvenido!"
+                android:textSize="50dp"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
             <TextView
                 android:id="@+id/txt_bienvenida"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Bienvenido"
+                android:text="Antes de nada, diganos si es\npeluquero o cliente."
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
