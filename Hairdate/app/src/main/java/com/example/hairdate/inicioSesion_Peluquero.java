@@ -1,11 +1,9 @@
 package com.example.hairdate;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,10 +20,10 @@ import kotlin.jvm.internal.Intrinsics;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Principal#newInstance} factory method to
+ * Use the {@link inicioSesion_Peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Principal extends Fragment {
+public class inicioSesion_Peluquero extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,9 +33,9 @@ public class Principal extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button botonPeluquero;
+    private TextView crear;
 
-    public Principal() {
+    public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
 
@@ -46,11 +45,11 @@ public class Principal extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Principal.
+     * @return A new instance of fragment inicioSesion_Peluquero.
      */
     // TODO: Rename and change types and number of parameters
-    public static Principal newInstance(String param1, String param2) {
-        Principal fragment = new Principal();
+    public static inicioSesion_Peluquero newInstance(String param1, String param2) {
+        inicioSesion_Peluquero fragment = new inicioSesion_Peluquero();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,18 +70,18 @@ public class Principal extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_principal, container, false);
+        return inflater.inflate(R.layout.fragment_inicio_sesion__peluquero, container, false);
     }
     public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
-        botonPeluquero = (Button)view.findViewById(R.id.btn_pelu);
-        botonPeluquero.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        crear = (TextView) view.findViewById(R.id.txt_crear);
+        crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)Principal.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"¿Quieres crear una cuenta?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(view).navigate(R.id.action_principal_to_inicioSesion_Peluquero);
+                        Navigation.findNavController(view).navigate(R.id.action_inicioSesion_Peluquero_to_crearUsuario_Peluquero);
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();

@@ -9,5 +9,23 @@
         android:id="@+id/principal"
         android:name="com.example.hairdate.Principal"
         android:label="fragment_principal"
-        tools:layout="@layout/fragment_principal" />
+        tools:layout="@layout/fragment_principal" >
+        <action
+            android:id="@+id/action_principal_to_inicioSesion_Peluquero"
+            app:destination="@id/inicioSesion_Peluquero" />
+    </fragment>
+    <fragment
+        android:id="@+id/inicioSesion_Peluquero"
+        android:name="com.example.hairdate.inicioSesion_Peluquero"
+        android:label="fragment_inicio_sesion__peluquero"
+        tools:layout="@layout/fragment_inicio_sesion__peluquero" >
+        <action
+            android:id="@+id/action_inicioSesion_Peluquero_to_crearUsuario_Peluquero"
+            app:destination="@id/crearUsuario_Peluquero" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearUsuario_Peluquero"
+        android:name="com.example.hairdate.crearUsuario_Peluquero"
+        android:label="fragment_crear_usuario__peluquero"
+        tools:layout="@layout/fragment_crear_usuario__peluquero" />
 </navigation>
