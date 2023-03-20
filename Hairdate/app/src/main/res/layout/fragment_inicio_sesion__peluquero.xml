@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="409dp"
-            android:layout_height="182dp"
+            android:layout_height="142dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
             android:gravity="center"
@@ -38,56 +38,85 @@
             android:layout_marginBottom="171dp"
             android:orientation="vertical"
             android:paddingTop="170dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
 
             <TextView
-                android:id="@+id/txt_correo"
+                android:id="@+id/txt_correo_inicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Usuario" />
+                android:text="Usuario:"
+                android:textSize="17dp"/>
 
             <EditText
-                android:id="@+id/edTxt_usuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:id="@+id/edTxt_correo_inicio"
+                android:layout_width="268dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="Insertar usuario"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
 
             <TextView
-                android:id="@+id/txt_contrasena"
+                android:id="@+id/txt_contrasena_inicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Contraseña" />
+                android:text="Contraseña:"
+                android:textSize="17dp"/>
 
             <EditText
                 android:id="@+id/edTxt_contrasena"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:minHeight="48dp" />
-
-            <TextView
-                android:id="@+id/txt_crear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="none"
-                android:clickable="true"
-                android:focusableInTouchMode="false"
-                android:forceHasOverlappingRendering="false"
+                android:layout_width="268dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:linksClickable="false"
-                android:pointerIcon="none"
-                android:singleLine="false"
-                android:text="@string/create_account"
-                android:textAllCaps="false"
-                android:textIsSelectable="false" />
+                android:hint="Insertar contraseña"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_crear1_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="none"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            android:forceHasOverlappingRendering="false"
+            android:gravity="center"
+            android:linksClickable="false"
+            android:pointerIcon="none"
+            android:singleLine="false"
+            android:text="¿No tienes una cuenta?"
+            android:textAllCaps="false"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/txt_crear2_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="none"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            android:forceHasOverlappingRendering="false"
+            android:gravity="center"
+            android:linksClickable="false"
+            android:pointerIcon="none"
+            android:singleLine="false"
+            android:text="@string/create_account"
+            android:textAllCaps="false"
+            android:textIsSelectable="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,7 +129,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:id="@+id/txt_creditos"
+                android:id="@+id/txt_creditos_inicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

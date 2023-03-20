@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Hairdate</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="create_account"><u>Crear cuenta</u></string>
+    <string name="create_account"><u>Toca aquí para crear una.</u></string>
 </resources>

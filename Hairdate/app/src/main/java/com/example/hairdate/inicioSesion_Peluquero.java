@@ -75,7 +75,7 @@ public class inicioSesion_Peluquero extends Fragment {
     public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
-        crear = (TextView) view.findViewById(R.id.txt_crear);
+        crear = (TextView) view.findViewById(R.id.txt_crear1_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());

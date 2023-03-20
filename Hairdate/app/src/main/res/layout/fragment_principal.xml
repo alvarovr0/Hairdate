@@ -25,20 +25,22 @@
 
 
             <TextView
-                android:id="@+id/txt_bienvenida"
+                android:id="@+id/txt_bienvenida1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="60dp"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="¡Bienvenido!"
                 android:textSize="50dp"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
-                android:id="@+id/txt_bienvenida"
+                android:id="@+id/txt_bienvenida2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:text="Antes de nada, diganos si es\npeluquero o cliente."
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
