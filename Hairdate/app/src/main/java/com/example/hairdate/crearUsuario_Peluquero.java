@@ -2,6 +2,7 @@ package com.example.hairdate;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Use the {@link crearUsuario_Peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class crearUsuario_Peluquero extends Fragment{
+public class crearUsuario_Peluquero extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +62,18 @@ public class crearUsuario_Peluquero extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapa);
+
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {insertarMarcador(latLng);}
+
+    private void insertarMarcador(LatLng marcador){
+        mapa.addMarker(new MarkerOptions().position(marcador).title("Marcador"));
     }
 
 
@@ -69,5 +82,11 @@ public class crearUsuario_Peluquero extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mapa = googleMap;
+        mapa.setOnMapClickListener(this);
     }
 }
