@@ -39,7 +39,6 @@
             android:layout_gravity="top"
             android:gravity="top"
             android:orientation="vertical"
-            android:paddingTop="170dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -126,9 +125,9 @@
                 android:text="Dirección" />
 
             <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView2"
+                android:id="@+id/mapa"
                 android:layout_width="match_parent"
-                android:layout_height="133dp" />
+                android:layout_height="268dp" />
 
         </LinearLayout>
 
