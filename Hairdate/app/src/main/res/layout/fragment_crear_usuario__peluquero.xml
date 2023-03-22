@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:gravity="top"
+            android:gravity="center|top"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -51,13 +51,17 @@
                 android:gravity="center"
                 android:text="Nombre" />
 
+
             <EditText
                 android:id="@+id/edTxt_nombre"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:ems="10"
-                android:inputType="textPersonName" />
-
+                android:gravity="center"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                android:maxLength="20"/>
 
             <TextView
                 android:id="@+id/txt_cif"
@@ -69,10 +73,14 @@
 
             <EditText
                 android:id="@+id/edTxt_cif"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:gravity="center"
+                android:hint="CIF"
+                android:inputType="textPersonName"
+                android:maxLength="9"/>
 
             <TextView
                 android:id="@+id/txt_usuario_crear"
@@ -83,10 +91,14 @@
 
             <EditText
                 android:id="@+id/edTxt_usuario_crear"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:gravity="center"
+                android:hint="Usuario"
+                android:inputType="textPersonName"
+                android:maxLength="15"/>
 
             <TextView
                 android:id="@+id/txt_usuario"
@@ -97,10 +109,13 @@
 
             <EditText
                 android:id="@+id/edTxt_Email"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:gravity="center"
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
 
             <TextView
                 android:id="@+id/txt_contrasena"
@@ -111,11 +126,15 @@
 
             <EditText
                 android:id="@+id/edTxt_contrasena_crear"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:ems="10"
+                android:gravity="center"
+                android:hint="Contraseña"
                 android:inputType="textPassword"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                android:maxLength="10"/>
 
             <TextView
                 android:id="@+id/txt_direccion"
@@ -125,7 +144,7 @@
                 android:text="Dirección" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="344dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
@@ -138,10 +157,13 @@
 
                 <EditText
                     android:id="@+id/edTxt_Direccion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="193dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/rectangle"
                     android:ems="10"
+                    android:gravity="center"
+                    android:hint="Dirección"
                     android:inputType="textPersonName"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
@@ -154,5 +176,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Registrar" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/barbero" />
     </LinearLayout>
 </FrameLayout>

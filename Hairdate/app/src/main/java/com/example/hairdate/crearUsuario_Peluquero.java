@@ -1,16 +1,31 @@
 package com.example.hairdate;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,9 +79,57 @@ public class crearUsuario_Peluquero extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
         TextView tv = (TextView) view.findViewById(R.id.edTxt_Direccion);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
+        EditText nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
+        EditText cif = (EditText) view.findViewById(R.id.edTxt_cif);
+        EditText usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
+        EditText email = (EditText) view.findViewById(R.id.edTxt_Email);
+        EditText contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
+        EditText direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
+        Button boton = (Button) view.findViewById(R.id.btn_registro);
+
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailvalidator = email.getText().toString();
+                String direccion_completa = spn.toString() + direccion.getText().toString();
+                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
+                    Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
+                    // Create a new user with a first and last name
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("nombre", nombre.getText().toString());
+                    user.put("CIF", cif.getText().toString());
+                    user.put("usuario", usuario.getText().toString());
+                    user.put("email", emailvalidator);
+                    user.put("contrasena", contrasena.getText().toString());
+                    user.put("direccion", direccion_completa);
+
+                    // Add a new document with a generated ID
+                    db.getReference("Peluquero")
+                            .add(user)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                } else{
+                    Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
         return view;
     }
+
 }
