@@ -3,31 +3,27 @@ package com.example.hairdate;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link crearUsuario_Peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class crearUsuario_Peluquero extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class crearUsuario_Peluquero extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private GoogleMap mapa;
-    private MapFragment mapFragment;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,30 +59,14 @@ public class crearUsuario_Peluquero extends Fragment implements OnMapReadyCallba
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapa);
-
-        mapFragment.getMapAsync(this);
     }
 
+    @Nullable
     @Override
-    public void onMapClick(LatLng latLng) {insertarMarcador(latLng);}
-
-    private void insertarMarcador(LatLng marcador){
-        mapa.addMarker(new MarkerOptions().position(marcador).title("Marcador"));
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mapa = googleMap;
-        mapa.setOnMapClickListener(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
+        TextView tv = (TextView) view.findViewById(R.id.edTxt_Direccion);
+        Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
+        return view;
     }
 }

@@ -124,11 +124,28 @@
                 android:gravity="center"
                 android:text="Dirección" />
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/mapa"
-                android:name="com.google.android.gms.maps.MapFragment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="268dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerCalle"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/array"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <EditText
+                    android:id="@+id/edTxt_Direccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
