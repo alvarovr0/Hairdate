@@ -95,7 +95,7 @@ public class crearUsuario_Peluquero extends Fragment{
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
-                String direccion_completa = spn.getSelectedItem().toString() + " " + direccion.getText().toString();
+                String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
