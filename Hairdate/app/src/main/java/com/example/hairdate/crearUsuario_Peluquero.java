@@ -2,11 +2,13 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.util.Patterns;
@@ -114,6 +116,7 @@ public class crearUsuario_Peluquero extends Fragment{
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -122,6 +125,7 @@ public class crearUsuario_Peluquero extends Fragment{
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
+
                 } else{
                     Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
                 }

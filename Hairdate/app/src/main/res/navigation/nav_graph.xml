@@ -27,5 +27,9 @@
         android:id="@+id/crearUsuario_Peluquero"
         android:name="com.example.hairdate.crearUsuario_Peluquero"
         android:label="fragment_crear_usuario__peluquero"
-        tools:layout="@layout/fragment_crear_usuario__peluquero" />
+        tools:layout="@layout/fragment_crear_usuario__peluquero" >
+        <action
+            android:id="@+id/action_crearUsuario_Peluquero_to_inicioSesion_Peluquero"
+            app:destination="@id/inicioSesion_Peluquero" />
+    </fragment>
 </navigation>
