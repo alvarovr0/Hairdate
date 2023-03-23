@@ -27,14 +27,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Inicia sesión/Registrate"
+                android:text="Inicia sesión"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:layout_marginBottom="171dp"
             android:orientation="vertical"
             android:paddingTop="170dp"
@@ -49,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Usuario:"
-                android:textSize="17dp"/>
+                android:textSize="17dp"
+                android:typeface="serif" />
 
             <EditText
                 android:id="@+id/edTxt_correo_inicio"
@@ -60,7 +60,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:hint="Insertar usuario"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 android:maxLines="1" />
 
             <TextView
@@ -69,20 +69,45 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Contraseña:"
-                android:textSize="17dp"/>
+                android:textSize="17dp"
+                android:typeface="serif" />
 
-            <EditText
-                android:id="@+id/edTxt_contrasena"
-                android:layout_width="268dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle"
-                android:ellipsize="end"
                 android:gravity="center"
-                android:hint="Insertar contraseña"
-                android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:orientation="horizontal">
 
+                <EditText
+                    android:id="@+id/edTxt_contrasena_inicio"
+                    android:layout_width="233dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rectangle"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:hint="Insertar contraseña"
+                    android:inputType="textPassword"
+                    android:maxLines="1" />
+
+                <ImageButton
+                    android:id="@+id/btn_eyeContrasena_inicio"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@null"
+                    android:src="@drawable/eye_closed" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_iniciarSesion_inicio"
+                android:layout_width="196dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Iniciar Sesion"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 
