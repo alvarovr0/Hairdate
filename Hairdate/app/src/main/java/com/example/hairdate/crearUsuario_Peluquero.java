@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,9 +80,8 @@ public class crearUsuario_Peluquero extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
-        TextView tv = (TextView) view.findViewById(R.id.edTxt_Direccion);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
         EditText nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
         EditText cif = (EditText) view.findViewById(R.id.edTxt_cif);
@@ -95,7 +95,7 @@ public class crearUsuario_Peluquero extends Fragment{
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
-                String direccion_completa = spn.toString() + direccion.getText().toString();
+                String direccion_completa = spn.getSelectedItem().toString() + " " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
@@ -108,7 +108,7 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("direccion", direccion_completa);
 
                     // Add a new document with a generated ID
-                    db.getReference("Peluquero")
+                    db.collection("Peluquero")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
@@ -125,7 +125,6 @@ public class crearUsuario_Peluquero extends Fragment{
                 } else{
                     Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
                 }
-
 
             }
         });
