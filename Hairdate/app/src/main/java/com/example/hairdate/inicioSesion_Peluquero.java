@@ -4,25 +4,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import kotlin.jvm.internal.Intrinsics;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link inicioSesion_Peluquero#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class inicioSesion_Peluquero extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -33,8 +33,10 @@ public class inicioSesion_Peluquero extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView crear;
-
+    TextView crear;
+    ImageButton btn_eyeContrasena_inicio;
+    EditText edTxt_contrasena_inicio;
+    boolean ojoAbierto;
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -67,15 +69,19 @@ public class inicioSesion_Peluquero extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio_sesion__peluquero, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_inicio_sesion__peluquero, container, false);
+
+
+        return view;
     }
+
+
     public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
-        crear = (TextView) view.findViewById(R.id.txt_crear);
+        this.ojoAbierto = false;
+        this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -87,6 +93,23 @@ public class inicioSesion_Peluquero extends Fragment {
                 android.app.AlertDialog alerta = constructorDialogo.create();
                 alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
                 alerta.show();
+            }
+        }));
+        this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
+        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
+                if (ojoAbierto) {
+                    btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_closed);
+                    edTxt_contrasena_inicio.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ojoAbierto = false;
+                    // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
+                } else {
+                    btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_open);
+                    edTxt_contrasena_inicio.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    ojoAbierto = true;
+                }
             }
         }));
     }

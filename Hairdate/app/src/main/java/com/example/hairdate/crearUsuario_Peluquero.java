@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +48,10 @@ public class crearUsuario_Peluquero extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean ojoAbierto = false;
+    private EditText nombre, cif, usuario, email, contrasena, direccion;
+    private Button botonRegistro;
+    private ImageButton btn_eyeContrasena_inicio;
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -85,15 +91,32 @@ public class crearUsuario_Peluquero extends Fragment{
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
-        EditText nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
-        EditText cif = (EditText) view.findViewById(R.id.edTxt_cif);
-        EditText usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
-        EditText email = (EditText) view.findViewById(R.id.edTxt_Email);
-        EditText contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
-        EditText direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
-        Button boton = (Button) view.findViewById(R.id.btn_registro);
+        nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
+        cif = (EditText) view.findViewById(R.id.edTxt_cif);
+        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
+        email = (EditText) view.findViewById(R.id.edTxt_Email);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
+        direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
+        botonRegistro = (Button) view.findViewById(R.id.btn_registro);
+        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton);
 
-        boton.setOnClickListener(new View.OnClickListener() {
+        btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
+                if (ojoAbierto) {
+                    btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_closed);
+                    contrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ojoAbierto = false;
+                    // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
+                } else {
+                    btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_open);
+                    contrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    ojoAbierto = true;
+                }
+            }
+        }));
+
+        botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();

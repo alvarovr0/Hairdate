@@ -12,4 +12,5 @@
         <item>Esquina</item>
         <item>Travesía</item>
     </string-array>
+    <string name="create_account"><u>Toca aquí para crear una.</u></string>
 </resources>
