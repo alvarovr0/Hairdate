@@ -108,7 +108,6 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("email", emailvalidator);
                     user.put("contrasena", contrasena.getText().toString());
                     user.put("direccion", direccion_completa);
-
                     // Add a new document with a generated ID
                     db.collection("Peluquero")
                             .add(user)

@@ -115,11 +115,11 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
             <TextView
                 android:id="@+id/txt_contrasena"
-                android:layout_width="match_parent"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Contraseña" />
@@ -127,14 +127,14 @@
             <EditText
                 android:id="@+id/edTxt_contrasena_crear"
                 android:layout_width="289dp"
-                android:layout_height="wrap_content"
+                android:layout_height="34dp"
                 android:background="@drawable/rectangle"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Contraseña"
                 android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:maxLength="10"/>
+                android:maxLength="10"
+                android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/txt_direccion"
@@ -173,9 +173,10 @@
 
         <Button
             android:id="@+id/btn_registro"
-            android:layout_width="match_parent"
+            android:layout_width="258dp"
             android:layout_height="wrap_content"
-            android:text="Registrar" />
+            android:text="Registrar"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/imageView"
