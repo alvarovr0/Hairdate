@@ -1,12 +1,23 @@
 package com.example.hairdate;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import kotlin.jvm.internal.Intrinsics;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +34,9 @@ public class Principal extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Button botonPeluquero;
+
+    private Button botonCliente;
 
     public Principal() {
         // Required empty public constructor
@@ -60,5 +74,38 @@ public class Principal extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_principal, container, false);
+    }
+    public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
+        Intrinsics.checkNotNullParameter(view, "view");
+        super.onViewCreated(view, savedInstanceState);
+        botonPeluquero = (Button)view.findViewById(R.id.btn_pelu);
+        botonPeluquero.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)Principal.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                    public final void onClick(DialogInterface dialogo, int id) {
+                        Navigation.findNavController(view).navigate(R.id.action_principal_to_inicioSesion_Peluquero);
+                    }
+                })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
+                android.app.AlertDialog alerta = constructorDialogo.create();
+                alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
+                alerta.show();
+            }
+        }));
+
+        botonCliente = (Button)view.findViewById(R.id.btn_cli);
+        botonCliente.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)Principal.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"¿Seguro que eres cliente?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                    public final void onClick(DialogInterface dialogo, int id) {
+                        Navigation.findNavController(view).navigate(R.id.action_principal_to_inicioSesion_Cliente);
+                    }
+                })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
+                android.app.AlertDialog alerta = constructorDialogo.create();
+                alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
+                alerta.show();
+            }
+        }));
     }
 }

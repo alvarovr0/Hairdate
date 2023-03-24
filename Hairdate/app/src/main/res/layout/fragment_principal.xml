@@ -50,7 +50,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="#1D2D44"
                 android:paddingRight="20dp"
-                android:text="Peluquero" />
+                android:text="Peluquero"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_cli"
@@ -61,7 +62,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="#1D2D44"
                 android:paddingLeft="20dp"
-                android:text="Cliente" />
+                android:text="Cliente"
+                android:textColor="@color/white" />
         </LinearLayout>
 
 
