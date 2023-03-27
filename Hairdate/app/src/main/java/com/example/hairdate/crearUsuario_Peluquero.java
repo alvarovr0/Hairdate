@@ -90,17 +90,7 @@ public class crearUsuario_Peluquero extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
-<<<<<<< HEAD
-        Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
-        nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
-        cif = (EditText) view.findViewById(R.id.edTxt_cif);
-        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
-        email = (EditText) view.findViewById(R.id.edTxt_Email);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
-        direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
-        botonRegistro = (Button) view.findViewById(R.id.btn_registro);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton);
-=======
+
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);
@@ -110,7 +100,6 @@ public class crearUsuario_Peluquero extends Fragment{
         direccion = (EditText) view.findViewById(R.id.edTxt_Direccion_peluquero);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
->>>>>>> main
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
