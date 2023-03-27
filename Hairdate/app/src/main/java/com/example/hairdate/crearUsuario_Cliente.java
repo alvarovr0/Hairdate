@@ -86,13 +86,10 @@ public class crearUsuario_Cliente extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__cliente, container, false);
-        Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
-        cif = (EditText) view.findViewById(R.id.edTxt_cif);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
         email = (EditText) view.findViewById(R.id.edTxt_Email);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
-        direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro);
        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton);
 
@@ -116,17 +113,14 @@ public class crearUsuario_Cliente extends Fragment{
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
-                String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
                     Map<String, Object> user = new HashMap<>();
                     user.put("nombre", nombre.getText().toString());
-                    user.put("CIF", cif.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("contrasena", contrasena.getText().toString());
-                    user.put("direccion", direccion_completa);
                     // Add a new document with a generated ID
                     db.collection("Peluquero")
                             .add(user)

@@ -78,7 +78,7 @@ public class inicioSesion_Cliente extends Fragment {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
-        this.crear = (TextView) view.findViewById(R.id.Crear_cliente);
+        this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) inicioSesion_Cliente.this.requireActivity());
@@ -92,8 +92,8 @@ public class inicioSesion_Cliente extends Fragment {
                 alerta.show();
             }
         }));
-        this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio_cliente);
-        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.ETpaswd);
+        this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
+        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
