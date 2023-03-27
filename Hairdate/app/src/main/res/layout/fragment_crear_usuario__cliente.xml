@@ -43,7 +43,7 @@
 
 
             <TextView
-                android:id="@+id/txt_nombre"
+                android:id="@+id/txt_nombre_cliente"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
@@ -52,7 +52,7 @@
 
 
             <EditText
-                android:id="@+id/edTxt_nombre"
+                android:id="@+id/edTxt_nombre_cliente"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -65,14 +65,14 @@
 
 
             <TextView
-                android:id="@+id/txt_usuario_crear"
+                android:id="@+id/txt_usuario_cliente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Usuario" />
 
             <EditText
-                android:id="@+id/edTxt_usuario_crear"
+                android:id="@+id/edTxt_usuario_cliente"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -84,14 +84,14 @@
                 android:layout_marginBottom="23dp"/>
 
             <TextView
-                android:id="@+id/txt_usuario"
+                android:id="@+id/txt_email_cliente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Correo" />
 
             <EditText
-                android:id="@+id/edTxt_Email"
+                android:id="@+id/edTxt_Email_cliente"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -102,7 +102,7 @@
                 android:layout_marginBottom="23dp"/>
 
             <TextView
-                android:id="@+id/txt_contrasena"
+                android:id="@+id/txt_contrasena_cliente"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/edTxt_contrasena_crear"
+                    android:id="@+id/edTxt_contrasena_cliente"
                     android:layout_width="260dp"
                     android:layout_height="34dp"
                     android:background="@drawable/rectangle"
@@ -125,7 +125,7 @@
                     android:layout_marginBottom="23dp"/>
 
                 <ImageButton
-                    android:id="@+id/ojoBoton"
+                    android:id="@+id/ojoBoton_cliente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -139,7 +139,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_registro"
+            android:id="@+id/btn_registro_cliente"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
             android:text="Registrar"

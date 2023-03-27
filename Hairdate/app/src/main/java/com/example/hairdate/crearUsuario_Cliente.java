@@ -86,12 +86,12 @@ public class crearUsuario_Cliente extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__cliente, container, false);
-        nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
-        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
-        email = (EditText) view.findViewById(R.id.edTxt_Email);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
-        botonRegistro = (Button) view.findViewById(R.id.btn_registro);
-       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton);
+        nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
+        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
+        email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
+       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -122,13 +122,13 @@ public class crearUsuario_Cliente extends Fragment{
                     user.put("email", emailvalidator);
                     user.put("contrasena", contrasena.getText().toString());
                     // Add a new document with a generated ID
-                    db.collection("Peluquero")
+                    db.collection("Clientes")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
