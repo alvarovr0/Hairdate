@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/fondo"
+    android:background="?attr/primaryTextColor"
     tools:context=".inicioSesion_Peluquero">
 
     <LinearLayout
@@ -34,7 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="171dp"
+            android:layout_marginBottom="140dp"
             android:orientation="vertical"
             android:paddingTop="170dp"
 
@@ -79,6 +79,7 @@
                 android:paddingTop="10dp">
 
                 <EditText
+                    android:id="@+id/edTxt_contrasena_inicio"
                     android:layout_width="268dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_horizontal"
@@ -125,7 +126,8 @@
             android:singleLine="false"
             android:text="¿No tienes una cuenta?"
             android:textAllCaps="false"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            />
 
         <TextView
             android:id="@+id/txt_crear2_inicio"

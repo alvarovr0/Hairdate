@@ -89,9 +89,9 @@ public class crearUsuario_Cliente extends Fragment{
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
-       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
+       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
