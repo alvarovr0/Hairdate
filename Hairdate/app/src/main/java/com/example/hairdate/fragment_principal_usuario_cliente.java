@@ -1,5 +1,7 @@
 package com.example.hairdate;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,7 +85,33 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
 
     private List<Peluqueria> peluquerias; // lista de peluquerías cercanas
     private List<Peluqueria> obtenerPeluqueriasCercanas() {
-        return null;
+        List<Peluqueria> peluquerias = new ArrayList<>();
+
+        // Crear una instancia de la API de Google Places
+        PlacesApi api = new PlacesApi.Builder()
+                .apiKey("tu_api_key_de_Google_Places")
+                .build();
+
+        // Obtener la ubicación actual del usuario
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double latitud = location.getLatitude();
+        double longitud = location.getLongitude();
+
+        // Buscar peluquerías cercanas a la ubicación del usuario
+        List<Place> places = api.searchPlacesNearby(latitud, longitud, 5000, "hair care");
+
+        // Convertir los resultados de la búsqueda en objetos Peluqueria
+        for (Place place : places) {
+            Peluqueria peluqueria = new Peluqueria();
+            peluqueria.setNombre(place.getName());
+            peluqueria.setDireccion(place.getAddress());
+            peluqueria.setLatitud(place.getLatitude());
+            peluqueria.setLongitud(place.getLongitude());
+            peluquerias.add(peluqueria);
+        }
+
+        return peluquerias;
     }
 
     @Override
