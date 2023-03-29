@@ -129,7 +129,7 @@ public class crearUsuario_Peluquero extends Fragment{
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
-                    Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
                     Map<String, Object> user = new HashMap<>();
                     user.put("nombre", nombre.getText().toString());
@@ -155,7 +155,7 @@ public class crearUsuario_Peluquero extends Fragment{
                                 }
                             });
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), contrasena.getText().toString())
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(getActivity(),new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
@@ -179,6 +179,13 @@ public class crearUsuario_Peluquero extends Fragment{
             }
         });
         return view;
+    }
+    public void updateUI(FirebaseUser user) {
+        if(user != null){
+            Toast.makeText(getContext(),"You Signed In successfully",Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(getContext(),"You Didnt signed in",Toast.LENGTH_LONG).show();
+        }
     }
 
 }
