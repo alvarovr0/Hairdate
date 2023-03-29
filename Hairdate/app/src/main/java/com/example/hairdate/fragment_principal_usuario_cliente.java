@@ -8,14 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link fragment_principal_usuario_cliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_principal_usuario_cliente extends Fragment AppCompatActivity implements OnMapReadyCallback{
+public class fragment_principal_usuario_cliente extends Fragment implements OnMapReadyCallback {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,6 +61,14 @@ public class fragment_principal_usuario_cliente extends Fragment AppCompatActivi
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Obtener el objeto GoogleMap
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+        mapFragment.getMapAsync(this);
+
+        // Obtener la lista de peluquerías cercanas
+        peluquerias = obtenerPeluqueriasCercanas();
+
     }
 
     @Override
@@ -63,39 +78,33 @@ public class fragment_principal_usuario_cliente extends Fragment AppCompatActivi
         return inflater.inflate(R.layout.fragment_principal_usuario_cliente, container, false);
     }
 
-        private GoogleMap mMap;
-        private List<Peluqueria> peluquerias; // lista de peluquerías cercanas
+    private GoogleMap mMap;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    private List<Peluqueria> peluquerias; // lista de peluquerías cercanas
+    private List<Peluqueria> obtenerPeluqueriasCercanas() {
+        return null;
+    }
 
-            // Obtener el objeto GoogleMap
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
-            mapFragment.getMapAsync(this);
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
-            // Obtener la lista de peluquerías cercanas
-            peluquerias = obtenerPeluqueriasCercanas();
+        // Configurar el mapa
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Mostrar las peluquerías en el mapa
+        for (Peluqueria peluqueria : peluquerias) {
+            LatLng ubicacion = new LatLng(peluqueria.getLatitud(), peluqueria.getLongitud());
+            mMap.addMarker(new MarkerOptions().position(ubicacion).title(peluqueria.getNombre()));
         }
 
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
+        // Centrar el mapa en la ubicación del usuario
+        double latitud = 0;
+        double longitud = 0;
+        LatLng ubicacionUsuario = new LatLng(latitud, longitud);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionUsuario, 15));
+    }
 
-            // Configurar el mapa
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-
-            // Mostrar las peluquerías en el mapa
-            for (Peluqueria peluqueria : peluquerias) {
-                LatLng ubicacion = new LatLng(peluqueria.getLatitud(), peluqueria.getLongitud());
-                mMap.addMarker(new MarkerOptions().position(ubicacion).title(peluqueria.getNombre()));
-            }
-
-            // Centrar el mapa en la ubicación del usuario
-            LatLng ubicacionUsuario = new LatLng(latitud, longitud);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionUsuario, 15));
-        }
 
 }
