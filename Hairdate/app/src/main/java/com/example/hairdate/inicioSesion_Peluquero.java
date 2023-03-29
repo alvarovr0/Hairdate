@@ -1,5 +1,7 @@
 package com.example.hairdate;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +49,9 @@ public class inicioSesion_Peluquero extends Fragment {
     ImageButton btn_eyeContrasena_inicio;
     EditText edTxt_contrasena_inicio;
     boolean ojoAbierto;
+    private EditText usuario, contrasena;
+    private Button boton_inicio;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -71,8 +86,6 @@ public class inicioSesion_Peluquero extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio_sesion__peluquero, container, false);
-
-
         return view;
     }
 
@@ -82,6 +95,9 @@ public class inicioSesion_Peluquero extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
         this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
+        boton_inicio = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
+        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -93,6 +109,11 @@ public class inicioSesion_Peluquero extends Fragment {
                 android.app.AlertDialog alerta = constructorDialogo.create();
                 alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
                 alerta.show();
+            }
+        }));
+        boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                startSignIn(usuario.getText().toString(), contrasena.getText().toString());
             }
         }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
@@ -112,5 +133,25 @@ public class inicioSesion_Peluquero extends Fragment {
                 }
             }
         }));
+    }
+
+    private void startSignIn(String usuario, String contrasena) {
+        db.collection("Peluquero")
+                .whereEqualTo("usuario", usuario)
+                .whereEqualTo("contrasena",contrasena)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }

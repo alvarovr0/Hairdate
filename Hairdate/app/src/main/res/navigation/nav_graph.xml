@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_inicioSesion_Peluquero_to_crearUsuario_Peluquero"
             app:destination="@id/crearUsuario_Peluquero" />
+        <action
+            android:id="@+id/action_inicioSesion_Peluquero_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
         android:id="@+id/crearUsuario_Peluquero"
@@ -55,4 +58,9 @@
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
     </fragment>
+    <fragment
+        android:id="@+id/menu_Peluquero"
+        android:name="com.example.hairdate.menu_Peluquero"
+        android:label="fragment_menu__peluquero"
+        tools:layout="@layout/fragment_menu__peluquero" />
 </navigation>

@@ -52,7 +52,7 @@
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/edTxt_correo_inicio"
+                android:id="@+id/edTxt_usuario_inicio"
                 android:layout_width="268dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
