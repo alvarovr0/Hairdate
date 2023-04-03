@@ -1,12 +1,20 @@
 package com.example.hairdate;
 
+import static android.content.ContentValues.TAG;
+
+import android.accessibilityservice.GestureDescription;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +66,34 @@ public class menu_Peluquero extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu__peluquero, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String usuarioId = "kol8CQdXGHHFIXT3L9Q7"; // ID del usuario que deseas cargar
+
+        // Obtener una referencia al documento del usuario en la colección "usuarios"
+        DocumentReference usuarioRef = db.collection("Peluquero").document(usuarioId);
+
+        // Obtener los datos del usuario de Firestore
+        usuarioRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // El documento del usuario existe en Firestore
+                        String nombreUsuario = documentSnapshot.getString("nombre");
+                        // Utilizar el nombre de usuario cargado
+                        Log.d(TAG, "Nombre de usuario cargado: " + nombreUsuario);
+                        TextView nombre = (TextView) view.findViewById(R.id.txt_nombrePeluquero);
+                        nombre.setText("Hola, " + nombreUsuario);
+                    } else {
+                        // El documento del usuario no existe en Firestore
+                        Log.w(TAG, "El documento del usuario no existe");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error al cargar los datos del usuario desde Firestore
+                    Log.w(TAG, "Error al cargar los datos del usuario", e);
+                });
+
+        return view;
     }
+
 }

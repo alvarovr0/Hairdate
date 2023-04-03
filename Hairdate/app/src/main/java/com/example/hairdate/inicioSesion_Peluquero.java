@@ -2,6 +2,8 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.hairdate.crearUsuario_Peluquero.generarClave;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import kotlin.jvm.internal.Intrinsics;
 
@@ -98,6 +104,7 @@ public class inicioSesion_Peluquero extends Fragment {
         boton_inicio = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        String contrasenaCifrada;
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -111,9 +118,18 @@ public class inicioSesion_Peluquero extends Fragment {
                 alerta.show();
             }
         }));
+        String cifrada = "";
+        try {
+            // Cifra la contraseña y la guarda en la variable contrasenaCifrada
+            byte[] clave = generarClave();
+            cifrada = codificarBase64(cifrarDatos(contrasena.getText().toString().getBytes("UTF-8"), clave));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String finalCifrada = cifrada;
         boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                startSignIn(usuario.getText().toString(), contrasena.getText().toString());
+                startSignIn(usuario.getText().toString(), finalCifrada);
             }
         }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
@@ -153,5 +169,14 @@ public class inicioSesion_Peluquero extends Fragment {
                         }
                     }
                 });
+    }
+    public static byte[] cifrarDatos(byte[] datos, byte[] clave) throws Exception {
+        Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        SecretKeySpec claveSecreta = new SecretKeySpec(clave, "AES");
+        cifrador.init(Cipher.ENCRYPT_MODE, claveSecreta);
+        return cifrador.doFinal(datos);
+    }
+    public static String codificarBase64(byte[] datosCifrados) {
+        return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
     }
 }

@@ -33,7 +33,7 @@
         android:id="@+id/crearUsuario_Peluquero"
         android:name="com.example.hairdate.crearUsuario_Peluquero"
         android:label="fragment_crear_usuario__peluquero"
-        tools:layout="@layout/fragment_crear_usuario__peluquero" >
+        tools:layout="@layout/fragment_crear_usuario_peluquero" >
         <action
             android:id="@+id/action_crearUsuario_Peluquero_to_inicioSesion_Peluquero"
             app:destination="@id/inicioSesion_Peluquero" />
@@ -43,7 +43,7 @@
         android:id="@+id/crearUsuario_Cliente"
         android:name="com.example.hairdate.crearUsuario_Cliente"
         android:label="fragment_crear_usuario__cliente"
-        tools:layout="@layout/fragment_crear_usuario__cliente" >
+        tools:layout="@layout/fragment_crear_usuario_cliente" >
         <action
             android:id="@+id/action_crearUsuario_Cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
@@ -53,7 +53,7 @@
         android:id="@+id/inicioSesion_Cliente"
         android:name="com.example.hairdate.inicioSesion_Cliente"
         android:label="fragment_incio_sesion__cliente"
-        tools:layout="@layout/fragment_inicio_sesion__cliente" >
+        tools:layout="@layout/fragment_inicio_sesion_cliente" >
         <action
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
@@ -62,5 +62,5 @@
         android:id="@+id/menu_Peluquero"
         android:name="com.example.hairdate.menu_Peluquero"
         android:label="fragment_menu__peluquero"
-        tools:layout="@layout/fragment_menu__peluquero" />
+        tools:layout="@layout/fragment_menu_peluquero" />
 </navigation>

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,7 +84,7 @@ public class crearUsuario_Cliente extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario__cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario_cliente, container, false);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);

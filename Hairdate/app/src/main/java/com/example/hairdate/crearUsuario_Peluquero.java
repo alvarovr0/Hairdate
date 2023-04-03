@@ -2,7 +2,6 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -20,22 +20,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,7 +95,7 @@ public class crearUsuario_Peluquero extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);
@@ -129,6 +127,14 @@ public class crearUsuario_Peluquero extends Fragment{
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
+                String contrasenaCifrada = "";
+                try {
+                    // Cifra la contraseña y la guarda en la variable contrasenaCifrada
+                    byte[] clave = generarClave();
+                    contrasenaCifrada = codificarBase64(cifrarDatos(contrasena.getText().toString().getBytes("UTF-8"), clave));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(v.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
@@ -137,8 +143,9 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("CIF", cif.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
-                    user.put("contrasena", contrasena.getText().toString());
+                    user.put("contrasena", contrasenaCifrada);
                     user.put("direccion", direccion_completa);
+
                     // Add a new document with a generated ID
                     db.collection("Peluquero")
                             .add(user)
@@ -163,12 +170,23 @@ public class crearUsuario_Peluquero extends Fragment{
         });
         return view;
     }
-    public void updateUI(FirebaseUser user) {
-        if(user != null){
-            Toast.makeText(getContext(),"You Signed In successfully",Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(getContext(),"You Didnt signed in",Toast.LENGTH_LONG).show();
-        }
+
+    public static byte[] generarClave() {
+        byte[] clave = new byte[16];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(clave);
+        return clave;
+    }
+
+    // Cifra los datos usando AES
+    public static byte[] cifrarDatos(byte[] datos, byte[] clave) throws Exception {
+        Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        SecretKeySpec claveSecreta = new SecretKeySpec(clave, "AES");
+        cifrador.init(Cipher.ENCRYPT_MODE, claveSecreta);
+        return cifrador.doFinal(datos);
+    }
+    public static String codificarBase64(byte[] datosCifrados) {
+        return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
     }
 
 }
