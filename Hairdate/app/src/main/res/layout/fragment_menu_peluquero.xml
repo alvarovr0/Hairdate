@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu_Peluquero">
+    tools:context=".menu_Peluquero"
+    android:background="@color/fondo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -21,7 +22,7 @@
                 android:layout_width="47dp"
                 android:layout_height="61dp"
                 android:layout_weight="1"
-                android:hint="Nombre"/>
+                android:gravity="center" />
 
             <ImageView
                 android:id="@+id/img_campanaNoti"
@@ -37,6 +38,24 @@
                 android:layout_weight="1"
                 android:text="Chat" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/lista_citas"
+                android:layout_width="match_parent"
+                android:layout_height="241dp" />
+
+            <CalendarView
+                android:id="@+id/calendario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
