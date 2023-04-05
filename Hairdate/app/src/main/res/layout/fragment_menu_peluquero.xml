@@ -22,6 +22,7 @@
                 android:layout_width="47dp"
                 android:layout_height="61dp"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:gravity="center" />
 
             <ImageView

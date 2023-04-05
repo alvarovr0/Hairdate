@@ -6,11 +6,14 @@ import android.accessibilityservice.GestureDescription;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -31,6 +34,7 @@ public class menu_Peluquero extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView usuario;
 
     public menu_Peluquero() {
         // Required empty public constructor
@@ -69,6 +73,7 @@ public class menu_Peluquero extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String usuarioId = "kol8CQdXGHHFIXT3L9Q7"; // ID del usuario que deseas cargar
+        usuario = view.findViewById(R.id.txt_nombrePeluquero);
 
         // Obtener una referencia al documento del usuario en la colección "usuarios"
         DocumentReference usuarioRef = db.collection("Peluquero").document(usuarioId);
@@ -92,6 +97,11 @@ public class menu_Peluquero extends Fragment {
                     // Error al cargar los datos del usuario desde Firestore
                     Log.w(TAG, "Error al cargar los datos del usuario", e);
                 });
+        usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
+            }
+        }));
 
         return view;
     }
