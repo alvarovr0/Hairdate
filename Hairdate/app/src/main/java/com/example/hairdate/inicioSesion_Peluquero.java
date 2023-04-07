@@ -180,11 +180,4 @@ public class inicioSesion_Peluquero extends Fragment {
         return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
     }
 
-    public EditText getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(EditText usuario) {
-        this.usuario = usuario;
-    }
 }

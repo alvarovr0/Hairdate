@@ -18,11 +18,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,53 +83,36 @@ public class menu_Peluquero extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        /*String usuarioId = "kol8CQdXGHHFIXT3L9Q7"; // ID del usuario que deseas cargar
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
 
-        // Obtener una referencia al documento del usuario en la colección "usuarios"
-        DocumentReference usuarioRef = db.collection("Peluquero").document(usuarioId);
+        Query query = db.collection("Peluquero").whereEqualTo("usuario", "");
+        query.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        // Iterar a través de los documentos
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            // Obtener el valor en concreto que necesitas
+                            String nombreUsuario = document.getString("nombre");
 
-        // Obtener los datos del usuario de Firestore
-        usuarioRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // El documento del usuario existe en Firestore
-                        String nombreUsuario = documentSnapshot.getString("nombre");
-                        // Utilizar el nombre de usuario cargado
-                        Log.d(TAG, "Nombre de usuario cargado: " + nombreUsuario);
-                        TextView nombre = (TextView) view.findViewById(R.id.txt_nombrePeluquero);
-                        nombre.setText("Hola, " + nombreUsuario);
-                    } else {
-                        // El documento del usuario no existe en Firestore
-                        Log.w(TAG, "El documento del usuario no existe");
+                            // Hacer algo con el valor obtenido
+                            Log.d("MyApp", "Valor obtenido: " + nombreUsuario);
+                            usuario.setText("Hola, " + nombreUsuario);
+                        }
                     }
                 })
-                .addOnFailureListener(e -> {
-                    // Error al cargar los datos del usuario desde Firestore
-                    Log.w(TAG, "Error al cargar los datos del usuario", e);
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("MyApp", "Error al obtener los documentos: ", e);
+                    }
                 });
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
             }
-        }));*/
-        db.collection("Peluquero")
-                .whereEqualTo("usuario", usuario)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                TextView nombre = (TextView) view.findViewById(R.id.txt_nombrePeluquero);
-                                nombre.setText("Hola, " + db.collection("Peluquero").getPath("nombre");
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        }));
+
         return view;
     }
 
