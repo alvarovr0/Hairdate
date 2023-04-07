@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.accessibilityservice.GestureDescription;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -16,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +77,7 @@ public class menu_Peluquero extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String usuarioId = "kol8CQdXGHHFIXT3L9Q7"; // ID del usuario que deseas cargar
+        /*String usuarioId = "kol8CQdXGHHFIXT3L9Q7"; // ID del usuario que deseas cargar
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
 
         // Obtener una referencia al documento del usuario en la colección "usuarios"
@@ -101,8 +106,24 @@ public class menu_Peluquero extends Fragment {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
             }
-        }));
-
+        }));*/
+        db.collection("Peluquero")
+                .whereEqualTo("usuario", usuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                TextView nombre = (TextView) view.findViewById(R.id.txt_nombrePeluquero);
+                                nombre.setText("Hola, " + db.collection("Peluquero").getPath("nombre");
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
         return view;
     }
 

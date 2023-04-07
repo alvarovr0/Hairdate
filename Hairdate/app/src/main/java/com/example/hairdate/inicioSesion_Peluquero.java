@@ -179,4 +179,12 @@ public class inicioSesion_Peluquero extends Fragment {
     public static String codificarBase64(byte[] datosCifrados) {
         return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
     }
+
+    public EditText getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(EditText usuario) {
+        this.usuario = usuario;
+    }
 }
