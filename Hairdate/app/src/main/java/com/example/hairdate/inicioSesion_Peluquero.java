@@ -104,7 +104,6 @@ public class inicioSesion_Peluquero extends Fragment {
         boton_inicio = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
-        String contrasenaCifrada;
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -130,6 +129,9 @@ public class inicioSesion_Peluquero extends Fragment {
         boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 startSignIn(usuario.getText().toString(), finalCifrada);
+                Bundle result = new Bundle();
+                result.putString("bundleKey",usuario.getText().toString());
+                getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);

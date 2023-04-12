@@ -6,7 +6,10 @@ import android.accessibilityservice.GestureDescription;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentKt;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
@@ -35,7 +38,7 @@ import com.google.firebase.firestore.Source;
  * Use the {@link menu_Peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class menu_Peluquero extends Fragment {
+public class menu_Peluquero extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +49,7 @@ public class menu_Peluquero extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView usuario;
+
 
     public menu_Peluquero() {
         // Required empty public constructor
@@ -80,33 +84,40 @@ public class menu_Peluquero extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                String result = bundle.getString("bundleKey");
+                Query query = db.collection("Peluquero").whereEqualTo("usuario", result);
+                query.get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                // Iterar a través de los documentos
+                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                    // Obtener el valor en concreto que necesitas
+                                    String nombreUsuario = document.getString("nombre");
 
-        Query query = db.collection("Peluquero").whereEqualTo("usuario", "");
-        query.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot querySnapshot) {
-                        // Iterar a través de los documentos
-                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                            // Obtener el valor en concreto que necesitas
-                            String nombreUsuario = document.getString("nombre");
+                                    // Hacer algo con el valor obtenido
+                                    Log.d("MyApp", "Valor obtenido: " + nombreUsuario);
+                                    usuario.setText("Hola, " + nombreUsuario);
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("MyApp", "Error al obtener los documentos: ", e);
+                            }
+                        });
+            }
+        });
 
-                            // Hacer algo con el valor obtenido
-                            Log.d("MyApp", "Valor obtenido: " + nombreUsuario);
-                            usuario.setText("Hola, " + nombreUsuario);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("MyApp", "Error al obtener los documentos: ", e);
-                    }
-                });
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
@@ -115,5 +126,7 @@ public class menu_Peluquero extends Fragment {
 
         return view;
     }
+
+
 
 }
