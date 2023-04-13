@@ -42,7 +42,11 @@ import javax.crypto.spec.SecretKeySpec;
 import kotlin.jvm.internal.Intrinsics;
 
 public class inicioSesion_Peluquero extends Fragment {
-
+    /*
+     *
+     * Este Fragment nos servirá para que el usuario (Peluquero) inicie sesión o se cree la cuenta
+     *
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,9 +55,9 @@ public class inicioSesion_Peluquero extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView crear;
-    ImageButton btn_eyeContrasena_inicio;
-    EditText edTxt_contrasena_inicio;
+    private TextView crear;
+    private ImageButton btn_eyeContrasena_inicio;
+    private EditText edTxt_contrasena_inicio;
     boolean ojoAbierto;
     private EditText usuario, contrasena;
     private Button boton_inicio;
@@ -129,6 +133,7 @@ public class inicioSesion_Peluquero extends Fragment {
         boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 startSignIn(usuario.getText().toString(), finalCifrada);
+                /*Bundle nos permitirá enviar datos de un fragment almacenandolo*/
                 Bundle result = new Bundle();
                 result.putString("bundleKey",usuario.getText().toString());
                 getParentFragmentManager().setFragmentResult("requestKey", result);
@@ -154,6 +159,7 @@ public class inicioSesion_Peluquero extends Fragment {
     }
 
     private void startSignIn(String usuario, String contrasena) {
+        /*Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, sino no hace nada*/
         db.collection("Peluquero")
                 .whereEqualTo("usuario", usuario)
                 .whereEqualTo("contrasena",contrasena)
@@ -164,8 +170,11 @@ public class inicioSesion_Peluquero extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                if(document.exists()){
+                                    Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
+                                }
                             }
-                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
+
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -173,6 +182,7 @@ public class inicioSesion_Peluquero extends Fragment {
                 });
     }
     public static byte[] cifrarDatos(byte[] datos, byte[] clave) throws Exception {
+        /*Este metodo cifra la contraseña para mayor seguridad*/
         Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
         SecretKeySpec claveSecreta = new SecretKeySpec(clave, "AES");
         cifrador.init(Cipher.ENCRYPT_MODE, claveSecreta);

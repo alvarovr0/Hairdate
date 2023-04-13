@@ -41,7 +41,11 @@ import javax.crypto.spec.SecretKeySpec;
  * create an instance of this fragment.
  */
 public class crearUsuario_Peluquero extends Fragment{
-
+    /*
+     *
+     * Este Fragment nos servirá para que el usuario (Peluquero) se cree una cuenta
+     *
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,8 +59,6 @@ public class crearUsuario_Peluquero extends Fragment{
     private EditText nombre, cif, usuario, email, contrasena, direccion;
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
-    //Nos sirve para crear usuarios y que puedan iniciar sesión luego más tarde
-    private FirebaseAuth mAuth;
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -93,8 +95,8 @@ public class crearUsuario_Peluquero extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //Creamos una instancia de nuestra BBDD en este caso FireBase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
         View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
@@ -135,9 +137,10 @@ public class crearUsuario_Peluquero extends Fragment{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                //El if comprueba si el EditText está vacío y que sea un email correcto
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(v.getContext(), "Email valido", Toast.LENGTH_LONG).show();
-                    // Create a new user with a first and last name
+                    //Crea un nuevo usuario
                     Map<String, Object> user = new HashMap<>();
                     user.put("nombre", nombre.getText().toString());
                     user.put("CIF", cif.getText().toString());
@@ -146,7 +149,7 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("contrasena", contrasenaCifrada);
                     user.put("direccion", direccion_completa);
 
-                    // Add a new document with a generated ID
+                    // Añade un nuevo documento con una ID genereda
                     db.collection("Peluquero")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

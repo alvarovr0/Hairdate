@@ -25,7 +25,11 @@ import kotlin.jvm.internal.Intrinsics;
  * create an instance of this fragment.
  */
 public class Principal extends Fragment {
-
+    /*
+    *
+    * Este Fragment nos servirá para que el usuario seleccione una opción, ya sea peluquero o cliente y se le mandará un login distinto
+    *
+    */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -81,6 +85,7 @@ public class Principal extends Fragment {
         botonPeluquero = (Button)view.findViewById(R.id.btn_pelu);
         botonPeluquero.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
+                //Esto nos servirá para crear una ventana de diálogo para asegurar que si está seguro de la opción elegida
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)Principal.this.requireActivity());
                 constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {

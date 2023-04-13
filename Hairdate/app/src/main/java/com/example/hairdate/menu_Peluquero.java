@@ -91,7 +91,7 @@ public class menu_Peluquero extends Fragment{
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
+                // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
                 Query query = db.collection("Peluquero").whereEqualTo("usuario", result);
                 query.get()
@@ -102,9 +102,6 @@ public class menu_Peluquero extends Fragment{
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                     // Obtener el valor en concreto que necesitas
                                     String nombreUsuario = document.getString("nombre");
-
-                                    // Hacer algo con el valor obtenido
-                                    Log.d("MyApp", "Valor obtenido: " + nombreUsuario);
                                     usuario.setText("Hola, " + nombreUsuario);
                                 }
                             }
@@ -117,7 +114,6 @@ public class menu_Peluquero extends Fragment{
                         });
             }
         });
-
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
