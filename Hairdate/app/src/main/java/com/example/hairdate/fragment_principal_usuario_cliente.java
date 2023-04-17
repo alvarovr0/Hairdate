@@ -1,9 +1,15 @@
 package com.example.hairdate;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -84,6 +90,7 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
     private GoogleMap mMap;
 
     private List<Peluqueria> peluquerias; // lista de peluquerías cercanas
+
     private List<Peluqueria> obtenerPeluqueriasCercanas() {
         List<Peluqueria> peluquerias = new ArrayList<>();
 
@@ -94,6 +101,16 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
 
         // Obtener la ubicación actual del usuario
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return TODO;
+        }
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         double latitud = location.getLatitude();
         double longitud = location.getLongitude();
