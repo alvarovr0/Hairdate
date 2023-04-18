@@ -96,7 +96,7 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
 
         // Crear una instancia de la API de Google Places
         PlacesApi api = new PlacesApi.Builder()
-                .apiKey("tu_api_key_de_Google_Places")
+                .apiKey("AIzaSyBf2GhzY-ggzbGnAjkrvjQkewgP1fBveU4")
                 .build();
 
         // Obtener la ubicación actual del usuario
