@@ -123,14 +123,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Contraseña" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/edTxt_contrasena_crear"
-                    android:layout_width="258dp"
+                    android:layout_width="260dp"
                     android:layout_height="34dp"
                     android:background="@drawable/rectangle"
                     android:ems="10"
@@ -145,8 +144,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:src="@drawable/eye_closed" />
+                    android:src="@drawable/eye_closed"
+                    android:background="@null"/>
             </LinearLayout>
 
 
@@ -189,8 +188,8 @@
             android:id="@+id/btn_registro"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Registrar" />
+            android:text="Registrar"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/imageView"
