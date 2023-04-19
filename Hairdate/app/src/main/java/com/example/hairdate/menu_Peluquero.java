@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class menu_Peluquero extends Fragment{
     private String mParam1;
     private String mParam2;
     private TextView usuario;
+    private Button btn_controlStock;
 
 
     public menu_Peluquero() {
@@ -117,6 +119,12 @@ public class menu_Peluquero extends Fragment{
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
+            }
+        }));
+
+        btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_stock_Peluquero);
             }
         }));
 

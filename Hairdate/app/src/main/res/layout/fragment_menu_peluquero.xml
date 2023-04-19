@@ -51,12 +51,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="241dp" />
 
+            <Button
+                android:id="@+id/btn_comprobarStock"
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Comprobar Stock" />
+
             <CalendarView
                 android:id="@+id/calendario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:background="@color/white" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
