@@ -16,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,14 +97,13 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
     private List<Peluqueria> obtenerPeluqueriasCercanas() {
         List<Peluqueria> peluquerias = new ArrayList<>();
 
+        Places.initialize(getContext(), "AIzaSyBf2GhzY-ggzbGnAjkrvjQkewgP1fBveU4");
         // Crear una instancia de la API de Google Places
-        PlacesApi api = new PlacesApi.Builder()
-                .apiKey("AIzaSyBf2GhzY-ggzbGnAjkrvjQkewgP1fBveU4")
-                .build();
+        PlacesClient placesClient = Places.createClient(this);
 
         // Obtener la ubicación actual del usuario
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -109,17 +111,17 @@ public class fragment_principal_usuario_cliente extends Fragment implements OnMa
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return TODO;
+                return Peluqueria;
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         double latitud = location.getLatitude();
         double longitud = location.getLongitude();
 
         // Buscar peluquerías cercanas a la ubicación del usuario
-        List<Place> places = api.searchPlacesNearby(latitud, longitud, 5000, "hair care");
+        List<Places> places = api.searchPlacesNearby(latitud, longitud, 5000, "hair care");
 
         // Convertir los resultados de la búsqueda en objetos Peluqueria
-        for (Place place : places) {
+        for (Places place : places) {
             Peluqueria peluqueria = new Peluqueria();
             peluqueria.setNombre(place.getName());
             peluqueria.setDireccion(place.getAddress());
