@@ -7,21 +7,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class StockViewHolder extends RecyclerView.ViewHolder {
-    private TextView nombreTextView;
-    private TextView precioTextView;
-    private TextView cantidadTextView;
+    private TextView nombreEditText;
+    private TextView precioEditText;
+    private TextView cantidadEditText;
 
     public StockViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        nombreTextView = itemView.findViewById(R.id.nombreTextView);
-        precioTextView = itemView.findViewById(R.id.precioTextView);
-        cantidadTextView = itemView.findViewById(R.id.cantidadTextView);
+        nombreEditText = itemView.findViewById(R.id.nombreEditText);
+        precioEditText = itemView.findViewById(R.id.precioEditText);
+        cantidadEditText = itemView.findViewById(R.id.cantidadEditText);
     }
 
     public void bind(peluqueroStock stock) {
-        nombreTextView.setText(stock.getNombreProducto());
-        precioTextView.setText(String.valueOf(stock.getPrecio()));
-        cantidadTextView.setText(String.valueOf(stock.getCantidad()));
+        nombreEditText.setText(stock.getNombreProducto());
+        precioEditText.setText(String.valueOf(stock.getPrecio()));
+        cantidadEditText.setText(String.valueOf(stock.getCantidad()));
     }
 }
