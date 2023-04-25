@@ -88,5 +88,9 @@
         android:id="@+id/stock_item"
         android:name="com.example.hairdate.stock_item"
         android:label="fragment_stock_item"
-        tools:layout="@layout/fragment_stock_item" />
+        tools:layout="@layout/fragment_stock_item" >
+        <action
+            android:id="@+id/action_stock_item_to_stock_Peluquero"
+            app:destination="@id/stock_Peluquero" />
+    </fragment>
 </navigation>

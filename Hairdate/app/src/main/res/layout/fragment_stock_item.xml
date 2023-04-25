@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:editable="false"
+            android:enabled="false"
             android:textStyle="bold"
             android:layout_marginBottom="100dp"/>
 
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:editable="false"
+            android:enabled="false"
             android:layout_marginBottom="100dp"/>
 
         <EditText
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:editable="false"
+            android:enabled="false"
             android:layout_marginBottom="100dp"/>
 
         <Button

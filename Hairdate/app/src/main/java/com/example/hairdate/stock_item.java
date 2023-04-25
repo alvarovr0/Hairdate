@@ -2,12 +2,24 @@ package com.example.hairdate;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +37,7 @@ public class stock_item extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button btn_modi, btn_guardar;
+    private EditText nombreEditText, precioEditText, cantidadEditText;
 
     public stock_item() {
         // Required empty public constructor
@@ -62,6 +75,44 @@ public class stock_item extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stock_item, container, false);
+        nombreEditText = view.findViewById(R.id.nombreEditText);
+        precioEditText = view.findViewById(R.id.precioEditText);
+        cantidadEditText = view.findViewById(R.id.cantidadEditText);
+        btn_modi.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                nombreEditText.setEnabled(true);
+                precioEditText.setEnabled(true);
+                cantidadEditText.setEnabled(true);
+                btn_modi.setVisibility(View.INVISIBLE);
+                btn_guardar.setVisibility(View.VISIBLE);
+                btn_guardar.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+                    public final void onClick(View it) {
+                        getParentFragmentManager().setFragmentResultListener("documentoID", getViewLifecycleOwner(), new FragmentResultListener() {
+                            @Override
+                            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                                // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
+                                String result = bundle.getString("idDocumento");
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                Query query = db.collection("Stock").whereEqualTo("PeluqueroID", "/Peluquero/" + result);
+                                query.get()
+                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onSuccess(QuerySnapshot querySnapshot) {
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("MyApp", "Error al obtener los documentos: ", e);
+                                            }
+                                        });
+                            }
+                        });
+                    }
+                }));
+            }
+        }));
         return view;
     }
 }

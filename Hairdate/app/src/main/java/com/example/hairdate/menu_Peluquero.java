@@ -104,6 +104,10 @@ public class menu_Peluquero extends Fragment{
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                     // Obtener el valor en concreto que necesitas
                                     String nombreUsuario = document.getString("nombre");
+                                    String idUsuario = document.getId();
+                                    Bundle result = new Bundle();
+                                    result.putString("idDocumento",idUsuario);
+                                    getParentFragmentManager().setFragmentResult("documentoID", result);
                                     usuario.setText("Hola, " + nombreUsuario);
                                 }
                             }
