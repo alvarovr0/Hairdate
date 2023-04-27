@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".stock_item"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="@color/fondo">
+
+        <EditText
+            android:id="@+id/nombreEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:enabled="false"
+            android:textStyle="bold"
+            android:layout_marginBottom="100dp"/>
+
+        <EditText
+            android:id="@+id/precioEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:enabled="false"
+            android:layout_marginBottom="100dp"/>
+
+        <EditText
+            android:id="@+id/cantidadEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:enabled="false"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modificar datos"
+            android:id="@+id/btn_modificarDatos"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar datos"
+            android:visibility="invisible"
+            android:clickable="false"
+            android:id="@+id/btn_guardarDatos"/>
+
+    </LinearLayout>
+
+</FrameLayout>

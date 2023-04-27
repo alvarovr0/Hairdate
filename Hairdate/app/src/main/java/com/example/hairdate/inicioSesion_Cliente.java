@@ -21,7 +21,11 @@ import org.jetbrains.annotations.Nullable;
 import kotlin.jvm.internal.Intrinsics;
 
 public class inicioSesion_Cliente extends Fragment {
-
+    /*
+     *
+     * Este Fragment nos servirá para que el usuario (Cliente) inicie sesión o se cree la cuenta
+     *
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,7 +71,7 @@ public class inicioSesion_Cliente extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inicio_sesion__cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_inicio_sesion_cliente, container, false);
 
 
         return view;
@@ -78,7 +82,7 @@ public class inicioSesion_Cliente extends Fragment {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
-        this.crear = (TextView) view.findViewById(R.id.Crear_cliente);
+        this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) inicioSesion_Cliente.this.requireActivity());
@@ -92,8 +96,8 @@ public class inicioSesion_Cliente extends Fragment {
                 alerta.show();
             }
         }));
-        this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio_cliente);
-        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.ETpaswd);
+        this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
+        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver

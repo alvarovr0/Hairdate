@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,16 +84,13 @@ public class crearUsuario_Cliente extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario__cliente, container, false);
-        Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle);
-        nombre = (EditText) view.findViewById(R.id.edTxt_nombre);
-        cif = (EditText) view.findViewById(R.id.edTxt_cif);
-        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_crear);
-        email = (EditText) view.findViewById(R.id.edTxt_Email);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_crear);
-        direccion = (EditText) view.findViewById(R.id.edTxt_Direccion);
-        botonRegistro = (Button) view.findViewById(R.id.btn_registro);
-       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario_cliente, container, false);
+        nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
+        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
+        email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
+       btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -116,25 +112,22 @@ public class crearUsuario_Cliente extends Fragment{
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
-                String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
                     Map<String, Object> user = new HashMap<>();
                     user.put("nombre", nombre.getText().toString());
-                    user.put("CIF", cif.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("contrasena", contrasena.getText().toString());
-                    user.put("direccion", direccion_completa);
                     // Add a new document with a generated ID
-                    db.collection("Peluquero")
+                    db.collection("Clientes")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
