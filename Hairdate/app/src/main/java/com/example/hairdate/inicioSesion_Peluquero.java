@@ -133,7 +133,7 @@ public class inicioSesion_Peluquero extends Fragment {
             }
         }));
         btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
-        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
+        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_correo_inicio);
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -156,7 +156,7 @@ public class inicioSesion_Peluquero extends Fragment {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
+                            //Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

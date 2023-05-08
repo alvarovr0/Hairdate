@@ -131,7 +131,7 @@ public class crearUsuario_Peluquero extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference referencia = db.collection("Peluquero").document();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);

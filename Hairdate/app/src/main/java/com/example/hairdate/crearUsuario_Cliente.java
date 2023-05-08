@@ -123,13 +123,13 @@ public class crearUsuario_Cliente extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference referencia = db.collection("Cliente").document();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario_cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario__cliente, container, false);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
+        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
