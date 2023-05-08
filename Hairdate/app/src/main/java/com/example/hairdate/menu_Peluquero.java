@@ -89,13 +89,14 @@ public class menu_Peluquero extends Fragment{
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference referencia = db.collection("Peluquero").document();
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
-                Query query = db.collection("Peluquero").whereEqualTo("usuario", result);
+                Query query = db.collection("Peluquero").whereEqualTo("email", result);
                 query.get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
@@ -104,10 +105,6 @@ public class menu_Peluquero extends Fragment{
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                     // Obtener el valor en concreto que necesitas
                                     String nombreUsuario = document.getString("nombre");
-                                    String idUsuario = document.getId();
-                                    Bundle result = new Bundle();
-                                    result.putString("idDocumento",idUsuario);
-                                    getParentFragmentManager().setFragmentResult("documentoID", result);
                                     usuario.setText("Hola, " + nombreUsuario);
                                 }
                             }
@@ -126,11 +123,11 @@ public class menu_Peluquero extends Fragment{
             }
         }));
 
-        btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        /*btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_stock_Peluquero);
             }
-        }));
+        }));*/
 
         return view;
     }

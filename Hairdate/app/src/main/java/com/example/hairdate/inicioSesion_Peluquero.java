@@ -2,8 +2,6 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.hairdate.crearUsuario_Peluquero.generarClave;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,24 +26,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 import kotlin.jvm.internal.Intrinsics;
 
 public class inicioSesion_Peluquero extends Fragment {
-    /*
-     *
-     * Este Fragment nos servirá para que el usuario (Peluquero) inicie sesión o se cree la cuenta
-     *
-     */
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -57,11 +46,10 @@ public class inicioSesion_Peluquero extends Fragment {
     private String mParam2;
     private TextView crear;
     private ImageButton btn_eyeContrasena_inicio;
-    private EditText edTxt_contrasena_inicio;
-    boolean ojoAbierto;
-    private EditText usuario, contrasena;
-    private Button boton_inicio;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private boolean ojoAbierto;
+    private Button btn_iniciarSesion;
+    private EditText peluqueroEmail, peluqueroPass;
+    private FirebaseAuth mAuth;
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -91,6 +79,16 @@ public class inicioSesion_Peluquero extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth = FirebaseAuth.getInstance();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
     }
 
     @Override
@@ -105,9 +103,6 @@ public class inicioSesion_Peluquero extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
         this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
-        boton_inicio = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
-        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -121,75 +116,58 @@ public class inicioSesion_Peluquero extends Fragment {
                 alerta.show();
             }
         }));
-        String cifrada = "";
-        try {
-            // Cifra la contraseña y la guarda en la variable contrasenaCifrada
-            byte[] clave = generarClave();
-            cifrada = codificarBase64(cifrarDatos(contrasena.getText().toString().getBytes("UTF-8"), clave));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String finalCifrada = cifrada;
-        boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                startSignIn(usuario.getText().toString(), finalCifrada);
-                /*Bundle nos permitirá enviar datos de un fragment almacenandolo*/
-                Bundle result = new Bundle();
-                result.putString("bundleKey",usuario.getText().toString());
-                getParentFragmentManager().setFragmentResult("requestKey", result);
-            }
-        }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
-        this.edTxt_contrasena_inicio = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
                 if (ojoAbierto) {
                     btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_closed);
-                    edTxt_contrasena_inicio.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    peluqueroPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     ojoAbierto = false;
                     // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
                 } else {
                     btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_open);
-                    edTxt_contrasena_inicio.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    peluqueroPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
                     ojoAbierto = true;
                 }
             }
         }));
+        btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
+        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
+        peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
+                Bundle result = new Bundle();
+                result.putString("bundleKey",peluqueroEmail.getText().toString());
+                getParentFragmentManager().setFragmentResult("requestKey", result);
+            }
+        }));
+
     }
-
-    private void startSignIn(String usuario, String contrasena) {
+    private void startSignIn(String correo, String contrasena) {
         /*Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, sino no hace nada*/
-        db.collection("Peluquero")
-                .whereEqualTo("usuario", usuario)
-                .whereEqualTo("contrasena",contrasena)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mAuth.signInWithEmailAndPassword(correo, contrasena)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                if(document.exists()){
-                                    Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
-                                }
-                            }
-
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            updateUI(null);
                         }
                     }
                 });
     }
-    public static byte[] cifrarDatos(byte[] datos, byte[] clave) throws Exception {
-        /*Este metodo cifra la contraseña para mayor seguridad*/
-        Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        SecretKeySpec claveSecreta = new SecretKeySpec(clave, "AES");
-        cifrador.init(Cipher.ENCRYPT_MODE, claveSecreta);
-        return cifrador.doFinal(datos);
-    }
-    public static String codificarBase64(byte[] datosCifrados) {
-        return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
-    }
+    private void reload() { }
 
+    private void updateUI(FirebaseUser user) {
+
+    }
 }
