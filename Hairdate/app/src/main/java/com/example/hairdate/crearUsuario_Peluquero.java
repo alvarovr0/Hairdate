@@ -2,7 +2,6 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,36 +21,22 @@ import android.widget.ImageButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-<<<<<<< Updated upstream
-import com.google.firebase.database.FirebaseDatabase;
-=======
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
->>>>>>> Stashed changes
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
-
-<<<<<<< Updated upstream
-=======
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
->>>>>>> Stashed changes
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link crearUsuario_Peluquero#newInstance} factory method to
@@ -73,7 +58,6 @@ public class crearUsuario_Peluquero extends Fragment{
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -145,35 +129,19 @@ public class crearUsuario_Peluquero extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-<<<<<<< Updated upstream
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference referencia = db.collection("Peluquero").document();
         View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
-=======
-
-        View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
-        email = (EditText) view.findViewById(R.id.edTxt_Email_peluquero);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
-        botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
-
-
-
-
-        //Creamos una instancia de nuestra BBDD en este caso FireBase
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
->>>>>>> Stashed changes
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_peluquero);
         email = (EditText) view.findViewById(R.id.edTxt_Email_peluquero);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
         direccion = (EditText) view.findViewById(R.id.edTxt_Direccion_peluquero);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);*/
-
-        /*btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
+        btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
                 if (ojoAbierto) {
@@ -187,47 +155,14 @@ public class crearUsuario_Peluquero extends Fragment{
                     ojoAbierto = true;
                 }
             }
-        }));*/
-
+        }));
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String emailvalidator = email.getText().toString();
-                Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
-                    createAccount(email.getText().toString().trim(),contrasena.getText().toString().trim());
-
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("nombre", nombre.getText().toString());
-                    user.put("CIF", cif.getText().toString());
-                    user.put("usuario", usuario.getText().toString());
-                    user.put("direccion", direccion_completa);
-
-                    db.collection("user")
-                            .add(user)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
-
-                }else{
-                    Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
-                }
-            }
-                /*String emailvalidator = email.getText().toString();
-                String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
-                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
+                    createAccount(emailvalidator, contrasena.getText().toString());
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
                     Map<String, Object> user = new HashMap<>();
@@ -238,59 +173,29 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("contrasena", contrasena.getText().toString());
                     user.put("direccion", direccion_completa);
                     // Add a new document with a generated ID
-                    db.collection("Peluquero")
-                            .add(user)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
-
+                    referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                            }
+                        }
+                    });
                 } else{
                     Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
                 }
 
-            }*/
+            }
         });
         return view;
 
 
     }
 
-<<<<<<< Updated upstream
-=======
-
-
-    public static byte[] generarClave() {
-        byte[] clave = new byte[16];
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.nextBytes(clave);
-        return clave;
-    }
-
-    // Cifra los datos usando AES
-    public static byte[] cifrarDatos(byte[] datos, byte[] clave) throws Exception {
-        Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        SecretKeySpec claveSecreta = new SecretKeySpec(clave, "AES");
-        cifrador.init(Cipher.ENCRYPT_MODE, claveSecreta);
-        return cifrador.doFinal(datos);
-    }
-    public static String codificarBase64(byte[] datosCifrados) {
-        return Base64.encodeToString(datosCifrados, Base64.DEFAULT);
-    }
 
     private void reload() { }
 
     private void updateUI(FirebaseUser user) {
 
     }
->>>>>>> Stashed changes
 }
