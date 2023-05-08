@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".preferenciaCitasCliente"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="409dp"
+            android:layout_height="142dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_bienvenida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Elige tus preferencias para la cita"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_conversacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="¿Qué temas no te gustaría que se hablaran?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxPol"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Política" />
+
+                <CheckBox
+                    android:id="@+id/checkboFut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fútbol" />
+
+                <CheckBox
+                    android:id="@+id/checkboxCin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxSer"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Series" />
+
+                <CheckBox
+                    android:id="@+id/checkboxMas"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Mascotas" />
+
+                <CheckBox
+                    android:id="@+id/checkboxMedaigual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Me da igual" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearlayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxNada"
+                    android:layout_width="138dp"
+                    android:layout_height="wrap_content"
+                    android:text="De nada" />
+
+                <EditText
+                    android:id="@+id/editTextCon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle"
+                    android:hint="Inserte otro tema"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_musica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="¿Qué música deseas?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxPop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pop" />
+
+                <CheckBox
+                    android:id="@+id/checkboxRap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rap" />
+
+                <CheckBox
+                    android:id="@+id/checkboxReggaeton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Reggaetión" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxReggae"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Reggae" />
+
+                <CheckBox
+                    android:id="@+id/checkboxJazz"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Jazz" />
+
+                <CheckBox
+                    android:id="@+id/checkboxMusDaigua"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Me da igual" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearlayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/checkboxMusNada"
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="Nada" />
+
+                <EditText
+                    android:id="@+id/editTextMus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle"
+                    android:hint="Inserte género" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

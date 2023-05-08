@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
+        <action
+            android:id="@+id/action_inicioSesion_Cliente_to_preferenciaCitasCliente"
+            app:destination="@id/preferenciaCitasCliente" />
     </fragment>
     <fragment
         android:id="@+id/menu_Peluquero"
@@ -93,4 +96,9 @@
             android:id="@+id/action_stock_item_to_stock_Peluquero"
             app:destination="@id/stock_Peluquero" />
     </fragment>
+    <fragment
+        android:id="@+id/preferenciaCitasCliente"
+        android:name="com.example.hairdate.preferenciaCitasCliente"
+        android:label="fragment_preferencia_citas_cliente"
+        tools:layout="@layout/fragment_preferencia_citas_cliente" />
 </navigation>
