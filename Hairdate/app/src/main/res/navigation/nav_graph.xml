@@ -66,10 +66,18 @@
         <action
             android:id="@+id/action_menu_Peluquero_to_activity_profile"
             app:destination="@id/activity_profile" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_fragment_ver_objeto"
+            app:destination="@id/fragment_ver_objeto" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
         android:name="com.example.hairdate.activity_profile"
         android:label="fragment_activity_profile"
         tools:layout="@layout/fragment_activity_profile" />
+    <fragment
+        android:id="@+id/fragment_ver_objeto"
+        android:name="com.example.hairdate.fragment_ver_objeto"
+        android:label="fragment_ver_objeto"
+        tools:layout="@layout/fragment_ver_objeto" />
 </navigation>

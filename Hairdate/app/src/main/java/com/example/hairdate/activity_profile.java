@@ -77,7 +77,6 @@ public class activity_profile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity_profile, container, false);
-
         profileImage = view.findViewById(R.id.profile_image);
         changeImageButton = view.findViewById(R.id.change_image_button);
 

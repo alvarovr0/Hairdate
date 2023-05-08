@@ -43,7 +43,7 @@ public class menu_Peluquero extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView usuario;
-
+    private Button botonStock;
     private Button botonChat;
     public menu_Peluquero() {
         // Required empty public constructor
@@ -82,7 +82,13 @@ public class menu_Peluquero extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         botonChat = (Button) view.findViewById(R.id.btn_chat);
+        botonStock = (Button) view.findViewById(R.id.btn_stock);
 
+        botonStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_fragment_ver_objeto);
+            }
+        }));
         botonChat.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);

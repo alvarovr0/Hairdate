@@ -17,9 +17,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btn_stock"
+                android:layout_width="2dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stock" />
+
             <TextView
                 android:id="@+id/txt_nombrePeluquero"
-                android:layout_width="47dp"
+                android:layout_width="1dp"
                 android:layout_height="61dp"
                 android:layout_weight="1"
                 android:clickable="true"
