@@ -104,7 +104,7 @@ public class menu_Peluquero extends Fragment{
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
-                Query query = db.collection("Peluquero").whereEqualTo("email", result);
+                Query query = db.collection("Peluquero").whereEqualTo("UID", result);
                 query.get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override

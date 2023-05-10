@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -42,5 +43,46 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
         fragmentTransaction.commit();*/
+        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        final Fragment[] fragment = {null};
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Query query = db.collection("Peluquero").whereEqualTo("UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot querySnapshot) {
+                    if (querySnapshot.size() > 0) {
+                        fragment[0] = new menu_Peluquero();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
+                        fragmentTransaction.commit();
+                    } else {
+                        Query query2 = db.collection("Cliente").whereEqualTo("UID", FirebaseAuth.getInstance().getUid());
+                        query2.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                if (querySnapshot.size() > 0) {
+                                    //fragment = new menu_Cliente();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
+                                    fragmentTransaction.commit();
+                                } else {
+                                    fragment[0] = new principal();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
+                                    fragmentTransaction.commit();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            fragment[0] = new principal();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
+            fragmentTransaction.commitAllowingStateLoss();
+        }*/
     }
 }

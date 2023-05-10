@@ -146,7 +146,7 @@ public class inicioSesion_Peluquero extends Fragment {
                 if(!query.equals(null)){
                     startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
                     Bundle result = new Bundle();
-                    result.putString("bundleKey",peluqueroEmail.getText().toString());
+                    result.putString("bundleKey",mAuth.getUid());
                     getParentFragmentManager().setFragmentResult("requestKey", result);
                 }
             }

@@ -86,7 +86,7 @@ public class principal extends Fragment {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) principal.this.requireActivity());
                 constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(view).navigate(R.id.action_principal_to_inicioSesion_Peluquero);
+                        Navigation.findNavController(it).navigate(R.id.action_principal_to_inicioSesion_Peluquero);
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
@@ -101,7 +101,7 @@ public class principal extends Fragment {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) principal.this.requireActivity());
                 constructorDialogo.setMessage((CharSequence)"¿Seguro que eres cliente?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(view).navigate(R.id.action_principal_to_inicioSesion_Cliente);
+                        Navigation.findNavController(it).navigate(R.id.action_principal_to_inicioSesion_Cliente);
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
