@@ -3,6 +3,8 @@ package com.example.hairdate;
 import static android.content.ContentValues.TAG;
 
 import android.accessibilityservice.GestureDescription;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,6 +36,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+
+import org.jetbrains.annotations.NotNull;
+
+import kotlin.jvm.internal.Intrinsics;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +58,7 @@ public class menu_Peluquero extends Fragment{
     private String mParam2;
     private TextView usuario;
     private Button btn_controlStock;
+    private Button btn_cerrarSesion;
 
 
     public menu_Peluquero() {
@@ -89,8 +97,8 @@ public class menu_Peluquero extends Fragment{
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference referencia = db.collection("Peluquero").document();
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
@@ -129,9 +137,14 @@ public class menu_Peluquero extends Fragment{
             }
         }));*/
 
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion_Peluquero);
+            }
+        }));
+
         return view;
     }
-
-
 
 }

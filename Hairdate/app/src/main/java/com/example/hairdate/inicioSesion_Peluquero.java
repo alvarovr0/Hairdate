@@ -2,6 +2,7 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -50,6 +53,7 @@ public class inicioSesion_Peluquero extends Fragment {
     private Button btn_iniciarSesion;
     private EditText peluqueroEmail, peluqueroPass;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -137,10 +141,14 @@ public class inicioSesion_Peluquero extends Fragment {
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
-                Bundle result = new Bundle();
-                result.putString("bundleKey",peluqueroEmail.getText().toString());
-                getParentFragmentManager().setFragmentResult("requestKey", result);
+                db =  FirebaseFirestore.getInstance();
+                Query query = db.collection("Peluquero").whereEqualTo("email", peluqueroEmail.getText().toString().trim());
+                if(!query.equals(null)){
+                    startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
+                    Bundle result = new Bundle();
+                    result.putString("bundleKey",peluqueroEmail.getText().toString());
+                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                }
             }
         }));
 
@@ -160,6 +168,12 @@ public class inicioSesion_Peluquero extends Fragment {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Error");
+                            builder.setMessage("No es un email válido o no es un peluquero");
+                            builder.setPositiveButton("Ok", null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
                             updateUI(null);
                         }
                     }

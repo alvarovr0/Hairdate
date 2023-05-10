@@ -159,6 +159,7 @@ public class crearUsuario_Cliente extends Fragment{
                     user.put("nombre", nombre.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
+                    user.put("UID", mAuth.getUid());
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

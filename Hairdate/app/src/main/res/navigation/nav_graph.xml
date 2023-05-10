@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_menu_Peluquero_to_stock_Peluquero"
             app:destination="@id/stock_Peluquero" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_inicioSesion_Peluquero"
+            app:destination="@id/inicioSesion_Peluquero" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"

@@ -171,6 +171,7 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("direccion", direccion_completa);
+                    user.put("UID", mAuth.getUid());
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

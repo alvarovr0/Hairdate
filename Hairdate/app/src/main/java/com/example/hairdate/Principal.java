@@ -37,7 +37,6 @@ public class principal extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button botonPeluquero;
-
     private Button botonCliente;
 
     public principal() {
