@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -173,7 +174,20 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("direccion", direccion_completa);
-                    user.put("UID", uid);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            user.put("UID", uid);
+                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    }
+                                }
+                            });
+                        }
+                    }, 3000);
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
