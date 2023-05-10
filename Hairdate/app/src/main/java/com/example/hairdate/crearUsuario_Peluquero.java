@@ -58,6 +58,7 @@ public class crearUsuario_Peluquero extends Fragment{
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
+    private String uid;
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -113,6 +114,7 @@ public class crearUsuario_Peluquero extends Fragment{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uid = mAuth.getUid();
                             updateUI(user);
                         } else {
 
@@ -171,7 +173,7 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("direccion", direccion_completa);
-                    user.put("UID", mAuth.getUid());
+                    user.put("UID", uid);
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
