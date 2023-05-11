@@ -50,6 +50,7 @@ public class inicioSesion_Peluquero extends Fragment {
     private Button btn_iniciarSesion;
     private EditText peluqueroEmail, peluqueroPass;
     private FirebaseAuth mAuth;
+    private Button btn_resetPass;
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -132,6 +133,7 @@ public class inicioSesion_Peluquero extends Fragment {
                 }
             }
         }));
+        btn_resetPass = (Button) view.findViewById(R.id.btn_resetPass);
         btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
         peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_correo_inicio);
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
@@ -141,6 +143,26 @@ public class inicioSesion_Peluquero extends Fragment {
                 Bundle result = new Bundle();
                 result.putString("bundleKey",peluqueroEmail.getText().toString());
                 getParentFragmentManager().setFragmentResult("requestKey", result);
+            }
+        }));
+
+        btn_resetPass.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+
+                mAuth.setLanguageCode("es");
+                mAuth.sendPasswordResetEmail(peluqueroEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()){
+                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_crearUsuario_Peluquero);
+                        }else {
+
+                        }
+
+                    }
+                });
+
             }
         }));
 

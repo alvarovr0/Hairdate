@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="425dp"
             android:layout_marginBottom="171dp"
             android:orientation="vertical"
             android:paddingTop="170dp"
@@ -95,8 +95,19 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:background="@null"
-                    android:src="@drawable/eye_closed"/>
+                    android:src="@drawable/eye_closed" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_resetPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Restablecer contraseña" />
             </LinearLayout>
 
             <Button
@@ -104,10 +115,10 @@
                 android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="Iniciar Sesion"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
