@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(QuerySnapshot querySnapshot) {
                     if (querySnapshot.size() > 0) {
+                        Bundle result = new Bundle();
+                        result.putString("bundleKey",mAuth.getUid());
+                        getParentFragmentManager().setFragmentResult("requestKey", result);
                         fragment[0] = new menu_Peluquero();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
@@ -63,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot querySnapshot) {
                                 if (querySnapshot.size() > 0) {
-                                    //fragment = new menu_Cliente();
+                                    Bundle result = new Bundle();
+                                    result.putString("bundleKey",mAuth.getUid());
+                                    Log.d("UID", String.valueOf(result));
+                                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                                    //fragment = new menu_Cliente(); Esta línea la tengo comentada remarcado porque no tengo el menú cliente XD
                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                     fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
                                     fragmentTransaction.commit();
