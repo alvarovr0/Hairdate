@@ -19,7 +19,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
-
+    private FirebaseFirestore db;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
         fragmentTransaction.commit();*/
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+        /*db = FirebaseFirestore.getInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment[] fragment = {null};
 
@@ -91,5 +93,37 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
             fragmentTransaction.commitAllowingStateLoss();
         }*/
+        db = FirebaseFirestore.getInstance();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            db.collection("Peluquero").whereEqualTo("UID", uid).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                    // El usuario es un peluquero
+                    fragmentTransaction.replace(R.id.fragmentContainerView, new menu_Peluquero());
+                    fragmentTransaction.commitAllowingStateLoss();
+                } else {
+                    db.collection("Cliente").whereEqualTo("UID", uid).get().addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful() && !task2.getResult().isEmpty()) {
+                            // El usuario es un cliente
+                            //fragmentTransaction.replace(R.id.fragmentContainerView, new MenuClienteFragment());
+                            //fragmentTransaction.commitAllowingStateLoss();
+                        } else {
+                            // No se encontró el usuario
+                            fragmentTransaction.replace(R.id.fragmentContainerView, new principal());
+                            fragmentTransaction.commitAllowingStateLoss();
+                        }
+                    });
+                }
+            });
+        } else {
+            // El usuario no ha iniciado sesión
+            fragmentTransaction.replace(R.id.fragmentContainerView, new principal());
+            fragmentTransaction.commitAllowingStateLoss();
+        }
     }
 }
