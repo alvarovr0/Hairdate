@@ -79,5 +79,9 @@
         android:id="@+id/fragment_ver_objeto"
         android:name="com.example.hairdate.fragment_ver_objeto"
         android:label="fragment_ver_objeto"
-        tools:layout="@layout/fragment_ver_objeto" />
+        tools:layout="@layout/fragment_ver_objeto" >
+        <action
+            android:id="@+id/action_fragment_ver_objeto_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+    </fragment>
 </navigation>

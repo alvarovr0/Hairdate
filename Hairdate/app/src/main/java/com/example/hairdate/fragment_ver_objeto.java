@@ -2,26 +2,38 @@ package com.example.hairdate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,12 +54,16 @@ public class fragment_ver_objeto extends Fragment {
     ImageView productoImage;
     int numProducto;
     Uri imageUri;
+    private EditText tituloProducto;
+    private EditText cantidadProducto;
     private Button botonIzquierda;
     private Button botonDerecha;
     private Button botonGuardar;
     private Button botonCancelar;
+    private FirebaseFirestore firestore;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+    private DocumentReference documentReference;
     public fragment_ver_objeto() {
         // Required empty public constructor
     }
@@ -67,10 +83,12 @@ public class fragment_ver_objeto extends Fragment {
         numProducto = 1;
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        // Carga la imagen del primer producto si ya existe
         StorageReference profileRef = storageReference.child("producto" + numProducto + ".jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                imageUri = uri;
                 Picasso.get().load(uri).into(productoImage);
             }
         });
@@ -84,13 +102,26 @@ public class fragment_ver_objeto extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ver_objeto, container, false);
         productoImage = view.findViewById(R.id.imagenProducto_activityProfile);
+        tituloProducto = view.findViewById(R.id.edTxt_tituloProducto);
+        cantidadProducto = view.findViewById(R.id.edTxt_cantidadProducto);
         botonGuardar = view.findViewById(R.id.btn_guardarCambios);
         botonCancelar = view.findViewById(R.id.btn_cancelarCambios);
         botonIzquierda = view.findViewById(R.id.btn_productoIzquierda);
         botonDerecha = view.findViewById(R.id.btn_productoDerecha);
+
+        firestore = FirebaseFirestore.getInstance();
+
+        // Carga el nombre y la cantidad si esta en la base de datos
+        documentReference = firestore.collection("productos").document("producto" + numProducto);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                tituloProducto.setText(documentSnapshot.getString("titulo"));
+                cantidadProducto.setText(documentSnapshot.getString("cantidad"));
+            }
+        });
 
         productoImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +141,17 @@ public class fragment_ver_objeto extends Fragment {
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        imageUri = uri;
                         Picasso.get().load(uri).into(productoImage);
+                    }
+                });
+                // Carga el nombre y la cantidad si esta en la base de datos
+                documentReference = firestore.collection("productos").document("producto" + numProducto);
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        tituloProducto.setText(documentSnapshot.getString("titulo"));
+                        cantidadProducto.setText(documentSnapshot.getString("cantidad"));
                     }
                 });
             }
@@ -124,7 +165,17 @@ public class fragment_ver_objeto extends Fragment {
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        imageUri = uri;
                         Picasso.get().load(uri).into(productoImage);
+                    }
+                });
+                // Carga el nombre y la cantidad si esta en la base de datos
+                documentReference = firestore.collection("productos").document("producto" + numProducto);
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        tituloProducto.setText(documentSnapshot.getString("titulo"));
+                        cantidadProducto.setText(documentSnapshot.getString("cantidad"));
                     }
                 });
             }
@@ -134,6 +185,14 @@ public class fragment_ver_objeto extends Fragment {
             @Override
             public void onClick(View view) {
                 subirImagenAFirebase(imageUri);
+                subirTextoAFirebase();
+            }
+        });
+
+        botonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_fragment_ver_objeto_to_menu_Peluquero);
             }
         });
 
@@ -170,5 +229,13 @@ public class fragment_ver_objeto extends Fragment {
                 System.out.print("Error");
             }
         });
+    }
+
+    private void subirTextoAFirebase() {
+        firestore = FirebaseFirestore.getInstance();
+        Map<String, String> items = new HashMap<>();
+        items.put("titulo", tituloProducto.getText().toString().trim());
+        items.put("cantidad", cantidadProducto.getText().toString().trim());
+        firestore.collection("productos").document("producto" + numProducto).set(items);
     }
 }
