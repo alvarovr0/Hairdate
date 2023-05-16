@@ -79,6 +79,7 @@ public class principal extends Fragment {
     public void onViewCreated(@NotNull final View view, @Nullable Bundle savedInstanceState) {
         Intrinsics.checkNotNullParameter(view, "view");
         super.onViewCreated(view, savedInstanceState);
+        View prueba = (View) view.findViewById(R.id.fragmentContainerView);
         botonPeluquero = (Button)view.findViewById(R.id.btn_pelu);
         botonPeluquero.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -86,7 +87,7 @@ public class principal extends Fragment {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) principal.this.requireActivity());
                 constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(it).navigate(R.id.action_principal_to_inicioSesion_Peluquero); //Falla aquí despues de comprobar que no hay ningún usuario que haya iniciado sesión
+                        Navigation.findNavController(prueba).navigate(R.id.action_principal_to_inicioSesion_Peluquero); //Falla aquí despues de comprobar que no hay ningún usuario que haya iniciado sesión
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
