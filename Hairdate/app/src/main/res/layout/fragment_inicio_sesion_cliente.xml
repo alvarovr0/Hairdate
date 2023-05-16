@@ -18,9 +18,7 @@
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_bienvenida"
@@ -36,10 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="140dp"
             android:orientation="vertical"
-            android:paddingTop="170dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:paddingTop="170dp">
 
 
             <TextView
@@ -52,7 +47,7 @@
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/edTxt_correo_inicio"
+                android:id="@+id/edTxt_usuario_inicio"
                 android:layout_width="268dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
@@ -151,9 +146,7 @@
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
             android:gravity="bottom|center|end"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_creditos_inicio"

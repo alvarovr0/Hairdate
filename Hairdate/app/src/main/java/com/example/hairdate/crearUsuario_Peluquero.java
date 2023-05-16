@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -58,6 +59,7 @@ public class crearUsuario_Peluquero extends Fragment{
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
+    private String uid;
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -113,6 +115,7 @@ public class crearUsuario_Peluquero extends Fragment{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uid = mAuth.getUid();
                             updateUI(user);
                         } else {
 
@@ -131,7 +134,7 @@ public class crearUsuario_Peluquero extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference referencia = db.collection("Peluquero").document();
-        View view = inflater.inflate(R.layout.fragment_crear_usuario__peluquero, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);
@@ -171,6 +174,20 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("direccion", direccion_completa);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            user.put("UID", uid);
+                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    }
+                                }
+                            });
+                        }
+                    }, 3000);
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

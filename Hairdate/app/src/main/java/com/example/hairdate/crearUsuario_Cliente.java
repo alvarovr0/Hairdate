@@ -129,7 +129,7 @@ public class crearUsuario_Cliente extends Fragment{
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
+        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -159,6 +159,7 @@ public class crearUsuario_Cliente extends Fragment{
                     user.put("nombre", nombre.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
+                    user.put("UID", mAuth.getUid());
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
