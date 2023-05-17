@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
             fragmentTransaction.commitAllowingStateLoss();
         }*/
-        db = FirebaseFirestore.getInstance();
+        /*db = FirebaseFirestore.getInstance();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -127,6 +127,6 @@ public class MainActivity extends AppCompatActivity {
             // El usuario no ha iniciado sesión
             fragmentTransaction.replace(R.id.fragmentContainerView, new principal());
             fragmentTransaction.commitAllowingStateLoss();
-        }
+        }*/
     }
 }
