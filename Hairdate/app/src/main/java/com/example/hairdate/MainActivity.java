@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("UID", String.valueOf(result));
                     getSupportFragmentManager().setFragmentResult("requestKey", result);
                     fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
-                    fragmentTransaction.commitAllowingStateLoss();
+                    //fragmentTransaction.commitAllowingStateLoss();
                 } else {
                     db.collection("Cliente").whereEqualTo("UID", uid).get().addOnCompleteListener(task2 -> {
                         if (task2.isSuccessful() && !task2.getResult().isEmpty()) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                             Fragment fragment = new principal();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
-                            fragmentTransaction.commitAllowingStateLoss();
+                            //fragmentTransaction.commitAllowingStateLoss();
                         }
                     });
                 }
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = new principal();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
-            fragmentTransaction.commitAllowingStateLoss();
+            //fragmentTransaction.commitAllowingStateLoss();
         }
 
     }
