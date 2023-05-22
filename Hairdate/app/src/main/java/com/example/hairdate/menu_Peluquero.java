@@ -127,7 +127,7 @@ public class menu_Peluquero extends Fragment{
         });
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
+                Navigation.findNavController(getView()).navigate(R.id.action_menu_Peluquero_to_activity_profile);
             }
         }));
 

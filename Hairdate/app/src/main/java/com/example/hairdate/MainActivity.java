@@ -12,14 +12,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseFirestore db;
-    private FragmentManager fragmentManager;
+    //private FirebaseFirestore db;
+    //private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = FirebaseFirestore.getInstance();
+        /*db = FirebaseFirestore.getInstance();
         fragmentManager = getSupportFragmentManager();
 
         FirebaseAuth currentUser = FirebaseAuth.getInstance();
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
             //fragmentTransaction.commitAllowingStateLoss();
-        }
+        }*/
 
     }
 
