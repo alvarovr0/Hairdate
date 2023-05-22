@@ -16,6 +16,7 @@
         <action
             android:id="@+id/action_principal_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
+
     </fragment>
     <fragment
         android:id="@+id/inicioSesion_Peluquero"
@@ -47,12 +48,22 @@
     </fragment>
 
     <fragment
+        android:id="@+id/menu_cliente"
+        android:label="menu_cliente"
+        tools:layout="@layout/menu_cliente" >
+        <action
+            android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
+            app:destination="@id/inicioSesion_Cliente" />
+    </fragment>
+    <fragment
         android:id="@+id/inicioSesion_Cliente"
         android:name="com.example.hairdate.inicioSesion_Cliente"
-        android:label="fragment_incio_sesion__cliente"
-        tools:layout="@layout/fragment_inicio_sesion__cliente" >
+        android:label="inicioSesion_Cliente" >
         <action
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
+        <action
+            android:id="@+id/action_inicioSesion_Cliente_to_menu_cliente"
+            app:destination="@id/menu_cliente" />
     </fragment>
 </navigation>
