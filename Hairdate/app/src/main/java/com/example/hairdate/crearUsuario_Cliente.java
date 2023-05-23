@@ -3,6 +3,7 @@ package com.example.hairdate;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -51,6 +52,7 @@ public class crearUsuario_Cliente extends Fragment{
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
+    private String uid;
 
     public crearUsuario_Cliente() {
         // Required empty public constructor
@@ -105,6 +107,7 @@ public class crearUsuario_Cliente extends Fragment{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uid = mAuth.getUid();
                             updateUI(user);
                         } else {
 
@@ -159,16 +162,20 @@ public class crearUsuario_Cliente extends Fragment{
                     user.put("nombre", nombre.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
-                    user.put("UID", mAuth.getUid());
-                    // Add a new document with a generated ID
-                    referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
-                            }
+                        public void run() {
+                            user.put("UID", uid);
+                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    }
+                                }
+                            });
                         }
-                    });
+                    }, 3000);
                 } else{
                     Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
                 }
