@@ -3,8 +3,10 @@ package com.example.hairdate;
 import static android.content.ContentValues.TAG;
 
 import android.accessibilityservice.GestureDescription;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +39,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +65,10 @@ public class menu_Peluquero extends Fragment{
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+
+    ImageView profileImage;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
 
 
     public menu_Peluquero() {
@@ -86,18 +96,35 @@ public class menu_Peluquero extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        StorageReference profileRef = storageReference.child("profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        });
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        profileImage = view.findViewById(R.id.img_imagenPerfil);
+
+
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
@@ -113,7 +140,7 @@ public class menu_Peluquero extends Fragment{
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                     // Obtener el valor en concreto que necesitas
                                     String nombreUsuario = document.getString("nombre");
-                                    usuario.setText("Hola, " + nombreUsuario);
+                                    usuario.setText(nombreUsuario);
                                 }
                             }
                         })
@@ -131,11 +158,12 @@ public class menu_Peluquero extends Fragment{
             }
         }));
 
-        /*btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        // Cuando se pulsa el botón "Comprobar Stock" se cambia al fragment donde se puede comprobar el stock
+        btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_stock_Peluquero);
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_fragment_ver_objeto);
             }
-        }));*/
+        }));
 
         btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {

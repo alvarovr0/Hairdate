@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_menu_Peluquero_to_inicioSesion_Peluquero"
             app:destination="@id/inicioSesion_Peluquero" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_fragment_ver_objeto"
+            app:destination="@id/fragment_ver_objeto" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
@@ -104,4 +107,12 @@
         android:name="com.example.hairdate.preferenciaCitasCliente"
         android:label="fragment_preferencia_citas_cliente"
         tools:layout="@layout/fragment_preferencia_citas_cliente" />
+    <fragment
+        android:id="@+id/fragment_ver_objeto"
+        android:name="com.example.hairdate.fragment_ver_objeto"
+        android:label="fragment_ver_objeto" >
+        <action
+            android:id="@+id/action_fragment_ver_objeto_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+    </fragment>
 </navigation>
