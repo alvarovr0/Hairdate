@@ -47,7 +47,7 @@
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/edTxt_usuario_inicio"
+                android:id="@+id/edTxt_usuario_cliente"
                 android:layout_width="268dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
@@ -74,7 +74,7 @@
                 android:paddingTop="10dp">
 
                 <EditText
-                    android:id="@+id/edTxt_contrasena_inicio"
+                    android:id="@+id/edTxt_contrasena_cliente"
                     android:layout_width="268dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_horizontal"
