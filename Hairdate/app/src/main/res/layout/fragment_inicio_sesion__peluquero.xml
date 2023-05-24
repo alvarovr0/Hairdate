@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Usuario:"
+                android:text="Correo:"
                 android:textSize="17dp"
                 android:typeface="serif" />
 
@@ -59,7 +59,7 @@
                 android:background="@drawable/rectangle"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:hint="Insertar usuario"
+                android:hint="Insertar correo"
                 android:inputType="text"
                 android:maxLines="1" />
 

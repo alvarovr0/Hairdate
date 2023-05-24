@@ -1,32 +1,24 @@
 package com.example.hairdate;
 
+import java.util.ArrayList;
+
 public class Peluqueria {
-
-    private String nombre;
     private String direccion;
-    private double latitud;
-    private double longitud;
+    private String horario;
+    private String numeroTelefono;
+    private ArrayList<Peluquero> peluqueros;
+    private String nombre;
 
-    public Peluqueria(){
-        //Construcctor por defecto
+    public Peluqueria() {
+        // Constructor vacío requerido por Firebase Firestore
     }
-    public Peluqueria(String nombre, String direccion, double latitud, double longitud){
-        this.nombre = nombre;
+
+    public Peluqueria(String direccion, String horario, String numeroTelefono, ArrayList<Peluquero> peluqueros, String nombre) {
         this.direccion = direccion;
-        this.latitud = latitud;
-        this.longitud = longitud;
-    }
-
-    public double getLatitud() {
-        return latitud;
-    }
-
-    public double getLongitud() {
-        return longitud;
-    }
-
-    public String getNombre() {
-        return nombre;
+        this.horario = horario;
+        this.numeroTelefono = numeroTelefono;
+        this.peluqueros = peluqueros;
+        this.nombre = nombre;
     }
 
     public String getDireccion() {
@@ -37,15 +29,35 @@ public class Peluqueria {
         this.direccion = direccion;
     }
 
-    public void setLatitud(double latitud) {
-        this.latitud = latitud;
+    public String getHorario() {
+        return horario;
     }
 
-    public void setLongitud(double longitud_nueva) {
-        this.longitud = longitud_nueva;
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
-    public void setNombre(String nombre_nuevo) {
-        this.nombre = nombre_nuevo;
+    public String getNumeroTelefono() {
+        return numeroTelefono;
+    }
+
+    public void setNumeroTelefono(String numeroTelefono) {
+        this.numeroTelefono = numeroTelefono;
+    }
+
+    public ArrayList<Peluquero> getPeluqueros() {
+        return peluqueros;
+    }
+
+    public void setPeluqueros(ArrayList<Peluquero> peluqueros) {
+        this.peluqueros = peluqueros;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }
