@@ -2,6 +2,8 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -154,7 +156,8 @@ public class crearUsuario_Cliente extends Fragment{
             @Override
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
-                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
+                String password = contrasena.getText().toString();
+                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6){
                     createAccount(emailvalidator, contrasena.getText().toString());
                     Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
                     // Create a new user with a first and last name
@@ -170,14 +173,28 @@ public class crearUsuario_Cliente extends Fragment{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
                                     }
                                 }
                             });
                         }
                     }, 3000);
-                } else{
-                    Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
+                } else {
+                    if (password.length() < 6) {
+                        // Mostrar un AlertDialog indicando que la contraseña debe tener al menos 6 caracteres
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Contraseña inválida")
+                                .setMessage("La contraseña debe tener al menos 6 caracteres.")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
