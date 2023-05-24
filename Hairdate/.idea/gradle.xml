@@ -8,6 +8,10 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        <option name="gradleJvm" value="Embedded JDK" />
+>>>>>>> Stashed changes
 =======
         <option name="gradleJvm" value="Embedded JDK" />
 >>>>>>> Stashed changes
