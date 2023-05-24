@@ -2,6 +2,8 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -164,9 +166,12 @@ public class crearUsuario_Peluquero extends Fragment{
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
-                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
-                    createAccount(emailvalidator, contrasena.getText().toString());
-                    Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
+                String password = contrasena.getText().toString();
+
+                if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
+                    createAccount(emailvalidator, password);
+                    Toast.makeText(view.getContext(), "Email válido", Toast.LENGTH_LONG).show();
+
                     // Create a new user with a first and last name
                     Map<String, Object> user = new HashMap<>();
                     user.put("nombre", nombre.getText().toString());
@@ -174,6 +179,7 @@ public class crearUsuario_Peluquero extends Fragment{
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
                     user.put("direccion", direccion_completa);
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -181,26 +187,40 @@ public class crearUsuario_Peluquero extends Fragment{
                             referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
                                     }
                                 }
                             });
                         }
                     }, 3000);
+
                     // Add a new document with a generated ID
                     referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
                             }
                         }
                     });
-                } else{
-                    Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
+                } else {
+                    if (password.length() < 6) {
+                        // Mostrar un AlertDialog indicando que la contraseña debe tener al menos 6 caracteres
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Contraseña inválida")
+                                .setMessage("La contraseña debe tener al menos 6 caracteres.")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                    }
                 }
-
             }
         });
         return view;
