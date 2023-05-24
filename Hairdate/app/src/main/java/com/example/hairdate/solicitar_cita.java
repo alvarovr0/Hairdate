@@ -62,16 +62,32 @@ public class solicitar_cita extends Fragment {
         String selectedDateString = dateFormat.format(selectedDate.getTime());
 
         // Verificar si la fecha y hora seleccionadas ya han sido ocupadas en la base de datos
-        boolean isDateAndTimeUnavailable = checkDateAndTimeAvailability(selectedDateString);
+        final boolean[] isDateAndTimeUnavailable = {false};
 
-        // Mostrar los campos correspondientes según la fecha seleccionada y su disponibilidad
-        if (isDateAndTimeUnavailable) {
-            showUnavailableFields();
-        } else {
-            showDefaultFields();
-        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("Citas").whereEqualTo("Fecha_Hora", selectedDateString);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult() != null && !task.getResult().isEmpty()) {
+                    // La fecha y hora seleccionadas están ocupadas
+                    isDateAndTimeUnavailable[0] = true;
+                } else {
+                    // La fecha y hora seleccionadas no están ocupadas
+                    isDateAndTimeUnavailable[0] = false;
+                }
+            } else {
+                // Error al consultar la base de datos
+                // Puedes manejar el error aquí, mostrar un mensaje de error, etc.
+            }
+
+            // Mostrar los campos correspondientes según la fecha seleccionada y su disponibilidad
+            if (isDateAndTimeUnavailable[0]) {
+                showUnavailableFields();
+            } else {
+                showDefaultFields();
+            }
+        });
     }
-
 
     private void showUnavailableFields() {
         // Mostrar los campos correspondientes cuando la fecha y hora seleccionadas no están disponibles
@@ -129,35 +145,5 @@ public class solicitar_cita extends Fragment {
             formattedDates.add(dateFormat.format(date));
         }
         return formattedDates;
-    }
-
-    private boolean checkDateAndTimeAvailability(String selectedDateString) {
-        AtomicBoolean isUnavailable = new AtomicBoolean(true);
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection("Citas").whereEqualTo("Fecha_Hora", selectedDateString);
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (task.getResult() != null && !task.getResult().isEmpty()) {
-                    // La fecha y hora seleccionadas ya están ocupadas
-                    isUnavailable.set(true);
-                } else {
-                    // La fecha y hora seleccionadas están disponibles
-                    isUnavailable.set(false);
-                }
-            } else {
-                // Error al consultar la base de datos
-                // Puedes manejar el error aquí, mostrar un mensaje de error, etc.
-            }
-
-            // Mostrar los campos correspondientes según la fecha seleccionada y su disponibilidad
-            if (isUnavailable.get()) {
-                showUnavailableFields();
-            } else {
-                showDefaultFields();
-            }
-        });
-
-        return isUnavailable.get();
     }
 }
