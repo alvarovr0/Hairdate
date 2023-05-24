@@ -140,7 +140,16 @@
         android:label="fragment_solicitar_cita"
         tools:layout="@layout/fragment_solicitar_cita" >
         <action
-            android:id="@+id/action_solicitar_cita_to_preferenciaCitasCliente"
+            android:id="@+id/action_solicitar_cita_to_horario"
+            app:destination="@id/horario" />
+    </fragment>
+    <fragment
+        android:id="@+id/horario"
+        android:name="com.example.hairdate.horario"
+        android:label="fragment_horario"
+        tools:layout="@layout/fragment_horario" >
+        <action
+            android:id="@+id/action_horario_to_preferenciaCitasCliente"
             app:destination="@id/preferenciaCitasCliente" />
     </fragment>
 </navigation>

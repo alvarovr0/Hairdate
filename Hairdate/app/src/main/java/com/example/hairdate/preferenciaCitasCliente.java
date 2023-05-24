@@ -116,7 +116,7 @@ public class preferenciaCitasCliente extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
-                String result = bundle.getString("bundleKey");
+                String result = bundle.getString("fechaHoraSeleccionada");
                 TextView fecha_hora = (TextView) view.findViewById(R.id.txt_fecha);
                 fecha_hora.setText(result);
                 btn_confirmar.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
