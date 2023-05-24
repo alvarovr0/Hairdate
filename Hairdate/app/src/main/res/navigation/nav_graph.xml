@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_inicioSesion_Cliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
+        <action
+            android:id="@+id/action_inicioSesion_Cliente_to_principal_cliente_2"
+            app:destination="@id/principal_cliente_2" />
     </fragment>
     <fragment
         android:id="@+id/menu_Peluquero"
@@ -123,5 +126,8 @@
         <action
             android:id="@+id/action_principal_cliente_to_activity_profile"
             app:destination="@id/activity_profile" />
+        <action
+            android:id="@+id/action_principal_cliente_2_to_preferenciaCitasCliente"
+            app:destination="@id/preferenciaCitasCliente" />
     </fragment>
 </navigation>
