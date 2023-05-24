@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu_Peluquero"
+    tools:context=".menu_cliente"
     android:background="@color/fondo">
 
     <LinearLayout
@@ -17,19 +16,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/img_imagenPerfil"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/user"/>
-
             <TextView
                 android:id="@+id/txt_nombrePeluquero"
                 android:layout_width="47dp"
                 android:layout_height="61dp"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Usuario"
                 android:gravity="center" />
 
             <ImageView
@@ -41,10 +33,10 @@
 
             <Button
                 android:id="@+id/btn_cerrarSesion"
-                android:layout_width="100dp"
+                android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cerrar Sesión" />
+                android:text="Cerrar SesiÃ³n" />
 
         </LinearLayout>
 
@@ -53,24 +45,48 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peluquerias favoritas"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_1"/>
+
+                <Button
+                    android:layout_marginLeft="20px"
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_2"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_3"/>
+                <Button
+                    android:layout_marginLeft="20px"
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_4"/>
+            </LinearLayout>
             <ListView
                 android:id="@+id/lista_citas"
                 android:layout_width="match_parent"
                 android:layout_height="241dp" />
-
-            <Button
-                android:id="@+id/btn_comprobarStock"
-                android:layout_width="201dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Comprobar Stock" />
-
-            <CalendarView
-                android:id="@+id/calendario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

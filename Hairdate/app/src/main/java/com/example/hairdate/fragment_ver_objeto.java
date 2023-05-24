@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
@@ -54,6 +55,7 @@ public class fragment_ver_objeto extends Fragment {
     ImageView productoImage;
     int numProducto;
     Uri imageUri;
+    String emailActual;
     private EditText tituloProducto;
     private EditText cantidadProducto;
     private Button botonIzquierda;
@@ -80,18 +82,8 @@ public class fragment_ver_objeto extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        numProducto = 1;
-        storageReference = FirebaseStorage.getInstance().getReference();
 
-        // Carga la imagen del primer producto si ya existe
-        StorageReference profileRef = storageReference.child("producto" + numProducto + ".jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                imageUri = uri;
-                Picasso.get().load(uri).into(productoImage);
-            }
-        });
+        numProducto = 1;
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -111,17 +103,43 @@ public class fragment_ver_objeto extends Fragment {
         botonIzquierda = view.findViewById(R.id.btn_productoIzquierda);
         botonDerecha = view.findViewById(R.id.btn_productoDerecha);
 
-        firestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
-        // Carga el nombre y la cantidad si esta en la base de datos
-        documentReference = firestore.collection("productos").document("producto" + numProducto);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        getParentFragmentManager().setFragmentResultListener("fragmentVerObjeto", this, new FragmentResultListener() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                tituloProducto.setText(documentSnapshot.getString("titulo"));
-                cantidadProducto.setText(documentSnapshot.getString("cantidad"));
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                emailActual = result.getString("email");
+                //Toast.makeText(view.getContext(), emailActual, Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
+
+                // Carga la imagen del primer producto si ya existe
+                StorageReference profileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imageUri = uri;
+                        Picasso.get().load(uri).into(productoImage);
+                    }
+                });
+
+                // Carga el nombre y la cantidad si esta en la base de datos
+                documentReference = firestore.collection("productos").document(emailActual + "_producto" + numProducto);
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        tituloProducto.setText(documentSnapshot.getString("titulo"));
+                        cantidadProducto.setText(documentSnapshot.getString("cantidad"));
+                    }
+                });
             }
         });
+
+
+        firestore = FirebaseFirestore.getInstance();
+
+
 
         productoImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +155,7 @@ public class fragment_ver_objeto extends Fragment {
             public void onClick(View view) {
                 // Pasa al producto anterior y se vuelven a cargar los datos
                 numProducto--;
-                StorageReference profileRef = storageReference.child("producto" + numProducto + ".jpg");
+                StorageReference profileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -146,7 +164,7 @@ public class fragment_ver_objeto extends Fragment {
                     }
                 });
                 // Carga el nombre y la cantidad si esta en la base de datos
-                documentReference = firestore.collection("productos").document("producto" + numProducto);
+                documentReference = firestore.collection("productos").document(emailActual + "_producto" + numProducto);
                 documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -161,7 +179,7 @@ public class fragment_ver_objeto extends Fragment {
             public void onClick(View view) {
                 // Pasa al siguiente producto y se vuelven a cargar los datos
                 numProducto++;
-                StorageReference profileRef = storageReference.child("producto" + numProducto + ".jpg");
+                StorageReference profileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -170,7 +188,7 @@ public class fragment_ver_objeto extends Fragment {
                     }
                 });
                 // Carga el nombre y la cantidad si esta en la base de datos
-                documentReference = firestore.collection("productos").document("producto" + numProducto);
+                documentReference = firestore.collection("productos").document(emailActual + "_producto" + numProducto);
                 documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -212,7 +230,7 @@ public class fragment_ver_objeto extends Fragment {
 
     private void subirImagenAFirebase(Uri imageUri) {
         // Sube la imagen al almacenamiento de Firebase
-        StorageReference fileRef = storageReference.child("producto" + numProducto + ".jpg");
+        StorageReference fileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -236,6 +254,6 @@ public class fragment_ver_objeto extends Fragment {
         Map<String, String> items = new HashMap<>();
         items.put("titulo", tituloProducto.getText().toString().trim());
         items.put("cantidad", cantidadProducto.getText().toString().trim());
-        firestore.collection("productos").document("producto" + numProducto).set(items);
+        firestore.collection("productos").document(emailActual + "_producto" + numProducto).set(items);
     }
 }
