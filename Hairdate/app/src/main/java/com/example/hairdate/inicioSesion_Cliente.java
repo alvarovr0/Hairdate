@@ -164,7 +164,7 @@ public class inicioSesion_Cliente extends Fragment {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Cliente_to_menu_cliente);
+                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Cliente_to_principal_cliente);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

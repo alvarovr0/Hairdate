@@ -2,15 +2,26 @@ package com.example.hairdate;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,28 +71,41 @@ public class principal_cliente extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference referencia = db.collection("Peluqueria").document();
+        View rootView = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
-        peluqueriasRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Crear el adaptador vacío para la lista de peluquerías
+        PeluqueriaAdapter adapter = new PeluqueriaAdapter();
+
+        // Obtener la referencia al documento "Peluqueria" en Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference peluqueriaRef = db.collection("Peluqueria").document("documentId");
+
+        // Obtener los datos de la peluquería específica desde Firestore
+        peluqueriaRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Peluqueria> peluquerias = new ArrayList<>();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                    Peluqueria peluqueria = document.toObject(Peluqueria.class);
-                    peluquerias.add(peluqueria);
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // El documento existe, puedes obtener los datos y mostrarlos en tu lista
+                    Peluqueria peluqueria = documentSnapshot.toObject(Peluqueria.class);
+                    adapter.addPeluqueria(peluqueria);
+
+                    // Establecer el adaptador en el RecyclerView
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    // El documento no existe o no se encontró, maneja el caso apropiado
                 }
-                // Actualiza la interfaz de usuario con las peluquerías obtenidas
-                // Por ejemplo, actualiza el adaptador del RecyclerView
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                // Maneja el fallo en la obtención de las peluquerías desde Firestore
+                // Manejar el fallo en la obtención de datos desde Firestore
             }
         });
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_principal_cliente, container, false);
+        return rootView;
     }
+
 }

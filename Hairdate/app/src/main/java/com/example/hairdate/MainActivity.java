@@ -21,8 +21,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-    ActivityMainbinding Binding;
-
     private FirebaseFirestore db;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
