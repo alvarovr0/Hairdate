@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -62,6 +63,9 @@ public class menu_Peluquero extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    String nombreUsuario;
+    String emailActual;
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
@@ -97,15 +101,8 @@ public class menu_Peluquero extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
 
-        StorageReference profileRef = storageReference.child("profile.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImage);
-            }
-        });
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -126,11 +123,14 @@ public class menu_Peluquero extends Fragment{
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
+                emailActual = bundle.getString("email");
                 Query query = db.collection("Peluquero").whereEqualTo("UID", result);
                 query.get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -139,8 +139,19 @@ public class menu_Peluquero extends Fragment{
                                 // Iterar a través de los documentos
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                     // Obtener el valor en concreto que necesitas
-                                    String nombreUsuario = document.getString("nombre");
-                                    usuario.setText(nombreUsuario);
+                                    nombreUsuario = document.getString("nombre");
+                                    usuario.setText(emailActual);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("email", emailActual);
+                                    getParentFragmentManager().setFragmentResult("fragmentVerObjeto", bundle);
+
+                                    StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                                    profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Picasso.get().load(uri).into(profileImage);
+                                        }
+                                    });
                                 }
                             }
                         })
@@ -152,6 +163,7 @@ public class menu_Peluquero extends Fragment{
                         });
             }
         });
+
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);

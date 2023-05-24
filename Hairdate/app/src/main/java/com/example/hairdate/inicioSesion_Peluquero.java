@@ -141,21 +141,25 @@ public class inicioSesion_Peluquero extends Fragment {
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
+
                 db =  FirebaseFirestore.getInstance();
                 Query query = db.collection("Peluquero").whereEqualTo("email", peluqueroEmail.getText().toString().trim());
                 if(!query.equals(null)){
-                    startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
                     Bundle result = new Bundle();
                     result.putString("bundleKey",mAuth.getUid());
+
+                    result.putString("email", peluqueroEmail.getText().toString().trim());
+
                     Log.d("UID", String.valueOf(result));
-                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                    getParentFragmentManager().setFragmentResult("menuPeluquero", result);
+                    startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
                 }
             }
         }));
 
     }
     private void startSignIn(String correo, String contrasena) {
-        /*Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, sino no hace nada*/
+        //Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, si no, no hace nada
         mAuth.signInWithEmailAndPassword(correo, contrasena)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override

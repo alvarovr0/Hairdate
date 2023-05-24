@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class activity_profile extends Fragment {
     private String mParam1;
     private String mParam2;
     ImageView profileImage;
+    String emailActual;
     private Button changeImageButton;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
@@ -80,6 +82,31 @@ public class activity_profile extends Fragment {
         profileImage = view.findViewById(R.id.profile_image);
         changeImageButton = view.findViewById(R.id.change_image_button);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+        getParentFragmentManager().setFragmentResultListener("fragmentVerObjeto", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                emailActual = result.getString("email");
+                //Toast.makeText(view.getContext(), emailActual, Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
+
+                // Muestra imagen si ya había alguna anteriormente
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
+            }
+        });
+
+
+
+
+
         changeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,15 +121,6 @@ public class activity_profile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        storageReference = FirebaseStorage.getInstance().getReference();
-
-        StorageReference profileRef = storageReference.child("profile.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImage);
-            }
-        });
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -131,7 +149,7 @@ public class activity_profile extends Fragment {
 
     private void subirImagenAFirebase(Uri imageUri) {
         // Sube la imagen al almacenamiento de Firebase
-        StorageReference fileRef = storageReference.child("profile.jpg");
+        StorageReference fileRef = storageReference.child(emailActual + "_profile.jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
