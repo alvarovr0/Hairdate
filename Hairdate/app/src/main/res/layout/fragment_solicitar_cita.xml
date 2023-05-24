@@ -11,21 +11,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <CalendarView
-            android:id="@+id/calendarView"
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendario"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"/>
-
-        <GridView
-            android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="23"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp"
-            android:horizontalSpacing="8dp"
-            android:padding="8dp" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </FrameLayout>
