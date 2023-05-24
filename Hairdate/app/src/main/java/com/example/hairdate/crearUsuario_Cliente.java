@@ -3,6 +3,7 @@ package com.example.hairdate;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,8 +21,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +52,7 @@ public class crearUsuario_Cliente extends Fragment{
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
+    private String uid;
 
     public crearUsuario_Cliente() {
         // Required empty public constructor
@@ -80,12 +79,15 @@ public class crearUsuario_Cliente extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -105,6 +107,7 @@ public class crearUsuario_Cliente extends Fragment{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uid = mAuth.getUid();
                             updateUI(user);
                         } else {
 
@@ -127,9 +130,9 @@ public class crearUsuario_Cliente extends Fragment{
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
-        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_cliente);
+        btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
 
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -159,16 +162,20 @@ public class crearUsuario_Cliente extends Fragment{
                     user.put("nombre", nombre.getText().toString());
                     user.put("usuario", usuario.getText().toString());
                     user.put("email", emailvalidator);
-                    user.put("UID", mAuth.getUid());
-                    // Add a new document with a generated ID
-                    referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
-                            }
+                        public void run() {
+                            user.put("UID", uid);
+                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                    }
+                                }
+                            });
                         }
-                    });
+                    }, 3000);
                 } else{
                     Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
                 }
