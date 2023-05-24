@@ -62,6 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
+<<<<<<< Updated upstream
             <Button
                 android:layout_width="300px"
                 android:layout_height="300px"
@@ -72,6 +73,18 @@
                 android:layout_width="300px"
                 android:layout_height="300px"
                 android:id="@+id/btn_fav_2"/>
+=======
+                <Button
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_1"/>
+
+                <Button
+                    android:layout_marginLeft="20px"
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:id="@+id/btn_fav_2"/>
+>>>>>>> Stashed changes
 
             </LinearLayout>
 
@@ -93,6 +106,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:Hairdate/app/src/main/res/layout/menu_cliente.xml
                 android:layout_height="241dp" />
 
@@ -100,6 +114,8 @@
 
 
 ========
+=======
+>>>>>>> Stashed changes
                 android:layout_height="match_parent" />
 
             <TextView
@@ -119,7 +135,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Horario de la Peluquería" />
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:Hairdate/app/src/main/res/layout/fragment_principal_cliente.xml
+=======
+>>>>>>> Stashed changes
         </LinearLayout>
 
     </LinearLayout>

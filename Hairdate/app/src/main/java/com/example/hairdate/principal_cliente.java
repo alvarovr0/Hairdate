@@ -1,5 +1,6 @@
 package com.example.hairdate;
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
 import static android.content.ContentValues.TAG;
 
@@ -19,11 +20,22 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
+=======
+import android.net.Uri;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
+
+>>>>>>> Stashed changes
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
 import android.widget.EditText;
 =======
@@ -54,17 +66,36 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 >>>>>>> Stashed changes:Hairdate/app/src/main/java/com/example/hairdate/principal_cliente.java
+=======
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+>>>>>>> Stashed changes
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link principal_cliente#newInstance} factory method to
  * create an instance of this fragment.
  */
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
 public class menu_cliente extends Fragment{
 =======
 public class principal_cliente extends Fragment {
 >>>>>>> Stashed changes:Hairdate/app/src/main/java/com/example/hairdate/principal_cliente.java
+=======
+public class principal_cliente extends Fragment {
+>>>>>>> Stashed changes
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,12 +114,16 @@ public class principal_cliente extends Fragment {
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
 
     public menu_cliente() {
 =======
     public principal_cliente() {
 >>>>>>> Stashed changes:Hairdate/app/src/main/java/com/example/hairdate/principal_cliente.java
+=======
+    public principal_cliente() {
+>>>>>>> Stashed changes
         // Required empty public constructor
     }
 
@@ -113,11 +148,19 @@ public class principal_cliente extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< Updated upstream
 
+=======
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+>>>>>>> Stashed changes
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.menu_cliente, container, false);
@@ -130,16 +173,30 @@ public class principal_cliente extends Fragment {
         usuario = view.findViewById(R.id.txt_nombreCliente);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
+=======
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+>>>>>>> Stashed changes
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Hairdate/app/src/main/java/com/example/hairdate/menu_cliente.java
                 Query query = db.collection("Peluquero").whereEqualTo("UID", result);
 =======
                 emailActual = bundle.getString("email");
                 Query query = db.collection("cliente").whereEqualTo("UID", result);
 >>>>>>> Stashed changes:Hairdate/app/src/main/java/com/example/hairdate/principal_cliente.java
+=======
+                emailActual = bundle.getString("email");
+                Query query = db.collection("Peluquero").whereEqualTo("UID", result);
+>>>>>>> Stashed changes
                 query.get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
@@ -171,6 +228,7 @@ public class principal_cliente extends Fragment {
                         });
             }
         });
+<<<<<<< Updated upstream
         /*usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_activity_profile);
@@ -182,6 +240,14 @@ public class principal_cliente extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_stock_Peluquero);
             }
         }));*/
+=======
+
+        usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(getView()).navigate(R.id.action_menu_cliente_to_activity_profile);
+            }
+        }));
+>>>>>>> Stashed changes
 
         btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -192,5 +258,8 @@ public class principal_cliente extends Fragment {
 
         return view;
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }

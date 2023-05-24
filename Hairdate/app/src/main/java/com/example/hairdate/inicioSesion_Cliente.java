@@ -51,7 +51,11 @@ public class inicioSesion_Cliente extends Fragment {
     private Button btn_iniciar;
     private FirebaseFirestore db;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private FirebaseAuth mAuth;
+=======
+    private EditText clienteEmail, clientePass;
+>>>>>>> Stashed changes
 =======
     private EditText clienteEmail, clientePass;
 >>>>>>> Stashed changes
@@ -131,6 +135,7 @@ public class inicioSesion_Cliente extends Fragment {
             }
         }));
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         this.btn_iniciar = (Button)view.findViewById(R.id.btn_iniciarSesion_inicio);
         this.clienteEmail = (EditText)view.findViewById(R.id.edTxt_correo_inicio);
         this.contrasena = (EditText)view.findViewById(R.id.edTxt_contrasena_inicio);
@@ -141,6 +146,8 @@ public class inicioSesion_Cliente extends Fragment {
                 if(!query.equals(null)){
                     startSignIn(clienteEmail.getText().toString().trim(), contrasena.getText().toString());
 =======
+=======
+>>>>>>> Stashed changes
         clienteEmail = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         clientePass = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
@@ -148,6 +155,9 @@ public class inicioSesion_Cliente extends Fragment {
                 db =  FirebaseFirestore.getInstance();
                 Query query = db.collection("Cliente").whereEqualTo("email", clienteEmail.getText().toString().trim());
                 if(!query.equals(null)){
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                     Bundle result = new Bundle();
                     result.putString("bundleKey",mAuth.getUid());
