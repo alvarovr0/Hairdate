@@ -34,7 +34,11 @@ import org.jetbrains.annotations.Nullable;
 import kotlin.jvm.internal.Intrinsics;
 
 public class inicioSesion_Cliente extends Fragment {
-
+    /*
+     *
+     * Este Fragment nos servirá para que el usuario (Cliente) inicie sesión o se cree la cuenta
+     *
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,22 +47,14 @@ public class inicioSesion_Cliente extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView crear;
-    ImageButton btn_eyeContrasena_inicio;
-    private EditText clienteEmail;
-    private EditText contrasena;
-    boolean ojoAbierto;
-    private Button btn_iniciar;
-    private FirebaseFirestore db;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+    private TextView crear;
+    private ImageButton btn_eyeContrasena_inicio;
+    private EditText edTxt_contrasena_Cliente, edTxt_usuarioCliente;
+    private boolean ojoAbierto;
+    private Button btn_iniciarSesion;
     private FirebaseAuth mAuth;
-=======
+    private FirebaseFirestore db;
     private EditText clienteEmail, clientePass;
->>>>>>> Stashed changes
-=======
-    private EditText clienteEmail, clientePass;
->>>>>>> Stashed changes
     public inicioSesion_Cliente() {
         // Required empty public constructor
     }
@@ -84,17 +80,25 @@ public class inicioSesion_Cliente extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAuth = FirebaseAuth.getInstance();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inicio_sesion__cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_inicio_sesion_cliente, container, false);
         return view;
     }
 
@@ -104,12 +108,13 @@ public class inicioSesion_Cliente extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
         this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
+        btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) inicioSesion_Cliente.this.requireActivity());
                 constructorDialogo.setMessage((CharSequence)"¿Quieres crear una cuenta?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (DialogInterface.OnClickListener)(new DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Cliente_to_crearUsuario_Cliente);
+                        Navigation.findNavController(view).navigate(R.id.action_inicioSesion_Cliente_to_crearUsuario_Cliente);
                     }
                 })).setNegativeButton((CharSequence)"No", (DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
@@ -118,36 +123,23 @@ public class inicioSesion_Cliente extends Fragment {
             }
         }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
-        this.contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        this.edTxt_contrasena_Cliente = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        this.edTxt_usuarioCliente = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
                 if (ojoAbierto) {
                     btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_closed);
-                    contrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edTxt_contrasena_Cliente.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     ojoAbierto = false;
                     // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
                 } else {
                     btn_eyeContrasena_inicio.setImageResource(R.drawable.eye_open);
-                    contrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    edTxt_contrasena_Cliente.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
                     ojoAbierto = true;
                 }
             }
         }));
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        this.btn_iniciar = (Button)view.findViewById(R.id.btn_iniciarSesion_inicio);
-        this.clienteEmail = (EditText)view.findViewById(R.id.edTxt_correo_inicio);
-        this.contrasena = (EditText)view.findViewById(R.id.edTxt_contrasena_inicio);
-        this.btn_iniciar.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                db =  FirebaseFirestore.getInstance();
-                Query query = db.collection("Peluquero").whereEqualTo("email", clienteEmail.getText().toString().trim());
-                if(!query.equals(null)){
-                    startSignIn(clienteEmail.getText().toString().trim(), contrasena.getText().toString());
-=======
-=======
->>>>>>> Stashed changes
         clienteEmail = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         clientePass = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
@@ -155,10 +147,6 @@ public class inicioSesion_Cliente extends Fragment {
                 db =  FirebaseFirestore.getInstance();
                 Query query = db.collection("Cliente").whereEqualTo("email", clienteEmail.getText().toString().trim());
                 if(!query.equals(null)){
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                     Bundle result = new Bundle();
                     result.putString("bundleKey",mAuth.getUid());
 
@@ -171,7 +159,6 @@ public class inicioSesion_Cliente extends Fragment {
             }
         }));
     }
-
     private void startSignIn(String correo, String contrasena) {
         /*Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, sino no hace nada*/
         mAuth.signInWithEmailAndPassword(correo, contrasena)
@@ -189,7 +176,7 @@ public class inicioSesion_Cliente extends Fragment {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Error");
-                            builder.setMessage("No es un email válido o no es un cliente");
+                            builder.setMessage("No es un email válido o no es un peluquero");
                             builder.setPositiveButton("Ok", null);
                             AlertDialog dialog = builder.create();
                             dialog.show();
@@ -198,6 +185,8 @@ public class inicioSesion_Cliente extends Fragment {
                     }
                 });
     }
+    private void reload() { }
+
     private void updateUI(FirebaseUser user) {
 
     }

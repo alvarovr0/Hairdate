@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/principal"
-        android:name="com.example.hairdate.Principal"
+        android:name="com.example.hairdate.principal"
         android:label="fragment_principal"
         tools:layout="@layout/fragment_principal" >
         <action
@@ -16,7 +16,6 @@
         <action
             android:id="@+id/action_principal_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
-
     </fragment>
     <fragment
         android:id="@+id/inicioSesion_Peluquero"
@@ -26,12 +25,15 @@
         <action
             android:id="@+id/action_inicioSesion_Peluquero_to_crearUsuario_Peluquero"
             app:destination="@id/crearUsuario_Peluquero" />
+        <action
+            android:id="@+id/action_inicioSesion_Peluquero_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
         android:id="@+id/crearUsuario_Peluquero"
         android:name="com.example.hairdate.crearUsuario_Peluquero"
         android:label="fragment_crear_usuario__peluquero"
-        tools:layout="@layout/fragment_crear_usuario__peluquero" >
+        tools:layout="@layout/fragment_crear_usuario_peluquero" >
         <action
             android:id="@+id/action_crearUsuario_Peluquero_to_inicioSesion_Peluquero"
             app:destination="@id/inicioSesion_Peluquero" />
@@ -41,24 +43,17 @@
         android:id="@+id/crearUsuario_Cliente"
         android:name="com.example.hairdate.crearUsuario_Cliente"
         android:label="fragment_crear_usuario__cliente"
-        tools:layout="@layout/fragment_crear_usuario__cliente" >
+        tools:layout="@layout/fragment_crear_usuario_cliente" >
         <action
             android:id="@+id/action_crearUsuario_Cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
     </fragment>
 
     <fragment
-        android:id="@+id/menu_cliente"
-        android:label="menu_cliente"
-        tools:layout="@layout/menu_cliente" >
-        <action
-            android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
-            app:destination="@id/inicioSesion_Cliente" />
-    </fragment>
-    <fragment
         android:id="@+id/inicioSesion_Cliente"
         android:name="com.example.hairdate.inicioSesion_Cliente"
-        android:label="inicioSesion_Cliente" >
+        android:label="fragment_incio_sesion__cliente"
+        tools:layout="@layout/fragment_inicio_sesion_cliente" >
         <action
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
@@ -66,8 +61,6 @@
             android:id="@+id/action_inicioSesion_Cliente_to_menu_cliente"
             app:destination="@id/menu_cliente" />
     </fragment>
-<<<<<<< Updated upstream
-=======
     <fragment
         android:id="@+id/menu_Peluquero"
         android:name="com.example.hairdate.menu_Peluquero"
@@ -137,5 +130,4 @@
             android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
     </fragment>
->>>>>>> Stashed changes
 </navigation>

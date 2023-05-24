@@ -2,6 +2,7 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -50,7 +53,7 @@ public class inicioSesion_Peluquero extends Fragment {
     private Button btn_iniciarSesion;
     private EditText peluqueroEmail, peluqueroPass;
     private FirebaseAuth mAuth;
-    private Button btn_resetPass;
+    private FirebaseFirestore db;
     public inicioSesion_Peluquero() {
         // Required empty public constructor
     }
@@ -133,42 +136,30 @@ public class inicioSesion_Peluquero extends Fragment {
                 }
             }
         }));
-        btn_resetPass = (Button) view.findViewById(R.id.btn_resetPass);
         btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
-        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_correo_inicio);
+        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
-                Bundle result = new Bundle();
-                result.putString("bundleKey",peluqueroEmail.getText().toString());
-                getParentFragmentManager().setFragmentResult("requestKey", result);
-            }
-        }));
 
-        btn_resetPass.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
+                db =  FirebaseFirestore.getInstance();
+                Query query = db.collection("Peluquero").whereEqualTo("email", peluqueroEmail.getText().toString().trim());
+                if(!query.equals(null)){
+                    Bundle result = new Bundle();
+                    result.putString("bundleKey",mAuth.getUid());
 
-                mAuth.setLanguageCode("es");
-                mAuth.sendPasswordResetEmail(peluqueroEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    result.putString("email", peluqueroEmail.getText().toString().trim());
 
-                        if(task.isSuccessful()){
-                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_crearUsuario_Peluquero);
-                        }else {
-
-                        }
-
-                    }
-                });
-
+                    Log.d("UID", String.valueOf(result));
+                    getParentFragmentManager().setFragmentResult("menuPeluquero", result);
+                    startSignIn(peluqueroEmail.getText().toString().trim(), peluqueroPass.getText().toString());
+                }
             }
         }));
 
     }
     private void startSignIn(String correo, String contrasena) {
-        /*Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, sino no hace nada*/
+        //Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú principal, si no, no hace nada
         mAuth.signInWithEmailAndPassword(correo, contrasena)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -178,10 +169,16 @@ public class inicioSesion_Peluquero extends Fragment {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            //Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
+                            Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_Peluquero_to_menu_Peluquero);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Error");
+                            builder.setMessage("No es un email válido o no es un peluquero");
+                            builder.setPositiveButton("Ok", null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
                             updateUI(null);
                         }
                     }
