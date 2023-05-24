@@ -50,7 +50,11 @@ public class inicioSesion_Cliente extends Fragment {
     boolean ojoAbierto;
     private Button btn_iniciar;
     private FirebaseFirestore db;
+<<<<<<< Updated upstream
     private FirebaseAuth mAuth;
+=======
+    private EditText clienteEmail, clientePass;
+>>>>>>> Stashed changes
     public inicioSesion_Cliente() {
         // Required empty public constructor
     }
@@ -126,6 +130,7 @@ public class inicioSesion_Cliente extends Fragment {
                 }
             }
         }));
+<<<<<<< Updated upstream
         this.btn_iniciar = (Button)view.findViewById(R.id.btn_iniciarSesion_inicio);
         this.clienteEmail = (EditText)view.findViewById(R.id.edTxt_correo_inicio);
         this.contrasena = (EditText)view.findViewById(R.id.edTxt_contrasena_inicio);
@@ -135,10 +140,23 @@ public class inicioSesion_Cliente extends Fragment {
                 Query query = db.collection("Peluquero").whereEqualTo("email", clienteEmail.getText().toString().trim());
                 if(!query.equals(null)){
                     startSignIn(clienteEmail.getText().toString().trim(), contrasena.getText().toString());
+=======
+        clienteEmail = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
+        clientePass = (EditText) view.findViewById(R.id.edTxt_contrasena_cliente);
+        btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                db =  FirebaseFirestore.getInstance();
+                Query query = db.collection("Cliente").whereEqualTo("email", clienteEmail.getText().toString().trim());
+                if(!query.equals(null)){
+>>>>>>> Stashed changes
                     Bundle result = new Bundle();
                     result.putString("bundleKey",mAuth.getUid());
+
+                    result.putString("email", clienteEmail.getText().toString().trim());
+
                     Log.d("UID", String.valueOf(result));
-                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                    getParentFragmentManager().setFragmentResult("menuPeluquero", result);
+                    startSignIn(clienteEmail.getText().toString().trim(), clientePass.getText().toString());
                 }
             }
         }));
