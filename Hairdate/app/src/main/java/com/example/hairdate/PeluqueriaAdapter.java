@@ -9,17 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.PeluqueriaViewHolder> {
 
-    private List<Peluqueria> peluquerias;
+    private ArrayList<Peluqueria> peluquerias;
 
-    public PeluqueriaAdapter() {
-        this.peluquerias = new ArrayList<>();
+    public PeluqueriaAdapter(ArrayList<Peluqueria> peluquerias) {
+        this.peluquerias = peluquerias;
     }
 
-    public void setPeluquerias(List<Peluqueria> peluquerias) {
+    public void setPeluquerias(ArrayList<Peluqueria> peluquerias) {
         this.peluquerias = peluquerias;
         notifyDataSetChanged();
     }
@@ -27,7 +26,7 @@ public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.Pe
     @NonNull
     @Override
     public PeluqueriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_perfil_peluqueria, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_peluqueria, parent, false);
         return new PeluqueriaViewHolder(view);
     }
 
@@ -38,7 +37,7 @@ public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.Pe
         holder.txtNombre.setText(peluqueria.getNombre());
         holder.txtDireccion.setText(peluqueria.getDireccion());
         holder.txtHorario.setText(peluqueria.getHorario());
-        // ... mostrar otros atributos de la peluquería en los TextView correspondientes
+        // mostrar otros atributos de la peluquería en los TextView correspondientes
     }
 
     @Override
@@ -52,7 +51,7 @@ public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.Pe
     }
 
 
-    static class PeluqueriaViewHolder extends RecyclerView.ViewHolder {
+    public class PeluqueriaViewHolder extends RecyclerView.ViewHolder {
         TextView txtNombre;
         TextView txtDireccion;
         TextView txtHorario;
@@ -63,7 +62,6 @@ public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.Pe
             txtNombre = itemView.findViewById(R.id.txtNombre);
             txtDireccion = itemView.findViewById(R.id.txtDireccion);
             txtHorario = itemView.findViewById(R.id.txtHorario);
-            // ... obtener referencias a los otros TextView del layout del item
         }
     }
 

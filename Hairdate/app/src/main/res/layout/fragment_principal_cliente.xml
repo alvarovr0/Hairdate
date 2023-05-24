@@ -50,61 +50,12 @@
             android:layout_height="wrap_content"
             android:text="Peluquerias favoritas"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="300px"
-                android:layout_height="300px"
-                android:id="@+id/btn_fav_1"/>
-
-            <Button
-                android:layout_marginLeft="20px"
-                android:layout_width="300px"
-                android:layout_height="300px"
-                android:id="@+id/btn_fav_2"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-
-                android:layout_width="300px"
-                android:layout_height="300px"
-                android:id="@+id/btn_fav_3"/>
-            <Button
-                android:layout_marginLeft="20px"
-                android:layout_width="300px"
-                android:layout_height="300px"
-                android:id="@+id/btn_fav_4"/>
-        </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/txtNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre de la Peluquería" />
-
-        <TextView
-            android:id="@+id/txtDireccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dirección de la Peluquería" />
-
-        <TextView
-            android:id="@+id/txtHorario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Horario de la Peluquería" />
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
