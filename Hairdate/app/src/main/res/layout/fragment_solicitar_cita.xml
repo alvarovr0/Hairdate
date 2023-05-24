@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".solicitarCita_cliente"
+    tools:context=".solicitar_cita"
     android:background="@color/fondo">
 
     <LinearLayout
@@ -26,8 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"/>
-
-
     </LinearLayout>
 
 </FrameLayout>
