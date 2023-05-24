@@ -87,6 +87,12 @@
                 android:id="@+id/lista_citas"
                 android:layout_width="match_parent"
                 android:layout_height="241dp" />
+
+            <Button
+                android:id="@+id/buttonPrueba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

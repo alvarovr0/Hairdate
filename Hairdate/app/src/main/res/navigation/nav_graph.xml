@@ -106,7 +106,11 @@
         android:id="@+id/preferenciaCitasCliente"
         android:name="com.example.hairdate.preferenciaCitasCliente"
         android:label="fragment_preferencia_citas_cliente"
-        tools:layout="@layout/fragment_preferencia_citas_cliente" />
+        tools:layout="@layout/fragment_preferencia_citas_cliente" >
+        <action
+            android:id="@+id/action_preferenciaCitasCliente_to_menu_cliente"
+            app:destination="@id/menu_cliente" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_ver_objeto"
         android:name="com.example.hairdate.fragment_ver_objeto"
@@ -121,13 +125,22 @@
         android:label="fragment_menu_cliente"
         tools:layout="@layout/fragment_menu_cliente" >
         <action
-            android:id="@+id/action_menu_cliente_to_preferenciaCitasCliente"
-            app:destination="@id/preferenciaCitasCliente" />
-        <action
             android:id="@+id/action_menu_cliente_to_activity_profile"
             app:destination="@id/activity_profile" />
         <action
             android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
+        <action
+            android:id="@+id/action_menu_cliente_to_solicitar_cita"
+            app:destination="@id/solicitar_cita" />
+    </fragment>
+    <fragment
+        android:id="@+id/solicitar_cita"
+        android:name="com.example.hairdate.solicitar_cita"
+        android:label="fragment_solicitar_cita"
+        tools:layout="@layout/fragment_solicitar_cita" >
+        <action
+            android:id="@+id/action_solicitar_cita_to_preferenciaCitasCliente"
+            app:destination="@id/preferenciaCitasCliente" />
     </fragment>
 </navigation>

@@ -38,8 +38,7 @@ public class menu_cliente extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView usuario;
-    private Button btn_controlStock;
-    private Button btn_cerrarSesion;
+    private Button btn_cerrarSesion, btn_prueba;
 
     public menu_cliente() {
         // Required empty public constructor
@@ -80,6 +79,7 @@ public class menu_cliente extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_prueba = view.findViewById(R.id.buttonPrueba);
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
@@ -116,6 +116,12 @@ public class menu_cliente extends Fragment {
             public final void onClick(View it) {
                 FirebaseAuth.getInstance().signOut();
                 Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_inicioSesion_Cliente);
+            }
+        }));
+
+        btn_prueba.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_solicitar_cita);
             }
         }));
 
