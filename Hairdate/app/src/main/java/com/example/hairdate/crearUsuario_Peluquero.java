@@ -171,14 +171,6 @@ public class crearUsuario_Peluquero extends Fragment{
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
-                String contrasenaCifrada = "";
-                try {
-                    // Cifra la contraseña y la guarda en la variable contrasenaCifrada
-                    byte[] clave = generarClave();
-                    contrasenaCifrada = codificarBase64(cifrarDatos(contrasena.getText().toString().getBytes("UTF-8"), clave));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 //El if comprueba si el EditText está vacío y que sea un email correcto
                 if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
                     createAccount(emailvalidator, contrasena.getText().toString());

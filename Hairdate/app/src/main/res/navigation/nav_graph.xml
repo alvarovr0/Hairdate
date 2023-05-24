@@ -116,7 +116,7 @@
             app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
-        android:id="@+id/principal_cliente"
+        android:id="@+id/principal_cliente_2"
         android:name="com.example.hairdate.principal_cliente"
         android:label="fragment_principal_cliente"
         tools:layout="@layout/fragment_principal_cliente" >

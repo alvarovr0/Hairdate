@@ -114,9 +114,9 @@ public class inicioSesion_Peluquero extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.ojoAbierto = false;
         this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
-        boton_inicio = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
-        usuario = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
+        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
+        peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context)inicioSesion_Peluquero.this.requireActivity());
@@ -130,21 +130,12 @@ public class inicioSesion_Peluquero extends Fragment {
                 alerta.show();
             }
         }));
-        String cifrada = "";
-        try {
-            // Cifra la contraseña y la guarda en la variable contrasenaCifrada
-            byte[] clave = generarClave();
-            cifrada = codificarBase64(cifrarDatos(contrasena.getText().toString().getBytes("UTF-8"), clave));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String finalCifrada = cifrada;
-        boton_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                startSignIn(usuario.getText().toString(), finalCifrada);
+                startSignIn(peluqueroEmail.getText().toString(), peluqueroPass.getText().toString());
                 /*Bundle nos permitirá enviar datos de un fragment almacenandolo*/
                 Bundle result = new Bundle();
-                result.putString("bundleKey",usuario.getText().toString());
+                result.putString("bundleKey",peluqueroEmail.getText().toString());
                 getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         }));
