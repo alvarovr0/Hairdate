@@ -32,6 +32,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -169,39 +175,58 @@ public class crearUsuario_Peluquero extends Fragment{
                 String password = contrasena.getText().toString();
 
                 if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
-                    createAccount(emailvalidator, password);
-                    Toast.makeText(view.getContext(), "Email válido", Toast.LENGTH_LONG).show();
-
-                    // Create a new user with a first and last name
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("nombre", nombre.getText().toString());
-                    user.put("CIF", cif.getText().toString());
-                    user.put("usuario", usuario.getText().toString());
-                    user.put("email", emailvalidator);
-                    user.put("direccion", direccion_completa);
-
-                    new Handler().postDelayed(new Runnable() {
+                    // Verificar si el correo ya existe en la base de datos
+                    DatabaseReference usuariosRef = FirebaseDatabase.getInstance().getReference("usuarios");
+                    Query emailQuery = usuariosRef.orderByChild("email").equalTo(emailvalidator);
+                    emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void run() {
-                            user.put("UID", uid);
-                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // El correo ya existe en la base de datos
+                                Toast.makeText(view.getContext(), "Ya existe una cuenta con este correo", Toast.LENGTH_LONG).show();
+                            } else {
+                                // El correo no existe en la base de datos, continuar con el registro
+                                createAccount(emailvalidator, password);
+                                Toast.makeText(view.getContext(), "Email válido", Toast.LENGTH_LONG).show();
+
+                                // Crear un nuevo usuario con los datos
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("nombre", nombre.getText().toString());
+                                user.put("CIF", cif.getText().toString());
+                                user.put("usuario", usuario.getText().toString());
+                                user.put("email", emailvalidator);
+                                user.put("direccion", direccion_completa);
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        user.put("UID", uid);
+                                        referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                                }
+                                            }
+                                        });
                                     }
-                                }
-                            });
-                        }
-                    }, 3000);
+                                }, 3000);
 
-                    // Add a new document with a generated ID
-                    referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                // Agregar un nuevo documento con un ID generado
+                                referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                        }
+                                    }
+                                });
                             }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle database error if needed
                         }
                     });
                 } else {
