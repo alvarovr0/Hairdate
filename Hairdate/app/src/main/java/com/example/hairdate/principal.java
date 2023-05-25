@@ -84,10 +84,9 @@ public class principal extends Fragment {
             public final void onClick(View it) {
                 //Esto nos servirá para crear una ventana de diálogo para asegurar que si está seguro de la opción elegida
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) principal.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence)"¿Seguro que eres peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                constructorDialogo.setMessage((CharSequence)"¿Seguro que quieres crear una cuenta peluquero?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(getView()).navigate(R.id.action_principal_to_inicioSesion_Peluquero);
-                        //Falla aquí despues de comprobar que no hay ningún usuario que haya iniciado sesión
+                        Navigation.findNavController(getView()).navigate(R.id.action_principal_to_crearUsuario_Peluquero);
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
@@ -100,9 +99,9 @@ public class principal extends Fragment {
         botonCliente.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) principal.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence)"¿Seguro que eres cliente?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                constructorDialogo.setMessage((CharSequence)"¿Seguro que quieres crear una cuenta cliente?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
-                        Navigation.findNavController(it).navigate(R.id.action_principal_to_inicioSesion_Cliente);
+                        Navigation.findNavController(getView()).navigate(R.id.action_principal_to_crearUsuario_Cliente);
                     }
                 })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
                 android.app.AlertDialog alerta = constructorDialogo.create();

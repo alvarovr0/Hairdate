@@ -130,7 +130,7 @@ public class crearUsuario_Cliente extends Fragment{
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_cliente);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_cliente);
         email = (EditText) view.findViewById(R.id.edTxt_Email_cliente);
-        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_cliente);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
 
@@ -170,7 +170,7 @@ public class crearUsuario_Cliente extends Fragment{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
                                     }
                                 }
                             });

@@ -168,7 +168,7 @@ public class menu_Peluquero extends Fragment{
         btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(getView()).navigate(R.id.action_menu_Peluquero_to_inicioSesion_Peluquero);
+                Navigation.findNavController(getView()).navigate(R.id.action_menu_Peluquero_to_inicioSesion);
             }
         }));
 

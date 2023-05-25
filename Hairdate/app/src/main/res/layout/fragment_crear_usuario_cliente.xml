@@ -115,7 +115,7 @@
                 android:paddingTop="10dp">
 
                 <EditText
-                    android:id="@+id/edTxt_contrasena_inicio"
+                    android:id="@+id/edTxt_contrasena"
                     android:layout_width="290dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"

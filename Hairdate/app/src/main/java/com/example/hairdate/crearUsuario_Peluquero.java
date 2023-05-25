@@ -182,7 +182,7 @@ public class crearUsuario_Peluquero extends Fragment{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
                                     }
                                 }
                             });
@@ -193,7 +193,7 @@ public class crearUsuario_Peluquero extends Fragment{
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
                             }
                         }
                     });
