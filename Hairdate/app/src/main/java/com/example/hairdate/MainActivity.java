@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            fragment = new principal();
+            fragment = new tipo_cuenta();
         }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                     fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
                                     fragmentTransaction.commit();
                                 } else {
-                                    fragment[0] = new principal();
+                                    fragment[0] = new tipo_cuenta();
                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                     fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
                                     fragmentTransaction.commit();
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            fragment[0] = new principal();
+            fragment[0] = new tipo_cuenta();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment[0]);
             fragmentTransaction.commitAllowingStateLoss();
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                             //fragmentTransaction.commitAllowingStateLoss();
                         } else {
                             // No se encontró el usuario
-                            fragmentTransaction.replace(R.id.fragmentContainerView, new principal());
+                            fragmentTransaction.replace(R.id.fragmentContainerView, new tipo_cuenta());
                             fragmentTransaction.commitAllowingStateLoss();
                         }
                     });
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             // El usuario no ha iniciado sesión
-            fragmentTransaction.replace(R.id.fragmentContainerView, new principal());
+            fragmentTransaction.replace(R.id.fragmentContainerView, new tipo_cuenta());
             fragmentTransaction.commitAllowingStateLoss();
         }*/
     }

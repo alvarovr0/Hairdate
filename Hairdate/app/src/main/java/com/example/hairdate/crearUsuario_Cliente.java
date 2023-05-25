@@ -193,7 +193,7 @@ public class crearUsuario_Cliente extends Fragment{
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion_Cliente);
+                                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion);
                                                 }
                                             }
                                         });

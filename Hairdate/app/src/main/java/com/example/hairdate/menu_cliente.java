@@ -115,7 +115,7 @@ public class menu_cliente extends Fragment {
         btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_inicioSesion_Cliente);
+                Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_inicioSesion);
             }
         }));
 
