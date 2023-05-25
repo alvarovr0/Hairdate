@@ -176,8 +176,8 @@ public class crearUsuario_Peluquero extends Fragment{
 
                 if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
                     // Verificar si el correo ya existe en la base de datos
-                    DatabaseReference usuariosRef = FirebaseDatabase.getInstance().getReference("usuarios");
-                    Query emailQuery = usuariosRef.orderByChild("email").equalTo(emailvalidator);
+                    DatabaseReference peluquerosRef = FirebaseDatabase.getInstance().getReference("Peluquero");
+                    Query emailQuery = peluquerosRef.orderByChild("email").equalTo(emailvalidator);
                     emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
