@@ -217,7 +217,7 @@ public class crearUsuario_Peluquero extends Fragment{
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                                            Toast.makeText(getContext(), "Se creo la cuenta con exito", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
