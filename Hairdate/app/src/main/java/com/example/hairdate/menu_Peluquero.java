@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentKt;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.util.Log;
@@ -27,6 +29,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hairdate.adapter.CitasAdapter;
+import com.example.hairdate.model.Citas;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,6 +79,10 @@ public class menu_Peluquero extends Fragment{
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
 
+    RecyclerView mRecycler;
+    CitasAdapter mAdapter;
+    FirebaseFirestore mFirestore;
+
 
     public menu_Peluquero() {
         // Required empty public constructor
@@ -102,8 +111,6 @@ public class menu_Peluquero extends Fragment{
         super.onCreate(savedInstanceState);
 
 
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -123,6 +130,17 @@ public class menu_Peluquero extends Fragment{
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mRecycler = view.findViewById(R.id.rvw_PeluqueroCitas);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Query query = mFirestore.collection("Citas");
+
+        FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
+
+        mAdapter = new CitasAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdapter);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
@@ -187,4 +205,15 @@ public class menu_Peluquero extends Fragment{
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+    }
 }

@@ -53,10 +53,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lista_citas"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvw_PeluqueroCitas"
                 android:layout_width="match_parent"
-                android:layout_height="241dp" />
+                android:layout_height="265dp" />
 
             <Button
                 android:id="@+id/btn_comprobarStock"
