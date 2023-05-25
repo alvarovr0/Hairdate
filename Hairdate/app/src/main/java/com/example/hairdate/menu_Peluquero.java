@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -141,6 +142,24 @@ public class menu_Peluquero extends Fragment{
         mAdapter = new CitasAdapter(firestoreRecyclerOptions);
         mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
+
+        mAdapter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                // Te permite cancelar citas dando click en ellas
+                String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
+
+                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) menu_Peluquero.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"Horario: " + horarioCita).setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                    public final void onClick(DialogInterface dialogo, int id) {
+                        Toast.makeText(view.getContext(), "Cancelada cita: " + horarioCita, Toast.LENGTH_LONG).show();
+                    }
+                })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
+                android.app.AlertDialog alerta = constructorDialogo.create();
+                alerta.setTitle((CharSequence)"¿Quieres cancelar esta cita?");
+                alerta.show();
+            }
+        });
 
         storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
