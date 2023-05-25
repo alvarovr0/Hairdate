@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="¿Qué temas no te gustaría que se hablaran?"
+                android:text="¿Qué temas te gustarían que se hablasen?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <LinearLayout
@@ -56,7 +56,7 @@
                     android:text="Política" />
 
                 <CheckBox
-                    android:id="@+id/checkboFut"
+                    android:id="@+id/checkboxFut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -197,6 +197,14 @@
                     android:background="@drawable/rectangle"
                     android:hint="Inserte género" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_fecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
         <Button

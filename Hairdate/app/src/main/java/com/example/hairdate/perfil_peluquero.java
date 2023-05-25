@@ -2,18 +2,22 @@ package com.example.hairdate;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_perfil_peluquero#newInstance} factory method to
+ * Use the {@link perfil_peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_perfil_peluquero extends Fragment {
+public class perfil_peluquero extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,8 +27,9 @@ public class fragment_perfil_peluquero extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Button pedirCita;
 
-    public fragment_perfil_peluquero() {
+    public perfil_peluquero() {
         // Required empty public constructor
     }
 
@@ -37,8 +42,8 @@ public class fragment_perfil_peluquero extends Fragment {
      * @return A new instance of fragment fragment_perfil_peluquero.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_perfil_peluquero newInstance(String param1, String param2) {
-        fragment_perfil_peluquero fragment = new fragment_perfil_peluquero();
+    public static perfil_peluquero newInstance(String param1, String param2) {
+        perfil_peluquero fragment = new perfil_peluquero();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,5 +65,17 @@ public class fragment_perfil_peluquero extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_perfil_peluquero, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        pedirCita = (Button) view.findViewById(R.id.pedirCita);
+
+        pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(view).navigate(R.id.action_fragment_perfil_peluquero_to_solicitar_cita);
+            }}));
     }
 }

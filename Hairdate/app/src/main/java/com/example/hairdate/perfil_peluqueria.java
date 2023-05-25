@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_perfil_peluqueria#newInstance} factory method to
+ * Use the {@link perfil_peluqueria#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_perfil_peluqueria extends Fragment {
+public class perfil_peluqueria extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class fragment_perfil_peluqueria extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fragment_perfil_peluqueria() {
+    public perfil_peluqueria() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class fragment_perfil_peluqueria extends Fragment {
      * @return A new instance of fragment fragment_perfil_peluqueria.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_perfil_peluqueria newInstance(String param1, String param2) {
-        fragment_perfil_peluqueria fragment = new fragment_perfil_peluqueria();
+    public static perfil_peluqueria newInstance(String param1, String param2) {
+        perfil_peluqueria fragment = new perfil_peluqueria();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

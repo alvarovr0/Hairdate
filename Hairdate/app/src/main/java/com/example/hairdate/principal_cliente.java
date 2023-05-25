@@ -45,6 +45,7 @@ public class principal_cliente extends Fragment {
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+    private Button btn_prueba;
     private String emailActual;
     private String nombreUsuario;
     ImageView profileImage;
@@ -91,6 +92,7 @@ public class principal_cliente extends Fragment {
         usuario = view.findViewById(R.id.txt_nombreCliente);
         profileImage = view.findViewById(R.id.img_imagenPerfil);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_prueba = view.findViewById(R.id.btn_fav_1);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
@@ -118,6 +120,12 @@ public class principal_cliente extends Fragment {
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(getView()).navigate(R.id.action_menu_cliente_to_activity_profile);
+            }
+        }));
+
+        btn_prueba.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(getView()).navigate(R.id.action_menu_cliente_to_fragment_perfil_peluquero);
             }
         }));
 
