@@ -88,44 +88,30 @@ public class principal_cliente extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        usuario = view.findViewById(R.id.txt_nombreCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfil);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
-                String result = bundle.getString("bundleKey");
-                emailActual = bundle.getString("email");
-                Query query = db.collection("Peluquero").whereEqualTo("UID", result);
-                query.get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                // Iterar a través de los documentos
-                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                    // Obtener el valor en concreto que necesitas
-                                    nombreUsuario = document.getString("nombre");
-                                    usuario.setText(emailActual);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("email", emailActual);
-                                    getParentFragmentManager().setFragmentResult("fragmentVerObjeto", bundle);
 
-                                    StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                                    profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Picasso.get().load(uri).into(profileImage);
-                                        }
-                                    });
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("MyApp", "Error al obtener los documentos: ", e);
-                            }
-                        });
+        storageReference = FirebaseStorage.getInstance().getReference();
+        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                emailActual = result.getString("email");
+
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                getParentFragmentManager().setFragmentResult("fragmentVerObjeto", bundle);
+
+                usuario.setText(emailActual);
+
+                // Muestra la imagen de perfil si ya existe
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
             }
         });
 

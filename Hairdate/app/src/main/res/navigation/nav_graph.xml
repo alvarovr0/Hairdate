@@ -129,5 +129,25 @@
         <action
             android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
+        <action
+            android:id="@+id/action_menu_cliente_to_fragment_perfil_peluqueria"
+            app:destination="@id/fragment_perfil_peluqueria" />
+        <action
+            android:id="@+id/action_menu_cliente_to_fragment_perfil_peluquero"
+            app:destination="@id/fragment_perfil_peluquero" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_perfil_peluqueria"
+        android:name="com.example.hairdate.fragment_perfil_peluqueria"
+        android:label="fragment_perfil_peluqueria"
+        tools:layout="@layout/fragment_perfil_peluqueria" >
+        <action
+            android:id="@+id/action_fragment_perfil_peluqueria_to_fragment_perfil_peluquero"
+            app:destination="@id/fragment_perfil_peluquero" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_perfil_peluquero"
+        android:name="com.example.hairdate.fragment_perfil_peluquero"
+        android:label="fragment_perfil_peluquero"
+        tools:layout="@layout/fragment_perfil_peluquero" />
 </navigation>
