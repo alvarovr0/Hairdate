@@ -58,11 +58,8 @@
             android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
             app:destination="@id/crearUsuario_Cliente" />
         <action
-            android:id="@+id/action_inicioSesion_Cliente_to_principal_cliente"
-            app:destination="@id/principal_cliente" />
-        <action
-            android:id="@+id/action_inicioSesion_Cliente_to_principal_cliente_2"
-            app:destination="@id/principal_cliente_2" />
+            android:id="@+id/action_inicioSesion_Cliente_to_principal_cliente2"
+            app:destination="@id/principal_cliente2" />
     </fragment>
     <fragment
         android:id="@+id/menu_Peluquero"
@@ -119,15 +116,8 @@
             app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
-        android:id="@+id/principal_cliente_2"
+        android:id="@+id/principal_cliente2"
         android:name="com.example.hairdate.principal_cliente"
         android:label="fragment_principal_cliente"
-        tools:layout="@layout/fragment_principal_cliente" >
-        <action
-            android:id="@+id/action_principal_cliente_to_activity_profile"
-            app:destination="@id/activity_profile" />
-        <action
-            android:id="@+id/action_principal_cliente_2_to_preferenciaCitasCliente"
-            app:destination="@id/preferenciaCitasCliente" />
-    </fragment>
+        tools:layout="@layout/fragment_principal_cliente" />
 </navigation>

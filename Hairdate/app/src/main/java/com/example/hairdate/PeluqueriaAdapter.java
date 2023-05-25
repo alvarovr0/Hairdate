@@ -7,62 +7,52 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.ArrayList;
+public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, PeluqueriaAdapter.ViewHolder> {
 
-public class PeluqueriaAdapter extends RecyclerView.Adapter<PeluqueriaAdapter.PeluqueriaViewHolder> {
+    /**
+     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+     * {@link FirestoreRecyclerOptions} for configuration options.
+     *
+     * @param options
+     */
+    public PeluqueriaAdapter(@NonNull FirestoreRecyclerOptions<Peluqueria> options) {
+        super(options);
 
-    private ArrayList<Peluqueria> peluquerias;
-
-    public PeluqueriaAdapter(ArrayList<Peluqueria> peluquerias) {
-        this.peluquerias = peluquerias;
     }
 
-    public void setPeluquerias(ArrayList<Peluqueria> peluquerias) {
-        this.peluquerias = peluquerias;
-        notifyDataSetChanged();
+    @Override
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Peluqueria model) {
+        holder.horario.setText(model.getHorario());
+        holder.direccion.setText(model.getDireccion());
+        holder.numeroTelefono.setText(model.getNumeroTelefono());
+        holder.nombre.setText(model.getNombre());
     }
 
     @NonNull
     @Override
-    public PeluqueriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_peluqueria, parent, false);
-        return new PeluqueriaViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_peluqueria, parent, false);
+        return new ViewHolder(v);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull PeluqueriaViewHolder holder, int position) {
-        Peluqueria peluqueria = peluquerias.get(position);
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        holder.txtNombre.setText(peluqueria.getNombre());
-        holder.txtDireccion.setText(peluqueria.getDireccion());
-        holder.txtHorario.setText(peluqueria.getHorario());
-        // mostrar otros atributos de la peluquería en los TextView correspondientes
-    }
+        TextView horario;
+        TextView direccion;
+        TextView numeroTelefono;
+        TextView nombre;
 
-    @Override
-    public int getItemCount() {
-        return peluquerias.size();
-    }
-
-    public void addPeluqueria(Peluqueria peluqueria) {
-        peluquerias.add(peluqueria);
-        notifyItemInserted(peluquerias.size() - 1);
-    }
-
-
-    public class PeluqueriaViewHolder extends RecyclerView.ViewHolder {
-        TextView txtNombre;
-        TextView txtDireccion;
-        TextView txtHorario;
-
-        public PeluqueriaViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtNombre = itemView.findViewById(R.id.txtNombre);
-            txtDireccion = itemView.findViewById(R.id.txtDireccion);
-            txtHorario = itemView.findViewById(R.id.txtHorario);
+            horario = itemView.findViewById(R.id.txtHorario);
+            direccion = itemView.findViewById(R.id.txtDireccion);
+            numeroTelefono = itemView.findViewById(R.id.txtNumTlf);
+            nombre = itemView.findViewById(R.id.txtNombre);
+
         }
     }
-
 }

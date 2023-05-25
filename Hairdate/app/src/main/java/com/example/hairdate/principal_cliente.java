@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -58,32 +60,31 @@ public class principal_cliente extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        peluquerias = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
-        Query peluqueriasQuery = db.collection("Peluqueria");
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Query query = db.collection("Peluqueria");
 
-        peluqueriasQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot querySnapshot) {
-                peluquerias = new ArrayList<>();
+        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
 
-                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                    Peluqueria peluqueria = documentSnapshot.toObject(Peluqueria.class);
-                    peluquerias.add(peluqueria);
-                }
-
-                adapter = new PeluqueriaAdapter(peluquerias);
-                recyclerView.setAdapter(adapter);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("MyApp", "Error al obtener los documentos: ", e);
-            }
-        });
+        adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
