@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".menu_cliente"
-    android:background="@color/fondo">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,30 +48,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Peluquerias favoritas"/>
+                android:text="Peluquerias favoritas"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
                 <Button
+                    android:id="@+id/btn_fav_1"
                     android:layout_width="300px"
-                    android:layout_height="300px"
-                    android:id="@+id/btn_fav_1"/>
+                    android:layout_height="300px" />
 
                 <Button
-                    android:layout_marginLeft="20px"
+                    android:id="@+id/btn_fav_2"
                     android:layout_width="300px"
                     android:layout_height="300px"
-                    android:id="@+id/btn_fav_2"/>
-
+                    android:layout_marginLeft="20px" />
 
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
                 <Button
 
                     android:layout_width="300px"
