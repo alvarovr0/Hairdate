@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="¿Qué temas no te gustaría que se hablaran?"
+                android:text="¿Qué temas te gustaría que se hablasen?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <LinearLayout
