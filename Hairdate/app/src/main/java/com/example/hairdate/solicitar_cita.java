@@ -1,34 +1,34 @@
 package com.example.hairdate;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.*;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.timessquare.CalendarPickerView;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Locale;
 
 public class solicitar_cita extends Fragment {
 
@@ -36,8 +36,10 @@ public class solicitar_cita extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Button btnSeleccionarHora;
-    private CalendarPickerView calendarPickerView;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private Button btnSelectDateTime;
+    private FirebaseFirestore db;
 
 
     // TODO: Rename and change types of parameters
@@ -82,45 +84,119 @@ public class solicitar_cita extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_solicitar_cita, container, false);
 
-        btnSeleccionarHora = view.findViewById(R.id.btnSeleccionarHora);
-        calendarPickerView = view.findViewById(R.id.calendarPickerView);
-        Date today = new Date();
-        Calendar minDate = Calendar.getInstance();
-        minDate.setTime(today);
-        Calendar maxDate = Calendar.getInstance();
-        maxDate.setTime(today);
-        maxDate.add(Calendar.YEAR, 1);
+        // Inicializar las vistas
+        datePicker = view.findViewById(R.id.datePicker);
+        timePicker = view.findViewById(R.id.timePicker);
+        btnSelectDateTime = view.findViewById(R.id.btnSelectDateTime);
 
-        // Inicializar el calendario con las fechas mínima y máxima
-        calendarPickerView.init(minDate.getTime(), maxDate.getTime())
-                .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                .withSelectedDate(today);
+        // Obtener referencia a la base de datos de Firebase
+        db = FirebaseFirestore.getInstance();
 
-        // Obtener la fecha seleccionada
-        calendarPickerView.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
+        // Configurar límites para la selección de la fecha y hora
+        // Configurar límites para la selección de la fecha y hora
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(currentYear, currentMonth, currentDay, 9, 0);
+        long minDateTime = calendar.getTimeInMillis();
+        calendar.set(2023, Calendar.DECEMBER, 31, 20, 0); // Establecer la fecha máxima como el 31/12/2023
+        long maxDateTime = calendar.getTimeInMillis();
+        datePicker.setMinDate(System.currentTimeMillis()); // Establecer la fecha mínima como hoy
+        datePicker.setMaxDate(maxDateTime);
+
+        // Configurar el intervalo de tiempo para el TimePicker
+        timePicker.setIs24HourView(true);
+        timePicker.setMinute(0);
+        timePicker.setHour(9);
+        timePicker.setDescendantFocusability(TimePicker.FOCUS_BLOCK_DESCENDANTS);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
-            public void onDateSelected(Date date) {
-                // Crear un formato de fecha
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-                // Obtener la fecha seleccionada en formato de cadena
-                String fechaSeleccionada = dateFormat.format(date);
-
-                // Crear un Bundle para pasar los datos al otro fragment
-                Bundle result = new Bundle();
-                result.putString("fecha", fechaSeleccionada);
-                getParentFragmentManager().setFragmentResult("requestKey", result);
-
-                // Navegar al fragmento de Hora y pasar los datos a través del Bundle
-                Navigation.findNavController(view).navigate(R.id.action_solicitar_cita_to_horario);
-            }
-
-            @Override
-            public void onDateUnselected(Date date) {
-                // No se necesita implementar en este caso
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                if (minute % 30 != 0) {
+                    // Mostrar Toast si la hora seleccionada no está en intervalos de 30 minutos
+                    showToast("Debes seleccionar una hora en intervalos de 30 minutos");
+                }
             }
         });
+
+        datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // Actualizar la fecha seleccionada
+                calendar.set(year, monthOfYear, dayOfMonth);
+
+                // Obtener la fecha seleccionada en el formato deseado
+                String selectedDateString = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
+
+                // Resto del código para manejar la fecha seleccionada...
+                // Por ejemplo, puedes mostrarla en un Toast
+                showToast("Fecha seleccionada: " + selectedDateString);
+
+                // Crear el Bundle y establecer el FragmentResult
+                Bundle result = new Bundle();
+                result.putString("selectedDate", selectedDateString);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
+            }
+        });
+
+        btnSelectDateTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedYear = datePicker.getYear();
+                int selectedMonth = datePicker.getMonth();
+                int selectedDay = datePicker.getDayOfMonth();
+                int selectedHour = timePicker.getHour();
+                int selectedMinute = timePicker.getMinute();
+
+                // Validar si la hora seleccionada está dentro de la franja horaria permitida
+                if (selectedHour < 9 || selectedHour > 20) {
+                    showToast("Debes seleccionar una hora entre las 09:00 y las 20:00");
+                    return;
+                }
+
+                if (selectedMinute % 30 != 0) {
+                    showToast("Debes seleccionar una hora en intervalos de 30 minutos");
+                    return;
+                }
+
+                calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
+                String selectedDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(calendar.getTime());
+
+                Bundle result = new Bundle();
+                result.putString("selectedDateTime", selectedDateTimeString);
+
+                // Verificar si la fecha y hora están en la base de datos de Firebase
+                Query queryPrueba = db.collection("Citas").whereEqualTo("Fecha_Hora", selectedDateTimeString);
+                queryPrueba.get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                if (querySnapshot.isEmpty()) {
+                                    // No se encontraron documentos con la fecha y hora especificadas
+                                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                                    Navigation.findNavController(getView()).navigate(R.id.action_solicitar_cita_to_preferenciaCitasCliente);
+                                } else {
+                                    // Se encontró al menos un documento con la fecha y hora especificadas
+                                    showToast("En esta fecha y hora ya hay una cita programada");
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("MyApp", "Error al obtener los documentos: ", e);
+                            }
+                        });
+            }
+        });
+
+
         return view;
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }
