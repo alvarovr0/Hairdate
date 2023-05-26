@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/txtHorario"
-            android:layout_width="351dp"
+            android:layout_width="359dp"
             android:layout_height="21dp"
             android:layout_marginStart="12dp"
             android:gravity="center"
@@ -44,14 +44,14 @@
 
         <TextView
             android:id="@+id/txtNumTlf"
-            android:layout_width="351dp"
-            android:layout_height="21dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="348dp"
+            android:layout_height="19dp"
             android:gravity="center"
             android:text="Tlf: - "
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.357"
@@ -69,7 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.809"
+            app:layout_constraintVertical_bias="0.857"
             tools:ignore="MissingConstraints" />
 
         <!--<ImageView

@@ -110,8 +110,8 @@ public class inicioSesion extends Fragment {
         this.ojoAbierto = false;
         this.crear = (TextView) view.findViewById(R.id.txt_crear2_inicio);
         btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
-        peluqueroEmail = (EditText) view.findViewById(R.id.edTxt_usuario_inicio);
-        peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
+        Email = (EditText) view.findViewById(R.id.edTxt_usuario);
+        Pass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) inicioSesion.this.requireActivity());
@@ -127,10 +127,10 @@ public class inicioSesion extends Fragment {
         }));
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                startSignIn(peluqueroEmail.getText().toString(), peluqueroPass.getText().toString());
+                startSignIn(Email.getText().toString(), Pass.getText().toString());
                 /*Bundle nos permitirá enviar datos de un fragment almacenandolo*/
                 Bundle result = new Bundle();
-                result.putString("bundleKey",peluqueroEmail.getText().toString());
+                result.putString("bundleKey",Email.getText().toString());
                 getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         }));
@@ -241,7 +241,5 @@ public class inicioSesion extends Fragment {
     private void updateUI(FirebaseUser user) {
 
     }
-
-
 
 }

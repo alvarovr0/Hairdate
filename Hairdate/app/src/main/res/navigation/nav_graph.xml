@@ -15,7 +15,7 @@
             app:destination="@id/menu_Peluquero" />
         <action
             android:id="@+id/action_inicioSesion_to_menu_cliente"
-            app:destination="@id/menu_cliente" />
+            app:destination="@id/principal_cliente" />
         <action
             android:id="@+id/action_inicioSesion_to_tipo_cuenta"
             app:destination="@id/tipo_cuenta" />
@@ -108,10 +108,9 @@
             app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
-        android:id="@+id/menu_cliente"
-        android:name="com.example.hairdate.menu_cliente"
-        android:label="fragment_menu_cliente"
-        tools:layout="@layout/fragment_menu_cliente" >
+        android:id="@+id/principal_cliente"
+        android:name="com.example.hairdate.principal_cliente"
+        android:label="fragment_menu_cliente">
         <action
             android:id="@+id/action_menu_cliente_to_preferenciaCitasCliente"
             app:destination="@id/preferenciaCitasCliente" />
