@@ -1,6 +1,9 @@
 package com.example.hairdate;
 
-public class Peluqueria {
+//Importamos la lib serializable para que sea más facil pasar los datos de una clase a otra
+import java.io.Serializable;
+
+public class Peluqueria implements Serializable {
     private String direccion;
     private String horario;
     private String numeroTelefono;

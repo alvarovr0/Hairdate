@@ -6,9 +6,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
 
 public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, PeluqueriaAdapter.ViewHolder> {
 
@@ -18,6 +20,7 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
      *
      * @param options
      */
+
     public PeluqueriaAdapter(@NonNull FirestoreRecyclerOptions<Peluqueria> options) {
         super(options);
 
@@ -29,6 +32,14 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
         holder.direccion.setText(model.getDireccion());
         holder.numeroTelefono.setText(model.getNumeroTelefono());
         holder.nombre.setText(model.getNombre());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_principal_cliente_to_perfil_peluqueria);
+
+            }
+        });
     }
 
     @NonNull
@@ -37,6 +48,7 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_peluqueria, parent, false);
         return new ViewHolder(v);
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

@@ -74,18 +74,18 @@ public class perfil_peluqueria extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_perfil_peluqueria, container, false);
 
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+        db = FirebaseFirestore.getInstance();
+        getParentFragmentManager().setFragmentResultListener("requestKey", getActivity(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
                 Query query = db.collection("Peluqueria").whereEqualTo(FieldPath.documentId(), result);
                 query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
+                            @Override
                             public void onSuccess(QuerySnapshot querySnapshot) {
                                 // Iterar a través de los documentos
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-
                                     TextView direccion = (TextView) rootView.findViewById(R.id.txtDireccion);
                                     TextView horario = (TextView) rootView.findViewById(R.id.txtHorario);
                                     TextView numeroTelefono = (TextView) rootView.findViewById(R.id.txtNumTlf);
@@ -106,6 +106,7 @@ public class perfil_peluqueria extends Fragment {
                         });
             }
         });
+
         // Inflate the layout for this fragment
         return rootView;
     }

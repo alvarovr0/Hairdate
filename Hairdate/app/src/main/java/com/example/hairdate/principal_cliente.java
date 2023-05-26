@@ -75,6 +75,7 @@ public class principal_cliente extends Fragment {
 
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
+        adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
         return rootView;
