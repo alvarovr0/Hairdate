@@ -17,42 +17,52 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView_"
+                android:id="@+id/imagePeluqueria"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="276dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
                 android:paddingBottom="10dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/peluqueria" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtNombre"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingBottom="10dp"
                 android:text="Nombre de la Peluquería"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtDireccion"
                 android:layout_width="match_parent"
-                android:layout_height="355dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Dirección de la Peluquería" />
 
             <TextView
-                android:id="@+id/txtHorario"
-                android:layout_width="wrap_content"
+                android:id="@+id/txtNumTlf"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Horario de la Peluquería" />
+                android:gravity="center"
+                android:text="Telefono" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:onClick="principal_cliente"
-                android:text="volver" />
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Horario de la Peluquería" />
 
         </LinearLayout>
 
@@ -65,7 +75,15 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/favorito_no"/>
+            android:src="@drawable/favorito_no" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:text="Pedir Cita" />
 
     </RelativeLayout>
 </FrameLayout>
