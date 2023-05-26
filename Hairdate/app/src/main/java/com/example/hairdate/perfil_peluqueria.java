@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,9 +85,16 @@ public class perfil_peluqueria extends Fragment {
                             public void onSuccess(QuerySnapshot querySnapshot) {
                                 // Iterar a través de los documentos
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                    // Obtener el valor en concreto que necesitas
-                                    String direccion = document.getString("direccion");
-                                    //usuario.setText(nombreUsuario);
+
+                                    TextView direccion = (TextView) rootView.findViewById(R.id.txtDireccion);
+                                    TextView horario = (TextView) rootView.findViewById(R.id.txtHorario);
+                                    TextView numeroTelefono = (TextView) rootView.findViewById(R.id.txtNumTlf);
+                                    TextView nombre = (TextView) rootView.findViewById(R.id.txtNombre);
+
+                                    direccion.setText(document.getString("direccion"));
+                                    horario.setText(document.getString("horario"));
+                                    numeroTelefono.setText(document.getString("numeroTelefono"));
+                                    nombre.setText(document.getString("nombre"));
                                 }
                             }
                         })

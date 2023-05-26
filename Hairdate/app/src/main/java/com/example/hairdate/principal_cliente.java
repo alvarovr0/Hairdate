@@ -81,6 +81,7 @@ public class principal_cliente extends Fragment {
     }
 
 
+
     public void onItemClick(Peluqueria peluqueria) {
         // Aquí rediriges a otro fragmento o realizas la acción que desees
         Toast.makeText(getActivity(), "Se te va a redirigir a la peluería: " + peluqueria.getNombre(), Toast.LENGTH_SHORT).show();
