@@ -17,11 +17,16 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +51,8 @@ public class perfil_peluqueria extends Fragment {
     private TextView nombreTextView;
     private ImageButton btn_fav;
     private boolean fav_marc;
+    private String peluqueriaId;
+    private String userId;
 
     public perfil_peluqueria() {
         // Required empty public constructor
@@ -103,19 +110,23 @@ public class perfil_peluqueria extends Fragment {
             horarioTextView.setText(horario);
             numeroTelefonoTextView.setText(numeroTelefono);
             nombreTextView.setText(nombre);
-        }
+            verificarFavorito();
 
+        }
+        //Aquí se añade la función del cambio de estado del botón de favoritos
         this.btn_fav = (ImageButton) rootView.findViewById(R.id.imagen_fav);
-        this.btn_fav.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        this.btn_fav.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
                 if (fav_marc) {
                     btn_fav.setImageResource(R.drawable.favorito_no);
                     Toast.makeText(getActivity(), "Peluquería eliminada de favoritos", Toast.LENGTH_SHORT).show();
+                    eliminarDeFavoritos();
                     fav_marc = false;
-                    // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
+                    // Si el corazón está sin marcar, lo cambia a rojo y se empieza añade a favoritos
                 } else {
                     btn_fav.setImageResource(R.drawable.favorito_si);
+                    favoritos();
                     Toast.makeText(getActivity(), "Peluquería añadida a favoritos", Toast.LENGTH_SHORT).show();
                     fav_marc = true;
                 }
@@ -123,5 +134,161 @@ public class perfil_peluqueria extends Fragment {
         }));
         return rootView;
     }
+
+    public void favoritos() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String direccionPeluqueria = direccionTextView.getText().toString();
+
+            // Realiza la consulta para obtener la peluquería con la dirección dada
+            db.collection("Peluqueria")
+                    .whereEqualTo("direccion", direccionPeluqueria)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // Obtiene el primer documento de la consulta
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                String peluqueriaId = documentSnapshot.getId();
+
+                                // Crea un mapa con los datos de la peluquería favorita
+                                Map<String, Object> favorito = new HashMap<>();
+                                favorito.put("direccion", direccionPeluqueria);
+                                favorito.put("UID", userId);
+
+                                // Guarda los datos en la colección "Favoritos" con el ID del usuario y el ID de la peluquería como nombre del documento
+                                db.collection("Favoritos")
+                                        .document(userId)
+                                        .collection("Peluquerias")
+                                        .document(peluqueriaId)
+                                        .set(favorito)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // La peluquería se guardó como favorita exitosamente
+                                                Toast.makeText(getActivity(), "Peluquería añadida a favoritos", Toast.LENGTH_SHORT).show();
+                                                verificarFavorito();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Ocurrió un error al guardar la peluquería como favorita
+                                                Toast.makeText(getActivity(), "Error al añadir la peluquería a favoritos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(getActivity(), "ERROR: No se encontró ninguna peluquería con esa dirección", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "ERROR: Ocurrió un error al obtener la ID de la peluquería", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private void verificarFavorito() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String direccionPeluqueria = direccionTextView.getText().toString();
+
+            db.collection("Favoritos")
+                    .document(userId)
+                    .collection("Peluquerias")
+                    .whereEqualTo("direccion", direccionPeluqueria)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            boolean esFavorito = !queryDocumentSnapshots.isEmpty();
+                            actualizarEstadoFavorito(esFavorito);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "ERROR: Ocurrió un error al verificar el estado de favorito", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private void actualizarEstadoFavorito(boolean esFavorito) {
+        fav_marc = esFavorito;
+        if (esFavorito) {
+            btn_fav.setImageResource(R.drawable.favorito_si);
+        } else {
+            btn_fav.setImageResource(R.drawable.favorito_no);
+        }
+    }
+
+
+    private void eliminarDeFavoritos() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String direccionPeluqueria = direccionTextView.getText().toString();
+
+            db.collection("Favoritos")
+                    .document(userId)
+                    .collection("Peluquerias")
+                    .whereEqualTo("direccion", direccionPeluqueria)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // Obtiene el primer documento de la consulta
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                String peluqueriaId = documentSnapshot.getId();
+
+                                // Elimina el documento de la colección "Peluquerias"
+                                db.collection("Favoritos")
+                                        .document(userId)
+                                        .collection("Peluquerias")
+                                        .document(peluqueriaId)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // La peluquería se eliminó de favoritos exitosamente
+                                                Toast.makeText(getActivity(), "Peluquería eliminada de favoritos", Toast.LENGTH_SHORT).show();
+                                                verificarFavorito();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getActivity(), "ERROR: Ocurrió un error al eliminar la peluquería de favoritos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(getActivity(), "ERROR: La peluquería no está en la lista de favoritos", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "ERROR: Ocurrió un error al obtener la información de favoritos", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
 
 }
