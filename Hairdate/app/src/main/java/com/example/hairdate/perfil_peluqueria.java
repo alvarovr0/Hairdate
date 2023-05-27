@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +44,8 @@ public class perfil_peluqueria extends Fragment {
     private TextView horarioTextView;
     private TextView numeroTelefonoTextView;
     private TextView nombreTextView;
+    private ImageButton btn_fav;
+    private boolean fav_marc;
 
     public perfil_peluqueria() {
         // Required empty public constructor
@@ -99,6 +104,24 @@ public class perfil_peluqueria extends Fragment {
             numeroTelefonoTextView.setText(numeroTelefono);
             nombreTextView.setText(nombre);
         }
+
+        this.btn_fav = (ImageButton) rootView.findViewById(R.id.imagen_fav);
+        this.btn_fav.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
+                if (fav_marc) {
+                    btn_fav.setImageResource(R.drawable.favorito_no);
+                    Toast.makeText(getActivity(), "Peluquería eliminada de favoritos", Toast.LENGTH_SHORT).show();
+                    fav_marc = false;
+                    // Si el ojo está cerrado, lo cambia a abierto y se empieza a ver la contraseña
+                } else {
+                    btn_fav.setImageResource(R.drawable.favorito_si);
+                    Toast.makeText(getActivity(), "Peluquería añadida a favoritos", Toast.LENGTH_SHORT).show();
+                    fav_marc = true;
+                }
+            }
+        }));
         return rootView;
     }
+
 }
