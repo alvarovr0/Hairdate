@@ -132,6 +132,25 @@ public class principal_cliente extends Fragment {
                     Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
                 }
             });
+
+            // Verificar si hay peluquerías favoritas
+            queryFav.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            // No hay peluquerías favoritas, mostrar el TextView correspondiente
+                            mostrarTextoNoFavoritas(true);
+                        } else {
+                            // Hay peluquerías favoritas, ocultar el TextView correspondiente
+                            mostrarTextoNoFavoritas(false);
+                        }
+                    } else {
+                        // Error al obtener las peluquerías favoritas, mostrar un mensaje de error o tomar medidas adecuadas
+                        Toast.makeText(getActivity(), "Error al obtener las peluquerías favoritas", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         return view;
@@ -152,5 +171,14 @@ public class principal_cliente extends Fragment {
         adapterFav.stopListening();
     }
 
+    // Método para mostrar el TextView cuando no hay peluquerías favoritas
+    private void mostrarTextoNoFavoritas(boolean mostrar) {
+        TextView textNoFav = getView().findViewById(R.id.textNoFav);
+        if (mostrar) {
+            textNoFav.setVisibility(View.VISIBLE);
+        } else {
+            textNoFav.setVisibility(View.GONE);
+        }
+    }
 
 }

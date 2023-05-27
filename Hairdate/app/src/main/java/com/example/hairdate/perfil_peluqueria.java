@@ -143,6 +143,9 @@ public class perfil_peluqueria extends Fragment {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             String direccionPeluqueria = direccionTextView.getText().toString();
+            String horarioPeluqueria = horarioTextView.getText().toString();
+            String nombrePeluqueria = nombreTextView.getText().toString();
+            String numeroTelefonoPeluqueria = numeroTelefonoTextView.getText().toString();
 
             // Realiza la consulta para obtener la peluquería con la dirección dada
             db.collection("Peluqueria")
@@ -159,6 +162,9 @@ public class perfil_peluqueria extends Fragment {
                                 // Crea un mapa con los datos de la peluquería favorita
                                 Map<String, Object> favorito = new HashMap<>();
                                 favorito.put("direccion", direccionPeluqueria);
+                                favorito.put("horario", horarioPeluqueria);
+                                favorito.put("nombre", nombrePeluqueria);
+                                favorito.put("numeroTelefono", numeroTelefonoPeluqueria);
                                 favorito.put("UID", userId);
 
                                 // Guarda los datos en la colección "Favoritos" con el ID del usuario y el ID de la peluquería como nombre del documento
