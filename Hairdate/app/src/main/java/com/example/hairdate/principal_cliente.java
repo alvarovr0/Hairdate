@@ -20,6 +20,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -30,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import java.util.List;
 
 
 /**
@@ -45,14 +48,11 @@ public class principal_cliente extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FirebaseStorage firebaseStorage;
-
-    private Peluqueria selectedPeluqueria; // Variable para almacenar la peluquería seleccionada
-
     FirebaseFirestore db;
     RecyclerView recyclerView;
+    RecyclerView recyclerViewFav;
     PeluqueriaAdapter adapter;
-    //private ArrayList<Peluqueria> peluquerias;
+    PeluqueriaAdapter adapterFav;
 
     public principal_cliente() {
         // Required empty public constructor
@@ -70,12 +70,16 @@ public class principal_cliente extends Fragment {
 
     @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewFav.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Consultar todas las peluquerías
         Query query = db.collection("Peluqueria");
 
         FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
@@ -100,18 +104,53 @@ public class principal_cliente extends Fragment {
             }
         });
 
+        // Obtener el UID del usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            // Consultar las peluquerías favoritas del usuario
+            Query queryFav = db.collection("Favoritos").document(uid).collection("Peluquerias");
+            FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(queryFav, Peluqueria.class).build();
+
+            adapterFav = new PeluqueriaAdapter(firestoreRecyclerOptionsFav);
+            adapterFav.notifyDataSetChanged();
+            recyclerViewFav.setAdapter(adapterFav);
+
+            adapterFav.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    int position = recyclerViewFav.getChildAdapterPosition(view);
+                    Peluqueria peluqueria = adapterFav.getItem(position);
+
+                    // Navegar al siguiente fragmento y pasar los datos como argumentos
+                    Bundle args = new Bundle();
+                    args.putString("direccion", peluqueria.getDireccion());
+                    args.putString("horario", peluqueria.getHorario());
+                    args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
+                    args.putString("nombre", peluqueria.getNombre());
+
+                    Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
+                }
+            });
+        }
+
         return view;
     }
-    
+
+
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        adapterFav.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+        adapterFav.stopListening();
     }
+
+
 }
