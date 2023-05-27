@@ -37,6 +37,11 @@ public class perfil_peluqueria extends Fragment {
     private String mParam2;
     private FirebaseFirestore db;
 
+    private TextView direccionTextView;
+    private TextView horarioTextView;
+    private TextView numeroTelefonoTextView;
+    private TextView nombreTextView;
+
     public perfil_peluqueria() {
         // Required empty public constructor
     }
@@ -75,39 +80,25 @@ public class perfil_peluqueria extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_perfil_peluqueria, container, false);
 
         db = FirebaseFirestore.getInstance();
-        getParentFragmentManager().setFragmentResultListener("requestKey", getActivity(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
-                String result = bundle.getString("bundleKey");
-                Query query = db.collection("Peluqueria").whereEqualTo(FieldPath.documentId(), result);
-                query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                // Iterar a través de los documentos
-                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                    TextView direccion = (TextView) rootView.findViewById(R.id.txtDireccion);
-                                    TextView horario = (TextView) rootView.findViewById(R.id.txtHorario);
-                                    TextView numeroTelefono = (TextView) rootView.findViewById(R.id.txtNumTlf);
-                                    TextView nombre = (TextView) rootView.findViewById(R.id.txtNombre);
 
-                                    direccion.setText(document.getString("direccion"));
-                                    horario.setText(document.getString("horario"));
-                                    numeroTelefono.setText(document.getString("numeroTelefono"));
-                                    nombre.setText(document.getString("nombre"));
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("MyApp", "Error al obtener los documentos: ", e);
-                            }
-                        });
-            }
-        });
+        direccionTextView = rootView.findViewById(R.id.txtDireccion);
+        horarioTextView = rootView.findViewById(R.id.txtHorario);
+        numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
+        nombreTextView = rootView.findViewById(R.id.txtNombre);
 
-        // Inflate the layout for this fragment
+        // Obtener los argumentos pasados desde el fragmento anterior
+        if (getArguments() != null) {
+            String direccion = getArguments().getString("direccion");
+            String horario = getArguments().getString("horario");
+            String numeroTelefono = getArguments().getString("numeroTelefono");
+            String nombre = getArguments().getString("nombre");
+
+            // Mostrar los datos en los TextView correspondientes
+            direccionTextView.setText(direccion);
+            horarioTextView.setText(horario);
+            numeroTelefonoTextView.setText(numeroTelefono);
+            nombreTextView.setText(nombre);
+        }
         return rootView;
     }
 }
