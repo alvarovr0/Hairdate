@@ -58,7 +58,8 @@
                 android:text="No hay peluquerías favoritas"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@color/quantum_grey"/>
 
 
         </LinearLayout>
