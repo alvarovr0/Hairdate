@@ -1,22 +1,18 @@
 package com.example.hairdate;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, PeluqueriaAdapter.ViewHolder> implements Serializable {

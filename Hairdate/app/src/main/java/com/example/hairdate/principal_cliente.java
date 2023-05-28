@@ -160,15 +160,16 @@ public class principal_cliente extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
         adapterFav.startListening();
+        adapter.startListening();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
         adapterFav.stopListening();
+        adapter.stopListening();
     }
 
     // Método para mostrar el Texto cuando no hay peluquerías favoritas

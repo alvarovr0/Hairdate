@@ -296,5 +296,4 @@ public class perfil_peluqueria extends Fragment {
         }
     }
 
-
 }
