@@ -171,7 +171,7 @@ public class principal_cliente extends Fragment {
         adapterFav.stopListening();
     }
 
-    // Método para mostrar el TextView cuando no hay peluquerías favoritas
+    // Método para mostrar el Texto cuando no hay peluquerías favoritas
     private void mostrarTextoNoFavoritas(boolean mostrar) {
         TextView textNoFav = getView().findViewById(R.id.textNoFav);
         if (mostrar) {
