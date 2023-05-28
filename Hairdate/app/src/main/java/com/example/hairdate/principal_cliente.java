@@ -74,11 +74,17 @@ public class principal_cliente extends Fragment {
         // Consultar todas las peluquerías
         Query query = db.collection("Peluqueria");
 
-        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
+        /*FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
 
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);*/
+        Button prueba = rootView.findViewById(R.id.btn_prueba);
+        prueba.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                Navigation.findNavController(getView()).navigate(R.id.action_principal_cliente_to_solicitar_cita);
+            }
+        }));
 
         adapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

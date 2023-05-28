@@ -98,7 +98,11 @@
         android:id="@+id/preferenciaCitasCliente"
         android:name="com.example.hairdate.preferenciaCitasCliente"
         android:label="fragment_preferencia_citas_cliente"
-        tools:layout="@layout/fragment_preferencia_citas_cliente" />
+        tools:layout="@layout/fragment_preferencia_citas_cliente" >
+        <action
+            android:id="@+id/action_preferenciaCitasCliente_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_ver_objeto"
         android:name="com.example.hairdate.fragment_ver_objeto"
@@ -112,17 +116,32 @@
         android:name="com.example.hairdate.principal_cliente"
         android:label="fragment_menu_cliente">
         <action
-            android:id="@+id/action_menu_cliente_to_preferenciaCitasCliente"
-            app:destination="@id/preferenciaCitasCliente" />
-        <action
             android:id="@+id/action_menu_cliente_to_activity_profile"
             app:destination="@id/activity_profile" />
         <action
             android:id="@+id/action_menu_cliente_to_inicioSesion"
             app:destination="@id/inicioSesion" />
         <action
-            android:id="@+id/action_principal_cliente_to_perfil_peluqueria"
-            app:destination="@id/perfil_peluqueria" />
+            android:id="@+id/action_principal_cliente_to_solicitar_cita"
+            app:destination="@id/solicitar_cita" />
+    </fragment>
+    <fragment
+        android:id="@+id/tipo_servicio"
+        android:name="com.example.hairdate.tipo_servicio"
+        android:label="fragment_tipo_servicio"
+        tools:layout="@layout/fragment_tipo_servicio" >
+        <action
+            android:id="@+id/action_tipo_servicio_to_preferenciaCitasCliente"
+            app:destination="@id/preferenciaCitasCliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/solicitar_cita"
+        android:name="com.example.hairdate.solicitar_cita"
+        android:label="fragment_solicitar_cita"
+        tools:layout="@layout/fragment_solicitar_cita" >
+        <action
+            android:id="@+id/action_solicitar_cita_to_tipo_servicio"
+            app:destination="@id/tipo_servicio" />
     </fragment>
     <fragment
         android:id="@+id/perfil_peluqueria"

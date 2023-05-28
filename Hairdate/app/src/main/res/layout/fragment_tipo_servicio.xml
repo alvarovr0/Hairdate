@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tipo_servicio"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="200dp">
+
+        <Button
+            android:id="@+id/btn_corte"
+            android:layout_width="150dp"
+            android:layout_height="105dp"
+            android:text="Corte"
+            android:layout_marginRight="20dp"/>
+        <Button
+            android:id="@+id/btn_tinte"
+            android:layout_width="150dp"
+            android:layout_height="105dp"
+            android:text="Tinte" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="200dp">
+
+        <Button
+            android:id="@+id/btn_tinteCorte"
+            android:layout_width="150dp"
+            android:layout_height="105dp"
+            android:text="Tinte + corte"
+            android:layout_marginRight="20dp"/>
+        <Button
+            android:id="@+id/btn_peinado"
+            android:layout_width="150dp"
+            android:layout_height="105dp"
+            android:text="Peinado" />
+    </LinearLayout>
+</FrameLayout>
