@@ -1,5 +1,7 @@
 package com.example.hairdate;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,9 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +59,9 @@ public class perfil_peluqueria extends Fragment {
     private boolean fav_marc;
     private String peluqueriaId;
     private String userId;
+
+    ImageView profileImage;
+    private StorageReference storageReference;
 
     public perfil_peluqueria() {
         // Required empty public constructor
@@ -132,6 +141,7 @@ public class perfil_peluqueria extends Fragment {
                 }
             }
         }));
+        imagenPerfil(rootView);
         return rootView;
     }
 
@@ -294,6 +304,19 @@ public class perfil_peluqueria extends Fragment {
                         }
                     });
         }
+    }
+
+    public void imagenPerfil(View rootView){
+        profileImage = rootView.findViewById(R.id.imagePeluqueria);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Muestra una imagen
+        StorageReference profileRef = storageReference.child(numeroTelefonoTextView.getText().toString() + "_pelu.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        });
     }
 
 }
