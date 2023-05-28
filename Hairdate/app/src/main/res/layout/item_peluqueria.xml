@@ -12,79 +12,65 @@
     app:cardBackgroundColor="@color/aquamarine2"
     app:cardCornerRadius="15dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="105dp"
-        android:layout_gravity="center_horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/txtNombre"
-            android:layout_width="358dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="Nombre:"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+        <ImageView
+            android:id="@+id/imgFoto"
+            android:layout_width="93dp"
+            android:layout_height="97dp"
+            android:background="@drawable/border_background"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/peluqueria" />
 
-        <TextView
-            android:id="@+id/txtHorario"
-            android:layout_width="359dp"
-            android:layout_height="21dp"
-            android:layout_marginStart="12dp"
-            android:gravity="center"
-            android:text="Horario - "
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.607"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/txtNumTlf"
-            android:layout_width="348dp"
-            android:layout_height="19dp"
-            android:gravity="center"
-            android:text="Tlf: - "
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.357"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/txtDireccion"
-            android:layout_width="351dp"
-            android:layout_height="21dp"
-            android:layout_marginStart="12dp"
-            android:gravity="center"
-            android:text="Direccion: - "
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.857"
-            tools:ignore="MissingConstraints" />
-
-        <!--<ImageView
-            android:id="@+id/imv_trashcan"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/trashcan" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical"
+            android:paddingStart="12dp">
+
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Nombre:"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Horario - "
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtNumTlf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Tlf: - "
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Direccion: - "
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -49,7 +49,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFav"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="215dp"
+                android:clickable="true"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/textNoFav"
@@ -58,8 +60,8 @@
                 android:text="No hay peluquerías favoritas"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center"
-                android:paddingTop="50dp"
-                android:paddingBottom="50dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:visibility="gone"
                 android:textColor="@color/quantum_grey"/>
 
@@ -81,10 +83,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="398dp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 

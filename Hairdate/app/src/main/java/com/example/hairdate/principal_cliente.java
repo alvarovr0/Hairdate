@@ -18,21 +18,13 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import android.content.Context;
-import android.content.DialogInterface;
-
-import java.util.List;
 
 
 /**
@@ -156,7 +148,6 @@ public class principal_cliente extends Fragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -177,8 +168,10 @@ public class principal_cliente extends Fragment {
         TextView textNoFav = getView().findViewById(R.id.textNoFav);
         if (mostrar) {
             textNoFav.setVisibility(View.VISIBLE);
+            recyclerViewFav.setVisibility(View.GONE);
         } else {
             textNoFav.setVisibility(View.GONE);
+            recyclerViewFav.setVisibility(View.VISIBLE);
         }
     }
 
