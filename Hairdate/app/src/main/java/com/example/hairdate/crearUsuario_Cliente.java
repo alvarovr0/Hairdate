@@ -31,10 +31,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -161,65 +162,57 @@ public class crearUsuario_Cliente extends Fragment{
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailvalidator = email.getText().toString();
+                String emailValidator = email.getText().toString();
                 String password = contrasena.getText().toString();
-
-                if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
-                    // Verificar si el correo ya existe en la base de datos
-                    DatabaseReference peluquerosRef = FirebaseDatabase.getInstance().getReference("Cliente");
-                    Query emailQuery = peluquerosRef.orderByChild("email").equalTo(emailvalidator);
-                    emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                if (!emailValidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailValidator).matches() && password.length() >= 6) {
+                    // Verificar si el correo ya existe en la colección "Cliente"
+                    Query query = db.collection("Cliente").whereEqualTo("email", emailValidator);
+                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                // El correo ya existe en la base de datos
-                                Toast.makeText(view.getContext(), "Ya existe una cuenta con este correo", Toast.LENGTH_LONG).show();
-                            } else {
-                                // El correo no existe en la base de datos, continuar con el registro
-                                createAccount(emailvalidator, contrasena.getText().toString());
-                                Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
-                                // Create a new user with a first and last name
-                                Map<String, Object> user = new HashMap<>();
-                                user.put("nombre", nombre.getText().toString());
-                                user.put("usuario", usuario.getText().toString());
-                                user.put("email", emailvalidator);
-
-
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        user.put("UID", uid);
-                                        referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion);
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().size() > 0) {
+                                    // El correo ya existe en la base de datos
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                    builder.setTitle("Correo en uso")
+                                            .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
+                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
                                                 }
-                                            }
-                                        });
-                                    }
-                                }, 3000);
-
-                                // Agregar un nuevo documento con un ID generado
-                                referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(getContext(), "Se creo la cuenta con exito", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .show();
+                                } else {
+                                    // El correo no existe en la base de datos
+                                    createAccount(emailValidator, password);
+                                    Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("nombre", nombre.getText().toString());
+                                    user.put("usuario", usuario.getText().toString());
+                                    user.put("email", emailValidator);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            user.put("UID", uid);
+                                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()) {
+                                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion);
+                                                    }
+                                                }
+                                            });
                                         }
-                                    }
-                                });
+                                    }, 3000);
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Handle database error if needed
                         }
                     });
                 } else {
                     if (password.length() < 6) {
-                        // Mostrar un AlertDialog indicando que la contraseña debe tener al menos 6 caracteres
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                         builder.setTitle("Contraseña inválida")
                                 .setMessage("La contraseña debe tener al menos 6 caracteres.")
@@ -234,7 +227,6 @@ public class crearUsuario_Cliente extends Fragment{
                         Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
                     }
                 }
-
             }
         });
         return view;

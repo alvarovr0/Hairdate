@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+//import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -67,16 +67,16 @@ public class principal_cliente extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Query query = db.collection("Peluqueria");
 
-        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
+        /*FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
 
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);*/
 
         return rootView;
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
@@ -86,5 +86,5 @@ public class principal_cliente extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
+    }*/
 }

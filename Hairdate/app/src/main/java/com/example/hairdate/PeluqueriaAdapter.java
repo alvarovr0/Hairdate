@@ -10,33 +10,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, PeluqueriaAdapter.ViewHolder> {
+public class PeluqueriaAdapter /*extends FirestoreRecyclerAdapter<Peluqueria, PeluqueriaAdapter.ViewHolder>*/ {
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirestoreRecyclerOptions} for configuration options.
+     * {@link //FirestoreRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param //options
      */
-    public PeluqueriaAdapter(@NonNull FirestoreRecyclerOptions<Peluqueria> options) {
-        super(options);
+    public PeluqueriaAdapter(/*@NonNull FirestoreRecyclerOptions<Peluqueria> options*/) {
+        //super(options);
 
     }
 
-    @Override
+    /*@Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Peluqueria model) {
         holder.horario.setText(model.getHorario());
         holder.direccion.setText(model.getDireccion());
         holder.numeroTelefono.setText(model.getNumeroTelefono());
         holder.nombre.setText(model.getNombre());
-    }
+    }*/
 
-    @NonNull
+    /*@NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_peluqueria, parent, false);
         return new ViewHolder(v);
-    }
+    }^*/
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
