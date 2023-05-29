@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+<<<<<<< Updated upstream
     android:background="@color/fondo"
+=======
+    android:background="?attr/primaryTextColor"
+>>>>>>> Stashed changes
     tools:context=".inicioSesion_Peluquero">
 
     <LinearLayout
