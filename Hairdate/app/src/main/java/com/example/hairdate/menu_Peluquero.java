@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -190,7 +191,19 @@ public class menu_Peluquero extends Fragment{
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion);
             }
         }));
-
+        //onBackPressed();
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    // Consumir el evento del botón de retroceso
+                    return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -225,7 +238,6 @@ public class menu_Peluquero extends Fragment{
         super.onStop();
         mAdapter.stopListening();
     }
-
     public void irAActivityProfile() {
         String volverAMenuPeluquero = "Peluquero";
         Bundle bundle = new Bundle();
