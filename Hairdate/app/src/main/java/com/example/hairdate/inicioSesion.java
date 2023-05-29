@@ -159,7 +159,7 @@ public class inicioSesion extends Fragment {
                 String email = Email.getText().toString().trim();
 
                 // Consulta para verificar si es un Peluquero
-                Query peluqueroQuery = db.collection("Peluquero").whereEqualTo("email", email);
+                Query peluqueroQuery = db.collection("Peluqueria").whereEqualTo("email", email);
                 peluqueroQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
