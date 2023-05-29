@@ -141,7 +141,6 @@ public class inicioSesion_Peluquero extends Fragment {
         peluqueroPass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-
                 db =  FirebaseFirestore.getInstance();
                 Query query = db.collection("Peluquero").whereEqualTo("email", peluqueroEmail.getText().toString().trim());
                 if(!query.equals(null)){

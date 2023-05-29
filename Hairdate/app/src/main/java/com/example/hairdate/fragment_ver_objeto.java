@@ -210,6 +210,9 @@ public class fragment_ver_objeto extends Fragment {
         botonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
                 Navigation.findNavController(view).navigate(R.id.action_fragment_ver_objeto_to_menu_Peluquero);
             }
         });

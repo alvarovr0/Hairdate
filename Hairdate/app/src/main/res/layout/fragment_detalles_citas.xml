@@ -174,7 +174,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/txt_otros_detallesCitas"
+                                android:id="@+id/txt_musicaOtros_detallesCitas"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
@@ -336,6 +336,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/txt_temasOtros_detallesCitas"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
