@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detalles_citas">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center|bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_nombreCita_detallesCita"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detalles de la cita:" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray">
+
+                        <TableRow android:background="#86c896">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Música:"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Jazz:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_jazz_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Pop:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_pop_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Rap:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_rap_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Reggae:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_reggae_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:text="Reggaeton:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_reggaeton_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Otros:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_otros_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                    </TableLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray">
+
+                        <TableRow android:background="#86c896">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Temas:"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="0sp"
+                                android:text="Mascotas:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_mascotas_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Series:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_series_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Cine:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_cine_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Futbol:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_futbol_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:text="Política:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txt_politica_detallesCitas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="Otros:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text=""
+                                android:textSize="12sp" />
+                        </TableRow>
+
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray">
+
+                <TableRow android:background="#86c896">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text="Horario:"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/txt_horario_detallesCitas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text=""
+                        android:textSize="12sp" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray">
+
+                <TableRow android:background="#86c896">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text="Tipo de cita:"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/txt_tipoCita_detallesCitas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text=""
+                        android:textSize="12sp" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray">
+
+                <TableRow android:background="#86c896">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text="Cliente:"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/txt_cliente_detallesCitas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:padding="10sp"
+                        android:text=""
+                        android:textSize="12sp" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_volver_detallesCitas"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="50dp"
+                    android:text="Volver"/>
+
+                <Button
+                    android:id="@+id/btn_borrarCita_detallesCitas"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="50dp"
+                    android:text="Borrar Cita"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

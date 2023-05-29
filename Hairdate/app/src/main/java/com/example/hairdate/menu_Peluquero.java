@@ -72,6 +72,7 @@ public class menu_Peluquero extends Fragment{
 
     String nombreUsuario;
     String emailActual;
+    boolean IrADetallerCitas;
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
@@ -124,6 +125,7 @@ public class menu_Peluquero extends Fragment{
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        IrADetallerCitas = true;
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
 
@@ -146,53 +148,10 @@ public class menu_Peluquero extends Fragment{
 
         mAdapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 // Te permite cancelar citas dando click en la basura
                 String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
-
-                mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.imv_trashcan).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) menu_Peluquero.this.requireActivity());
-                        constructorDialogo.setMessage((CharSequence) "Horario: " + horarioCita).setCancelable(false).setPositiveButton((CharSequence) "Sí", (android.content.DialogInterface.OnClickListener) (new android.content.DialogInterface.OnClickListener() {
-                            public final void onClick(DialogInterface dialogo, int id) {
-
-                                // Borra la cita de la base de datos
-                                db.collection("Citas")
-                                        .whereEqualTo("Fecha_Hora", horarioCita)
-                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                                                    String documentID = documentSnapshot.getId();
-                                                    db.collection("Citas")
-                                                            .document(documentID)
-                                                            .delete()
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    // Si se ha podido borrar muestra el siguiente mensaje
-                                                                    Toast.makeText(view.getContext(), "Cancelada cita: " + horarioCita, Toast.LENGTH_LONG).show();
-                                                                }
-                                                            }).addOnFailureListener(new OnFailureListener() {
-                                                                @Override
-                                                                public void onFailure(@NonNull Exception e) {
-                                                                    // Si no se ha podido borrar muestra el siguiente mensaje
-                                                                    Toast.makeText(view.getContext(), "Lo sentimos, no se pudo cancelar cita", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
-                                                }
-                                            }
-                                        });
-                            }
-                        })).setNegativeButton((CharSequence) "No", (android.content.DialogInterface.OnClickListener) null);
-                        android.app.AlertDialog alerta = constructorDialogo.create();
-                        alerta.setTitle((CharSequence) "¿Quieres cancelar esta cita?");
-                        alerta.show();
-                    }
-                });
-                    }
+                    Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
+            }
                 });
 
 

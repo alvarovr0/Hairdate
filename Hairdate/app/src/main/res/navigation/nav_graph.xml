@@ -70,38 +70,20 @@
             android:id="@+id/action_menu_Peluquero_to_activity_profile"
             app:destination="@id/activity_profile" />
         <action
-            android:id="@+id/action_menu_Peluquero_to_stock_Peluquero"
-            app:destination="@id/stock_Peluquero" />
-        <action
             android:id="@+id/action_menu_Peluquero_to_inicioSesion_Peluquero"
             app:destination="@id/inicioSesion_Peluquero" />
         <action
             android:id="@+id/action_menu_Peluquero_to_fragment_ver_objeto"
             app:destination="@id/fragment_ver_objeto" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_detalles_citas"
+            app:destination="@id/detalles_citas" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
         android:name="com.example.hairdate.activity_profile"
         android:label="fragment_activity_profile"
         tools:layout="@layout/fragment_activity_profile" />
-    <fragment
-        android:id="@+id/stock_Peluquero"
-        android:name="com.example.hairdate.stock_Peluquero"
-        android:label="fragment_stock__peluquero"
-        tools:layout="@layout/fragment_stock_peluquero" >
-        <action
-            android:id="@+id/action_stock_Peluquero_to_stock_item"
-            app:destination="@id/stock_item" />
-    </fragment>
-    <fragment
-        android:id="@+id/stock_item"
-        android:name="com.example.hairdate.stock_item"
-        android:label="fragment_stock_item"
-        tools:layout="@layout/fragment_stock_item" >
-        <action
-            android:id="@+id/action_stock_item_to_stock_Peluquero"
-            app:destination="@id/stock_Peluquero" />
-    </fragment>
     <fragment
         android:id="@+id/preferenciaCitasCliente"
         android:name="com.example.hairdate.preferenciaCitasCliente"
@@ -129,5 +111,14 @@
         <action
             android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
             app:destination="@id/inicioSesion_Cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalles_citas"
+        android:name="com.example.hairdate.detalles_citas"
+        android:label="fragment_detalles_citas"
+        tools:layout="@layout/fragment_detalles_citas" >
+        <action
+            android:id="@+id/action_detalles_citas_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
     </fragment>
 </navigation>

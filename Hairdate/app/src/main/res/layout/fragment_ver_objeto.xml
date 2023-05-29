@@ -67,7 +67,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:hint="Inserte cantidad de producto"
-        android:inputType="text"
+        android:inputType="number"
         android:maxLines="1" />
 
     <Button
