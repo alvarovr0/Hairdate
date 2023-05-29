@@ -64,6 +64,7 @@
                 android:gravity="center"
                 android:text="Horario de la Peluquería" />
 
+
         </LinearLayout>
 
         <ImageButton
@@ -79,6 +80,7 @@
             android:src="@drawable/favorito_no" />
 
         <Button
+            android:id="@+id/btn_pedirCita"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"

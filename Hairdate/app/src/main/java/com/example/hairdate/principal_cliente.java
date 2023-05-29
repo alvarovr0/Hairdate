@@ -155,13 +155,7 @@ public class principal_cliente extends Fragment {
             });
         }
 
-        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
-            }
-        }));
+       cerrarSesion(view);
 
         return view;
     }
@@ -191,6 +185,16 @@ public class principal_cliente extends Fragment {
             textNoFav.setVisibility(View.GONE);
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void cerrarSesion(View view){
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
+            }
+        }));
     }
 
 }
