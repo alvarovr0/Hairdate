@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".principal_cliente"
     android:background="@color/fondo">
 
@@ -16,12 +17,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <com.example.hairdate.RoundedImageView
+                android:id="@+id/img_imagenPerfilCliente"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/user"/>
+
             <TextView
-                android:id="@+id/txt_nombrePeluquero"
+                android:id="@+id/txt_nombreCliente"
                 android:layout_width="47dp"
                 android:layout_height="61dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:text="Usuario"
                 android:gravity="center" />
 
             <Button

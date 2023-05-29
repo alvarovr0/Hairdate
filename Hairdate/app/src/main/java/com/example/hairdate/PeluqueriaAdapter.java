@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 
@@ -38,6 +40,8 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
         holder.direccion.setText(model.getDireccion());
         holder.numeroTelefono.setText(model.getNumeroTelefono());
         holder.nombre.setText(model.getNombre());
+        // Cargar la imagen utilizando Picasso
+        model.imagenPerfilPelu(holder.itemView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +84,7 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
         TextView direccion;
         TextView numeroTelefono;
         TextView nombre;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +93,7 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
             direccion = itemView.findViewById(R.id.txtDireccion);
             numeroTelefono = itemView.findViewById(R.id.txtNumTlf);
             nombre = itemView.findViewById(R.id.txtNombre);
+            imageView = itemView.findViewById(R.id.imgFoto);
 
         }
     }
