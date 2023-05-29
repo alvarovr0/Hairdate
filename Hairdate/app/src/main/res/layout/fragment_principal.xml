@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< Updated upstream
     tools:context=".principal">
+=======
+    tools:context=".Principal">
+>>>>>>> Stashed changes
 
 
     <LinearLayout
@@ -63,7 +67,11 @@
                 android:backgroundTint="#1D2D44"
                 android:paddingLeft="20dp"
                 android:text="Cliente"
+<<<<<<< Updated upstream
                 android:textColor="@color/white"/>
+=======
+                android:textColor="@color/white" />
+>>>>>>> Stashed changes
         </LinearLayout>
 
 
