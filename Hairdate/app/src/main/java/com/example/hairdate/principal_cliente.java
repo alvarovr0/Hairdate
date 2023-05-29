@@ -1,6 +1,7 @@
 package com.example.hairdate;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +29,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -46,6 +52,9 @@ public class principal_cliente extends Fragment {
     RecyclerView recyclerViewFav;
     PeluqueriaAdapter adapter;
     PeluqueriaAdapter adapterFav;
+    ImageView profileImage;
+    private StorageReference storageReference;
+    private Button btn_cerrarSesion;
 
     public principal_cliente() {
         // Required empty public constructor
@@ -146,6 +155,8 @@ public class principal_cliente extends Fragment {
             });
         }
 
+       cerrarSesion(view);
+
         return view;
     }
 
@@ -174,6 +185,16 @@ public class principal_cliente extends Fragment {
             textNoFav.setVisibility(View.GONE);
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void cerrarSesion(View view){
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
+            }
+        }));
     }
 
 }

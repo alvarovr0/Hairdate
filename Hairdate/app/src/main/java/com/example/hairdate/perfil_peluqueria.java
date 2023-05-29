@@ -7,12 +7,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,6 +61,7 @@ public class perfil_peluqueria extends Fragment {
     private boolean fav_marc;
     private String peluqueriaId;
     private String userId;
+    private Button btn_pedirCita;
 
     ImageView profileImage;
     private StorageReference storageReference;
@@ -142,6 +145,7 @@ public class perfil_peluqueria extends Fragment {
             }
         }));
         imagenPerfil(rootView);
+        pedirCita(rootView);
         return rootView;
     }
 
@@ -317,6 +321,16 @@ public class perfil_peluqueria extends Fragment {
                 Picasso.get().load(uri).into(profileImage);
             }
         });
+    }
+
+    public void pedirCita(View view){
+        btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
+        btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
+            }
+        }));
     }
 
 }

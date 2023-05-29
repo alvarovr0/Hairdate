@@ -1,6 +1,15 @@
 package com.example.hairdate;
 
 //Importamos la lib serializable para que sea más facil pasar los datos de una clase a otra
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.io.Serializable;
 
 public class Peluqueria implements Serializable {
@@ -8,6 +17,8 @@ public class Peluqueria implements Serializable {
     private String horario;
     private String numeroTelefono;
     private String nombre;
+    private ImageView profileImagePelu;
+
 
     public Peluqueria() {
         // Constructor vacío requerido por Firebase Firestore
@@ -18,6 +29,19 @@ public class Peluqueria implements Serializable {
         this.horario = horario;
         this.numeroTelefono = numeroTelefono;
         this.nombre = nombre;
+    }
+
+    public void imagenPerfilPelu(View view){
+        profileImagePelu = view.findViewById(R.id.imgFoto);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        // Muestra una imagen
+        StorageReference profileRef = storageReference.child(numeroTelefono + "_pelu.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImagePelu);
+            }
+        });
     }
 
     public String getDireccion() {

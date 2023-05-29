@@ -127,6 +127,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_perfil_peluqueria"
             app:destination="@id/perfil_peluqueria" />
+        <action
+            android:id="@+id/action_principal_cliente_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"

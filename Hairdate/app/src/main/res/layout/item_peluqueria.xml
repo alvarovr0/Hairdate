@@ -18,13 +18,12 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <ImageView
+        <com.example.hairdate.RoundedImageView
             android:id="@+id/imgFoto"
-            android:layout_width="93dp"
-            android:layout_height="97dp"
-            android:background="@drawable/border_background"
-            android:padding="2dp"
-            android:scaleType="centerCrop"
+            android:layout_width="115dp"
+            android:layout_height="121dp"
+            android:scaleType="fitXY"
+            app:cornerRadius="15dp"
             android:src="@drawable/peluqueria" />
 
         <LinearLayout
