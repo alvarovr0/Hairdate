@@ -70,6 +70,9 @@
         <action
             android:id="@+id/action_menu_Peluquero_to_inicioSesion"
             app:destination="@id/inicioSesion" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_detalles_citas"
+            app:destination="@id/detalles_citas" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
@@ -157,5 +160,14 @@
         <action
             android:id="@+id/action_perfil_peluqueria_to_solicitar_cita"
             app:destination="@id/solicitar_cita" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalles_citas"
+        android:name="com.example.hairdate.detalles_citas"
+        android:label="fragment_detalles_citas"
+        tools:layout="@layout/fragment_detalles_citas" >
+        <action
+            android:id="@+id/action_detalles_citas_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
     </fragment>
 </navigation>
