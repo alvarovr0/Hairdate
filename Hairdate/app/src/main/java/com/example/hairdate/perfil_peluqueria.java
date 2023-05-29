@@ -145,7 +145,7 @@ public class perfil_peluqueria extends Fragment {
             }
         }));
         imagenPerfilPelu(rootView);
-        //pedirCita(rootView);
+        pedirCita(rootView);
         return rootView;
     }
 

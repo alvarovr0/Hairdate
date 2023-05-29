@@ -168,15 +168,18 @@ public class principal_cliente extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapterFav.startListening();
+        if(adapterFav !=null){
+            adapterFav.startListening();
+        }
         adapter.startListening();
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapterFav.stopListening();
+        if(adapterFav !=null){
+            adapterFav.stopListening();
+        }
         adapter.stopListening();
     }
 
