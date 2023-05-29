@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,7 +188,7 @@ public class inicioSesion extends Fragment {
                                                 result.putString("bundleKey", mAuth.getUid());
                                                 result.putString("email", email);
                                                 Log.d("UID", String.valueOf(result));
-                                                getParentFragmentManager().setFragmentResult("requestKey", result);
+                                                getParentFragmentManager().setFragmentResult("menuCliente", result);
                                                 Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_cliente);
                                             } else {
                                                 // No es un Cliente ni un Peluquero válido
@@ -208,6 +209,18 @@ public class inicioSesion extends Fragment {
                 });
             }
         }));
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    // Consumir el evento del botón de retroceso
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
