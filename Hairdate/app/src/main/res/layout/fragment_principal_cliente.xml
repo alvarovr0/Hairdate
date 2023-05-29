@@ -19,8 +19,10 @@
 
             <com.example.hairdate.RoundedImageView
                 android:id="@+id/img_imagenPerfilCliente"
-                android:layout_width="67dp"
-                android:layout_height="match_parent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:longClickable="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/user_profile"
                 app:cornerRadius="70dp" />

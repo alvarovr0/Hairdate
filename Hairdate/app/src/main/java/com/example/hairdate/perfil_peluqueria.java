@@ -144,8 +144,8 @@ public class perfil_peluqueria extends Fragment {
                 }
             }
         }));
-        imagenPerfil(rootView);
-        pedirCita(rootView);
+        imagenPerfilPelu(rootView);
+        //pedirCita(rootView);
         return rootView;
     }
 
@@ -310,7 +310,7 @@ public class perfil_peluqueria extends Fragment {
         }
     }
 
-    public void imagenPerfil(View rootView){
+    public void imagenPerfilPelu(View rootView){
         profileImage = rootView.findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
         // Muestra una imagen

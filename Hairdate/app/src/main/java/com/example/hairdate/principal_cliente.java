@@ -70,7 +70,6 @@ public class principal_cliente extends Fragment {
         return fragment;
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
@@ -155,7 +154,13 @@ public class principal_cliente extends Fragment {
             });
         }
 
-       cerrarSesion(view);
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
+            }
+        }));
 
         return view;
     }
@@ -185,16 +190,6 @@ public class principal_cliente extends Fragment {
             textNoFav.setVisibility(View.GONE);
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void cerrarSesion(View view){
-        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
-            }
-        }));
     }
 
 }
