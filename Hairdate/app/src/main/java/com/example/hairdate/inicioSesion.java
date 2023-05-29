@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,6 +210,18 @@ public class inicioSesion extends Fragment {
                 });
             }
         }));
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    // Consumir el evento del botón de retroceso
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
     private void startSignIn(String correo, String contrasena) {
