@@ -177,7 +177,7 @@ public class preferenciaCitasCliente extends Fragment {
                                 //final
                                 cita.put("UID", uid);
                                 cita.put("Servicio", result);
-                                cita.put("Preferencia", preferencia);
+                                cita.put("Preferencia", preferencia.getText().toString());
                                 referencia.set(cita).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
