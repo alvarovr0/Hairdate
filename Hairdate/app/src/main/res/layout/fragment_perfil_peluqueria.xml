@@ -64,7 +64,6 @@
                 android:gravity="center"
                 android:text="Horario de la Peluquería" />
 
-
         </LinearLayout>
 
         <ImageButton
