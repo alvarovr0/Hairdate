@@ -327,7 +327,6 @@ public class perfil_peluqueria extends Fragment {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
         btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                FirebaseAuth.getInstance().signOut();
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));
