@@ -124,6 +124,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_solicitar_cita"
             app:destination="@id/solicitar_cita" />
+        <action
+            android:id="@+id/action_principal_cliente_to_perfil_peluqueria"
+            app:destination="@id/perfil_peluqueria" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"
@@ -147,5 +150,9 @@
         android:id="@+id/perfil_peluqueria"
         android:name="com.example.hairdate.perfil_peluqueria"
         android:label="fragment_perfil_peluqueria"
-        tools:layout="@layout/fragment_perfil_peluqueria" />
+        tools:layout="@layout/fragment_perfil_peluqueria" >
+        <action
+            android:id="@+id/action_perfil_peluqueria_to_solicitar_cita"
+            app:destination="@id/solicitar_cita" />
+    </fragment>
 </navigation>

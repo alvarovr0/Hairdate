@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,17 +75,11 @@ public class principal_cliente extends Fragment {
         // Consultar todas las peluquerías
         Query query = db.collection("Peluqueria");
 
-        /*FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
+        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
 
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);*/
-        Button prueba = rootView.findViewById(R.id.btn_prueba);
-        prueba.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                Navigation.findNavController(getView()).navigate(R.id.action_principal_cliente_to_solicitar_cita);
-            }
-        }));
+        recyclerView.setAdapter(adapter);
 
         adapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
