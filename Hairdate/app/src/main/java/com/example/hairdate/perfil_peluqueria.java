@@ -99,7 +99,6 @@ public class perfil_peluqueria extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_perfil_peluqueria, container, false);
 
-
         db = FirebaseFirestore.getInstance();
 
         direccionTextView = rootView.findViewById(R.id.txtDireccion);

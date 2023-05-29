@@ -3,10 +3,18 @@ package com.example.hairdate;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +67,48 @@ public class ListaPeluqueros extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_peluqueros, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_peluqueros, container, false);
+
+       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewFav.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Consultar todas las peluquerías
+        Query query = db.collection("Peluqueria");
+
+        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
+
+        // Obtener el UID del usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            // Consultar las peluquerías favoritas del usuario
+            Query queryFav = db.collection("Favoritos").document(uid).collection("Peluquerias");
+            FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(queryFav, Peluqueria.class).build();
+
+            adapterFav = new PeluqueriaAdapter(firestoreRecyclerOptionsFav);
+            adapterFav.notifyDataSetChanged();
+            recyclerViewFav.setAdapter(adapterFav);
+
+            adapterFav.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    int position = recyclerViewFav.getChildAdapterPosition(view);
+                    Peluqueria peluqueria = adapterFav.getItem(position);
+
+                    // Navegar al siguiente fragmento y pasar los datos como argumentos
+                    Bundle args = new Bundle();
+                    args.putString("direccion", peluqueria.getDireccion());
+                    args.putString("horario", peluqueria.getHorario());
+                    args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
+                    args.putString("nombre", peluqueria.getNombre());
+                    getParentFragmentManager().setFragmentResult("resquestKey", args);
+                    Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
+                }
+            });*/
+
+        return view;
     }
 }

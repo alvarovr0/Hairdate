@@ -3,8 +3,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListaPeluqueros">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ListaPeluqueros"
+    android:background="@color/fondo">
 
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.example.hairdate.RoundedImageView
+                android:layout_margin="10dp"
+                android:id="@+id/img_imagenPerfilCliente"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/user_profile"
+                app:cornerRadius="70dp" />
+
+            <TextView
+                android:id="@+id/txt_nombreCliente"
+                android:layout_width="47dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="Usuario"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:id="@+id/btn_cerrarSesion"
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cerrar Sesión"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peluqueros"
+                android:textSize="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPeluqueros"
+                android:layout_width="match_parent"
+                android:layout_height="398dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
