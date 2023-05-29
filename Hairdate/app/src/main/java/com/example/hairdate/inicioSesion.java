@@ -185,6 +185,7 @@ public class inicioSesion extends Fragment {
                                                 startSignIn(email, Pass.getText().toString());
                                                 Bundle result = new Bundle();
                                                 result.putString("bundleKey", mAuth.getUid());
+                                                result.putString("email", email);
                                                 Log.d("UID", String.valueOf(result));
                                                 getParentFragmentManager().setFragmentResult("menuCliente", result);
                                                 Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_cliente);

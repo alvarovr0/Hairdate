@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,16 +49,19 @@ public class principal_cliente extends Fragment {
     private String mParam2;
 
     FirebaseFirestore db;
+    String emailActual;
+    TextView usuario;
     RecyclerView recyclerView;
     RecyclerView recyclerViewFav;
     PeluqueriaAdapter adapter;
     PeluqueriaAdapter adapterFav;
     ImageView profileImage;
+    View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
 
     public principal_cliente() {
-        // Required empty public constructor
+
     }
 
     @NonNull
@@ -73,8 +77,10 @@ public class principal_cliente extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
+        view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        usuario = view.findViewById(R.id.txt_nombreCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
@@ -89,6 +95,21 @@ public class principal_cliente extends Fragment {
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+
+        // Al pulsar el nombre, se te dirige a cambiarte la imagen de perfil
+        usuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moverAActivityProfile();
+            }
+        });
+        // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moverAActivityProfile();
+            }
+        });
 
         adapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -166,6 +187,25 @@ public class principal_cliente extends Fragment {
         adapterFav.startListening();
         adapter.startListening();
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
+        getParentFragmentManager().setFragmentResultListener("menuCliente", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                emailActual = result.getString("email");
+
+                // Coloca el email como nombre de usuario
+                usuario.setText(emailActual);
+                // Si existe una imagen, la coloca como imagen de perfil
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -197,4 +237,10 @@ public class principal_cliente extends Fragment {
         }));
     }
 
+    public void moverAActivityProfile() {
+        Bundle bundle = new Bundle();
+        bundle.putString("email", emailActual);
+        getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
+        Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_activity_profile);
+    }
 }

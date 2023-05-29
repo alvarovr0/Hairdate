@@ -163,14 +163,16 @@ public class menu_Peluquero extends Fragment{
         // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
-                String volverAMenuPeluquero = "Peluquero";
-                Bundle bundle = new Bundle();
-                bundle.putString("email", emailActual);
-                bundle.putString("ADondeVolver", volverAMenuPeluquero);
-                getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
+                irAActivityProfile();
             }
         }));
+        // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                irAActivityProfile();
+            }
+        });
 
         // Cuando se pulsa el botón "Comprobar Stock" se cambia al fragment donde se puede comprobar el stock
         btn_controlStock.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -222,5 +224,14 @@ public class menu_Peluquero extends Fragment{
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+    public void irAActivityProfile() {
+        String volverAMenuPeluquero = "Peluquero";
+        Bundle bundle = new Bundle();
+        bundle.putString("email", emailActual);
+        bundle.putString("ADondeVolver", volverAMenuPeluquero);
+        getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
+        Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
     }
 }
