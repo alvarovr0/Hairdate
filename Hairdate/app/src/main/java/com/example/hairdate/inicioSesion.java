@@ -186,7 +186,7 @@ public class inicioSesion extends Fragment {
                                                 Bundle result = new Bundle();
                                                 result.putString("bundleKey", mAuth.getUid());
                                                 Log.d("UID", String.valueOf(result));
-                                                getParentFragmentManager().setFragmentResult("requestKey", result);
+                                                getParentFragmentManager().setFragmentResult("menuCliente", result);
                                                 Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_cliente);
                                             } else {
                                                 // No es un Cliente ni un Peluquero válido

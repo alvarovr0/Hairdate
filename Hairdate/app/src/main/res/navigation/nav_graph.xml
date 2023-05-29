@@ -78,7 +78,14 @@
         android:id="@+id/activity_profile"
         android:name="com.example.hairdate.activity_profile"
         android:label="fragment_activity_profile"
-        tools:layout="@layout/fragment_activity_profile" />
+        tools:layout="@layout/fragment_activity_profile" >
+        <action
+            android:id="@+id/action_activity_profile_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+        <action
+            android:id="@+id/action_activity_profile_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
     <fragment
         android:id="@+id/stock_Peluquero"
         android:name="com.example.hairdate.stock_Peluquero"
