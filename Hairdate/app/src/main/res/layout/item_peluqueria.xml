@@ -20,12 +20,13 @@
 
         <ImageView
             android:id="@+id/imgFoto"
-            android:layout_width="93dp"
-            android:layout_height="97dp"
+            android:layout_width="115dp"
+            android:layout_height="121dp"
             android:background="@drawable/border_background"
             android:padding="2dp"
             android:scaleType="centerCrop"
             android:src="@drawable/peluqueria" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
