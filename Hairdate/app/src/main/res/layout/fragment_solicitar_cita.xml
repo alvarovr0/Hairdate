@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".solicitar_cita"
-    android:background="@color/white">
+    android:background="@color/fondo">
 
     <DatePicker
         android:id="@+id/datePicker"

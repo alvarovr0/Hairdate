@@ -105,8 +105,6 @@ public class activity_profile extends Fragment {
 
 
 
-
-
         changeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

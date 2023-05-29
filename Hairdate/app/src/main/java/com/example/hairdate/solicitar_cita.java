@@ -1,27 +1,22 @@
 package com.example.hairdate;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.*;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,21 +25,25 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link solicitar_cita#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class solicitar_cita extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private DatePicker datePicker;
-    private TimePicker timePicker;
-    private Button btnSelectDateTime;
-    private FirebaseFirestore db;
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private Button btnSelectDateTime;
+    private FirebaseFirestore db;
 
 
     public solicitar_cita() {
@@ -57,7 +56,7 @@ public class solicitar_cita extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment crearUsuario_Cliente.
+     * @return A new instance of fragment solicitar_cita.
      */
     // TODO: Rename and change types and number of parameters
     public static solicitar_cita newInstance(String param1, String param2) {
@@ -72,16 +71,15 @@ public class solicitar_cita extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_solicitar_cita, container, false);
 
         // Inicializar las vistas
@@ -175,7 +173,7 @@ public class solicitar_cita extends Fragment {
                                 if (querySnapshot.isEmpty()) {
                                     // No se encontraron documentos con la fecha y hora especificadas
                                     getParentFragmentManager().setFragmentResult("requestKey", result);
-                                    Navigation.findNavController(getView()).navigate(R.id.action_solicitar_cita_to_preferenciaCitasCliente);
+                                    Navigation.findNavController(getView()).navigate(R.id.action_solicitar_cita_to_tipo_servicio);
                                 } else {
                                     // Se encontró al menos un documento con la fecha y hora especificadas
                                     showToast("En esta fecha y hora ya hay una cita programada");
@@ -198,5 +196,4 @@ public class solicitar_cita extends Fragment {
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
-
 }

@@ -1,51 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".perfil_peluqueria"
-    android:orientation="vertical">
+    android:background="@color/fondo"
+    tools:context=".perfil_peluqueria">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="nombre de peluqueria"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fondo"
-            />
-    </LinearLayout>
-
-
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent">
 
-        <!-- en este boton debe haber unr ecicler view con todos los pelqueros-->
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
-        <!--aqui debe poner la direccion de la peluqueria y optra informacion si eso-->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="170dp"/>
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="vertical">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/imagePeluqueria"
+                android:layout_width="match_parent"
+                android:layout_height="276dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:paddingBottom="10dp"
+                android:scaleType="fitXY"
+                 />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Nombre de la Peluquería"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txtDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Dirección de la Peluquería" />
+
+            <TextView
+                android:id="@+id/txtNumTlf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="6324805" />
+
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Horario de la Peluquería" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imagen_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_marginStart="350dp"
+            android:layout_marginTop="220dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:onClick="pulsar"
+            android:scaleType="fitXY"
+            android:src="@drawable/favorito_no" />
+
+        <Button
+            android:id="@+id/btn_pedirCita"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:text="Pedir Cita" />
+
+    </RelativeLayout>
+</FrameLayout>

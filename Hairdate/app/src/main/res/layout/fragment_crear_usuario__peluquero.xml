@@ -137,12 +137,7 @@
                     android:gravity="center"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
-<<<<<<< Updated upstream
-                    android:maxLength="15"
-                    android:minLines="6"
-=======
                     android:maxLength="10"
->>>>>>> Stashed changes
                     android:minHeight="48dp" />
 
                 <ImageButton

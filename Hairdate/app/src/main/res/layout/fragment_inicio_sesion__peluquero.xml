@@ -47,31 +47,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-<<<<<<< Updated upstream
-                android:text="Correo:"
-=======
                 android:text="Usuario:"
->>>>>>> Stashed changes
                 android:textSize="17dp"
                 android:typeface="serif" />
 
             <EditText
-<<<<<<< Updated upstream
-                android:id="@+id/edTxt_usuario_inicio"
-=======
                 android:id="@+id/edTxt_correo_inicio"
->>>>>>> Stashed changes
                 android:layout_width="268dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:background="@drawable/rectangle"
                 android:ellipsize="end"
                 android:gravity="center"
-<<<<<<< Updated upstream
-                android:hint="Insertar correo"
-=======
                 android:hint="Insertar usuario"
->>>>>>> Stashed changes
                 android:inputType="text"
                 android:maxLines="1" />
 

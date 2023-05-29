@@ -2,6 +2,8 @@ package com.example.hairdate;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import android.widget.Spinner;
@@ -30,10 +34,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +55,12 @@ import java.util.Map;
  * Use the {@link crearUsuario_Peluquero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class crearUsuario_Peluquero extends Fragment{
-
+public class crearUsuario_Peluquero extends Fragment {
+    /*
+     *
+     * Este Fragment nos servirá para que el usuario (Peluquero) se cree una cuenta
+     *
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -100,7 +116,7 @@ public class crearUsuario_Peluquero extends Fragment{
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             reload();
         }
     }
@@ -132,6 +148,7 @@ public class crearUsuario_Peluquero extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //Creamos una instancia de nuestra BBDD en este caso FireBase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference referencia = db.collection("Peluquero").document();
         View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
@@ -144,7 +161,7 @@ public class crearUsuario_Peluquero extends Fragment{
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
-        btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 // Si el ojo está abierto, lo cambia a cerrado, y la contraseña se deja de ver
                 if (ojoAbierto) {
@@ -164,41 +181,72 @@ public class crearUsuario_Peluquero extends Fragment{
             public void onClick(View v) {
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
-                if(!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches()){
-                    createAccount(emailvalidator, contrasena.getText().toString());
-                    Toast.makeText(view.getContext(), "Email valido", Toast.LENGTH_LONG).show();
-                    // Create a new user with a first and last name
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("nombre", nombre.getText().toString());
-                    user.put("CIF", cif.getText().toString());
-                    user.put("usuario", usuario.getText().toString());
-                    user.put("email", emailvalidator);
-                    user.put("direccion", direccion_completa);
-                    new Handler().postDelayed(new Runnable() {
+                String password = contrasena.getText().toString();
+
+                if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
+                    // Verificar si el correo ya existe en la base de datos
+                    Query query = db.collection("Peluquero").whereEqualTo("email", emailvalidator);
+                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void run() {
-                            user.put("UID", uid);
-                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
-                                    }
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().size() > 0) {
+                                    // El correo ya existe en la base de datos
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                    builder.setTitle("Correo en uso")
+                                            .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
+                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    // El correo no existe en la base de datos
+                                    createAccount(emailvalidator, password);
+                                    Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("nombre", nombre.getText().toString());
+                                    user.put("CIF", cif.getText().toString());
+                                    user.put("usuario", usuario.getText().toString());
+                                    user.put("email", emailvalidator);
+                                    user.put("direccion", direccion_completa);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            user.put("UID", uid);
+                                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }, 3000);
                                 }
-                            });
-                        }
-                    }, 3000);
-                    // Add a new document with a generated ID
-                    referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion_Peluquero);
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
-                } else{
-                    Toast.makeText(view.getContext(), "Email no valido", Toast.LENGTH_LONG).show();
+                } else {
+                    if (password.length() < 6) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Contraseña inválida")
+                                .setMessage("La contraseña debe tener al menos 6 caracteres.")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -209,7 +257,8 @@ public class crearUsuario_Peluquero extends Fragment{
     }
 
 
-    private void reload() { }
+    private void reload() {
+    }
 
     private void updateUI(FirebaseUser user) {
 

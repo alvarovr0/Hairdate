@@ -2,6 +2,7 @@ package com.example.hairdate;
 
 import static java.time.LocalTime.now;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +19,21 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +80,7 @@ public class preferenciaCitasCliente extends Fragment {
     }
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,15 +121,19 @@ public class preferenciaCitasCliente extends Fragment {
         CheckBox checkboxMusNada = view.findViewById(R.id.checkboxMusNada);
         CheckBox checkboxJazz = view.findViewById(R.id.checkboxJazz);
         EditText edtMus = view.findViewById(R.id.editTextMus);
-
-
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+        EditText preferencia = view.findViewById(R.id.editTextPreferencia);
+        getParentFragmentManager().setFragmentResultListener("servicio", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
-                String result = bundle.getString("selectedDateTime");
-                TextView fecha_hora = (TextView) view.findViewById(R.id.txt_fecha);
-                fecha_hora.setText(result);
+                String result = bundle.getString("bundleKey");
+                String resultHora = bundle.getString("fecha");
+                Log.d("prueba", "Fecha seleccionada: " + resultHora);
+                if(result.equals("Tinte") || result.equals("Tinte + corte")){
+                    preferencia.setVisibility(View.VISIBLE);
+                }
+                TextView fecha_hora = view.findViewById(R.id.txt_fecha);
+                fecha_hora.setText(resultHora);
                 btn_confirmar.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
                     public final void onClick(View it) {
                         new Handler().postDelayed(new Runnable() {
@@ -140,7 +155,7 @@ public class preferenciaCitasCliente extends Fragment {
                                 String jazz = checkboxJazz.isChecked() ? "si" : "no";
                                 String musMed = checkboxMusDaigua.isChecked() ? "si" : "no";
                                 String musNada = checkboxMusNada.isChecked() ? "si" : "no";
-                                cita.put("Fecha_Hora", result);
+                                cita.put("Fecha_Hora", resultHora);
                                 //Tema
                                 cita.put("Tema_futbol", futbol);
                                 cita.put("Tema_politica", politica);
@@ -161,11 +176,14 @@ public class preferenciaCitasCliente extends Fragment {
                                 cita.put("Musica_Otro", edtMus.getText().toString());
                                 //final
                                 cita.put("UID", uid);
+                                cita.put("Servicio", result);
+                                cita.put("Preferencia", preferencia);
                                 referencia.set(cita).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            Navigation.findNavController(getView()).navigate(R.id.action_preferenciaCitasCliente_to_menu_cliente);
+                                            Toast.makeText(getContext(), "Su cita ha sido solicitada con exito", Toast.LENGTH_SHORT).show();
+                                            Navigation.findNavController(getView()).navigate(R.id.action_preferenciaCitasCliente_to_principal_cliente);
                                         }
                                     }
                                 });
@@ -176,6 +194,12 @@ public class preferenciaCitasCliente extends Fragment {
 
             }
         });
+
         return view;
+    }
+    private void reload() { }
+
+    private void updateUI(FirebaseUser user) {
+
     }
 }

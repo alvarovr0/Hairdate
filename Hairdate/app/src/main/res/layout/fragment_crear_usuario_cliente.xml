@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,12 +56,12 @@
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="23dp"
-                android:background="@drawable/rectangle"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Nombre"
                 android:inputType="textPersonName"
-                android:maxLength="20" />
+                android:maxLength="20"
+                android:background="@drawable/rectangle"/>
 
 
             <TextView
@@ -145,6 +145,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Registrar" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/cliente"/>
     </LinearLayout>
 
 </FrameLayout>
