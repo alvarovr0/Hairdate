@@ -5,16 +5,22 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.hairdate.model.Peluquero;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +37,12 @@ public class ListaPeluqueros extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    FirebaseFirestore db;
+    RecyclerView recyclerView;
+    PeluqueroAdapter adapter;
+    private StorageReference storageReference;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -69,16 +81,10 @@ public class ListaPeluqueros extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_peluqueros, container, false);
 
-       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
-        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        recyclerView = view.findViewById(R.id.recyclerViewPeluqueros);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewFav.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // Consultar todas las peluquerías
-        Query query = db.collection("Peluqueria");
-
-        FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(query, Peluqueria.class).build();
 
         // Obtener el UID del usuario actual
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -86,29 +92,28 @@ public class ListaPeluqueros extends Fragment {
             String uid = currentUser.getUid();
 
             // Consultar las peluquerías favoritas del usuario
-            Query queryFav = db.collection("Favoritos").document(uid).collection("Peluquerias");
-            FirestoreRecyclerOptions<Peluqueria> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluqueria>().setQuery(queryFav, Peluqueria.class).build();
+            Query queryBarber = db.collection("Peluquero");
+            FirestoreRecyclerOptions<Peluquero> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluquero>().setQuery(queryBarber, Peluquero.class).build();
 
-            adapterFav = new PeluqueriaAdapter(firestoreRecyclerOptionsFav);
-            adapterFav.notifyDataSetChanged();
-            recyclerViewFav.setAdapter(adapterFav);
+            adapter = new PeluqueroAdapter(firestoreRecyclerOptionsFav);
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
 
-            adapterFav.setOnClickListener(new View.OnClickListener() {
+            adapter.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    int position = recyclerViewFav.getChildAdapterPosition(view);
-                    Peluqueria peluqueria = adapterFav.getItem(position);
+                    int position = recyclerView.getChildAdapterPosition(view);
+                    Peluquero peluquero = adapter.getItem(position);
 
                     // Navegar al siguiente fragmento y pasar los datos como argumentos
                     Bundle args = new Bundle();
-                    args.putString("direccion", peluqueria.getDireccion());
-                    args.putString("horario", peluqueria.getHorario());
-                    args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
-                    args.putString("nombre", peluqueria.getNombre());
+                    args.putString("especialidad", peluquero.getEspecialidad());
+                    args.putString("horario", peluquero.getHorario());
+                    args.putString("nombre", peluquero.getNombre());
                     getParentFragmentManager().setFragmentResult("resquestKey", args);
-                    Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
+                    Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
                 }
-            });*/
-
+            });
+        }
         return view;
     }
 }

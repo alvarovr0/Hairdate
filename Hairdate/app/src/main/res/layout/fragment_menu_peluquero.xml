@@ -32,13 +32,6 @@
                 android:text="Usuario"
                 android:gravity="center" />
 
-            <ImageView
-                android:id="@+id/img_campanaNoti"
-                android:layout_width="6dp"
-                android:layout_height="43dp"
-                android:layout_weight="1"
-                android:src="@drawable/bell" />
-
             <Button
                 android:id="@+id/btn_cerrarSesion"
                 android:layout_width="100dp"
@@ -59,11 +52,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Comprobar/gestionar Citas" />
-                
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvw_PeluqueroCitas"
+
+            <Button
+                android:id="@+id/btn_gestionPeluqueros"
                 android:layout_width="match_parent"
-                android:layout_height="265dp" />
+                android:layout_height="wrap_content"
+                android:text="Gestionar/comprobar peluqueros" />
 
             <Button
                 android:id="@+id/btn_comprobarStock"

@@ -88,6 +88,9 @@ public class principal_cliente extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         usuario = view.findViewById(R.id.txt_nombreCliente);
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        if(profileImage == null){
+            profileImage.setImageResource(R.drawable.user_profile);
+        }
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -207,27 +210,5 @@ public class principal_cliente extends Fragment {
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
     }
-
-    /*public void perfilUsuario(){
-        storageReference = FirebaseStorage.getInstance().getReference();
-        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                emailActual = result.getString("email");
-                // Coloca el email como nombre de usuario
-                usuario.setText(emailActual);
-                // Si existe una imagen, la coloca como imagen de perfil
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
-            }
-        });
-    }*/
 
 }
