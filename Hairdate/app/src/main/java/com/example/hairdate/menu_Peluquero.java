@@ -129,8 +129,6 @@ public class menu_Peluquero extends Fragment{
         IrADetallerCitas = true;
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
-
-
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
@@ -162,9 +160,14 @@ public class menu_Peluquero extends Fragment{
 
 
 
-
+        // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
+                String volverAMenuPeluquero = "Peluquero";
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                bundle.putString("ADondeVolver", volverAMenuPeluquero);
+                getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
             }
         }));

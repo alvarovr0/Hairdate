@@ -84,7 +84,7 @@ public class tipo_cuenta extends Fragment {
             public final void onClick(View it) {
                 //Esto nos servirá para crear una ventana de diálogo para asegurar que si está seguro de la opción elegida
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) tipo_cuenta.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence)"¿Seguro que quieres crear una cuenta peluquero??").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                constructorDialogo.setMessage((CharSequence)"¿Seguro que quieres crear una cuenta peluquería?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
                         Navigation.findNavController(getView()).navigate(R.id.action_tipo_cuenta_to_crearUsuario_Peluquero);
                     }
