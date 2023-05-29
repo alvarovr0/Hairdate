@@ -1,16 +1,12 @@
 package com.example.hairdate;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +99,7 @@ public class perfil_peluqueria extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_perfil_peluqueria, container, false);
 
+
         db = FirebaseFirestore.getInstance();
 
         direccionTextView = rootView.findViewById(R.id.txtDireccion);
@@ -144,6 +141,7 @@ public class perfil_peluqueria extends Fragment {
                 }
             }
         }));
+
         imagenPerfilPelu(rootView);
         pedirCita(rootView);
         return rootView;
@@ -327,7 +325,6 @@ public class perfil_peluqueria extends Fragment {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
         btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                FirebaseAuth.getInstance().signOut();
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));

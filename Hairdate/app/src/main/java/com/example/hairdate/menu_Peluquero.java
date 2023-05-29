@@ -101,9 +101,6 @@ public class menu_Peluquero extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -118,7 +115,6 @@ public class menu_Peluquero extends Fragment{
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
-
 
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);

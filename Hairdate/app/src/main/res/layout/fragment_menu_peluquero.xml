@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.example.hairdate.RoundedImageView
                 android:id="@+id/img_imagenPerfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/user"/>
+                android:src="@drawable/user_profile"/>
 
             <TextView
                 android:id="@+id/txt_nombrePeluquero"
@@ -53,17 +53,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lista_citas"
-                android:layout_width="match_parent"
-                android:layout_height="241dp" />
+            <Button
+                android:id="@+id/btn_comprobarCitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Comprobar/gestionar Citas" />
 
             <Button
                 android:id="@+id/btn_comprobarStock"
-                android:layout_width="201dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Comprobar Stock" />
+                android:text="Comprobar/gestionar productos" />
 
             <CalendarView
                 android:id="@+id/calendario"

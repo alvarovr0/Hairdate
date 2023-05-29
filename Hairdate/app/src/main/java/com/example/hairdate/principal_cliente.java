@@ -7,10 +7,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +23,21 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -47,6 +53,9 @@ public class principal_cliente extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    String nombreUsuario;
+    String emailActual;
+
     FirebaseFirestore db;
     RecyclerView recyclerView;
     RecyclerView recyclerViewFav;
@@ -55,6 +64,7 @@ public class principal_cliente extends Fragment {
     ImageView profileImage;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
+    private TextView usuario;
 
     public principal_cliente() {
         // Required empty public constructor
@@ -75,6 +85,8 @@ public class principal_cliente extends Fragment {
         View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txt_nombreCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -129,7 +141,7 @@ public class principal_cliente extends Fragment {
                     args.putString("horario", peluqueria.getHorario());
                     args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
                     args.putString("nombre", peluqueria.getNombre());
-
+                    getParentFragmentManager().setFragmentResult("resquestKey", args);
                     Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
                 }
             });
@@ -177,9 +189,9 @@ public class principal_cliente extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(adapterFav !=null){
-            adapterFav.stopListening();
-        }
+    if(adapterFav !=null){
+        adapterFav.stopListening();
+    }
         adapter.stopListening();
     }
 
@@ -194,5 +206,27 @@ public class principal_cliente extends Fragment {
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
     }
+
+    /*public void perfilUsuario(){
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+                emailActual = result.getString("email");
+                // Coloca el email como nombre de usuario
+                usuario.setText(emailActual);
+                // Si existe una imagen, la coloca como imagen de perfil
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
+            }
+        });
+    }*/
 
 }
