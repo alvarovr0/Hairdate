@@ -59,6 +59,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Comprobar/gestionar Citas" />
+                
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvw_PeluqueroCitas"
+                android:layout_width="match_parent"
+                android:layout_height="265dp" />
 
             <Button
                 android:id="@+id/btn_comprobarStock"

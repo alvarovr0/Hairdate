@@ -15,10 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentKt;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hairdate.adapter.CitasAdapter;
+import com.example.hairdate.model.Citas;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,13 +72,19 @@ public class menu_Peluquero extends Fragment{
 
     String nombreUsuario;
     String emailActual;
+    boolean IrADetallerCitas;
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+    private View view;
 
     ImageView profileImage;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+
+    RecyclerView mRecycler;
+    CitasAdapter mAdapter;
+    FirebaseFirestore mFirestore;
 
 
     public menu_Peluquero() {
@@ -111,69 +123,65 @@ public class menu_Peluquero extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
+        view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        IrADetallerCitas = true;
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
-
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
-                String result = bundle.getString("bundleKey");
-                emailActual = bundle.getString("email");
-                Query query = db.collection("Peluquero").whereEqualTo("UID", result);
-                query.get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                // Iterar a través de los documentos
-                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                    // Obtener el valor en concreto que necesitas
-                                    nombreUsuario = document.getString("nombre");
-                                    usuario.setText(emailActual);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("email", emailActual);
-                                    getParentFragmentManager().setFragmentResult("fragmentVerObjeto", bundle);
+        mFirestore = FirebaseFirestore.getInstance();
+        mRecycler = view.findViewById(R.id.rvw_PeluqueroCitas);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Query query = mFirestore.collection("Citas");
 
-                                    StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                                    profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Picasso.get().load(uri).into(profileImage);
-                                        }
-                                    });
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("MyApp", "Error al obtener los documentos: ", e);
-                            }
-                        });
+        FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
+
+        mAdapter = new CitasAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdapter);
+
+        // Permite hacer click en las citas y te envia a detalles_citas
+        mAdapter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
+                // Envía el email y el horario a detalles_citas, para que este pueda cargar la cita correspondiente
+                Bundle result = new Bundle();
+                result.putString("email", emailActual);
+                result.putString("horario", horarioCita);
+                getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
             }
         });
 
-        usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+
+
+
+        // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
+        usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
+                String volverAMenuPeluquero = "Peluquero";
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                bundle.putString("ADondeVolver", volverAMenuPeluquero);
+                getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
             }
         }));
 
         // Cuando se pulsa el botón "Comprobar Stock" se cambia al fragment donde se puede comprobar el stock
-        btn_controlStock.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_controlStock.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
+                Bundle bundle = new Bundle();
+                bundle.putString("email", emailActual);
+                getParentFragmentManager().setFragmentResult("fragmentVerObjeto", bundle);
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_fragment_ver_objeto);
             }
         }));
 
-        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 FirebaseAuth.getInstance().signOut();
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion);
@@ -183,4 +191,35 @@ public class menu_Peluquero extends Fragment{
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
+        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+                emailActual = result.getString("email");
+                // Coloca el email como nombre de usuario
+                usuario.setText(emailActual);
+                // Si existe una imagen, la coloca como imagen de perfil
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+    }
 }

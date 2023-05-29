@@ -71,7 +71,7 @@ public class crearUsuario_Peluquero extends Fragment {
     private String mParam1;
     private String mParam2;
     private boolean ojoAbierto = false;
-    private EditText nombre, cif, usuario, email, contrasena, direccion;
+    private EditText nombre, cif, usuario, email, contrasena, direccion, num_tlf;
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
@@ -150,7 +150,7 @@ public class crearUsuario_Peluquero extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //Creamos una instancia de nuestra BBDD en este caso FireBase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference referencia = db.collection("Peluquero").document();
+        DocumentReference referencia = db.collection("Peluqueria").document();
         View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
@@ -159,6 +159,7 @@ public class crearUsuario_Peluquero extends Fragment {
         email = (EditText) view.findViewById(R.id.edTxt_Email_peluquero);
         direccion = (EditText) view.findViewById(R.id.edTxt_Direccion_peluquero);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
+        num_tlf = (EditText) view.findViewById(R.id.edTxt_num_peluquero);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -185,7 +186,7 @@ public class crearUsuario_Peluquero extends Fragment {
 
                 if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
                     // Verificar si el correo ya existe en la base de datos
-                    Query query = db.collection("Peluquero").whereEqualTo("email", emailvalidator);
+                    Query query = db.collection("Peluqueria").whereEqualTo("email", emailvalidator);
                     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -212,6 +213,7 @@ public class crearUsuario_Peluquero extends Fragment {
                                     user.put("usuario", usuario.getText().toString());
                                     user.put("email", emailvalidator);
                                     user.put("direccion", direccion_completa);
+                                    user.put("numeroTelefono", num_tlf.getText().toString());
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
