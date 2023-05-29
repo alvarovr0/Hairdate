@@ -51,8 +51,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
+<<<<<<< Updated upstream
             <ListView
                 android:id="@+id/lista_citas"
                 android:layout_width="match_parent"
@@ -61,16 +62,51 @@
             <Button
                 android:id="@+id/btn_comprobarStock"
                 android:layout_width="201dp"
+=======
+            <LinearLayout
+                android:layout_width="wrap_content"
+>>>>>>> Stashed changes
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Comprobar Stock" />
+                >
+                <Button
+                    android:id="@+id/Gestionar_Cita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            <CalendarView
-                android:id="@+id/calendario"
+                    android:text="Gestionar citas"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
+                >
+
+                <Button
+                    android:id="@+id/btn_comprobarStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comprobar Stock" />
+
+                <Button
+                android:id="@+id/btn_peluqueros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="peluqueros" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
+
+
     </LinearLayout>
 </FrameLayout>

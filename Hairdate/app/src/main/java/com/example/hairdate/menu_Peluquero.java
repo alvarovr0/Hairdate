@@ -69,7 +69,13 @@ public class menu_Peluquero extends Fragment{
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+<<<<<<< Updated upstream
 
+=======
+    private View view;
+    private Button citas;
+    private Button peluqueros;
+>>>>>>> Stashed changes
     ImageView profileImage;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
@@ -117,13 +123,23 @@ public class menu_Peluquero extends Fragment{
         View view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        citas = view.findViewById(R.id.Gestionar_Cita);
+
+        citas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_citas);
+            }
+        });
         profileImage = view.findViewById(R.id.img_imagenPerfil);
 
 
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        peluqueros = view.findViewById(R.id.btn_peluqueros);
 
+<<<<<<< Updated upstream
         storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
             @Override
@@ -163,6 +179,8 @@ public class menu_Peluquero extends Fragment{
                         });
             }
         });
+=======
+>>>>>>> Stashed changes
 
         usuario.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
@@ -184,7 +202,18 @@ public class menu_Peluquero extends Fragment{
             }
         }));
 
+        peluqueros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_peluqueros);
+            }
+        });
+
         return view;
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }
