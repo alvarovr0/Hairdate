@@ -182,6 +182,9 @@
         <action
             android:id="@+id/action_listaPeluqueros_to_peluquero_detalle"
             app:destination="@id/peluquero_detalle" />
+        <action
+            android:id="@+id/action_listaPeluqueros_to_peluqueroAgregar"
+            app:destination="@id/peluqueroAgregar" />
     </fragment>
     <fragment
         android:id="@+id/citasLista"
@@ -202,5 +205,14 @@
         <action
             android:id="@+id/action_activity_profile_cliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/peluqueroAgregar"
+        android:name="com.example.hairdate.PeluqueroAgregar"
+        android:label="fragment_peluquero_agregar"
+        tools:layout="@layout/fragment_peluquero_agregar" >
+        <action
+            android:id="@+id/action_peluqueroAgregar_to_listaPeluqueros"
+            app:destination="@id/listaPeluqueros" />
     </fragment>
 </navigation>

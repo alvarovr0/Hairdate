@@ -1,6 +1,7 @@
 package com.example.hairdate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,8 @@ public class ListaPeluqueros extends Fragment {
     RoundedImageView profileImage;
     String numeroTelefono;
     TextView usuario;
+
+    private Button btn_addPeluquero;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -197,6 +201,18 @@ public class ListaPeluqueros extends Fragment {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(profileImage);
+            }
+        });
+    }
+
+    public void addPeluquero(View view){
+        btn_addPeluquero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluqueroAgregar);
             }
         });
     }
