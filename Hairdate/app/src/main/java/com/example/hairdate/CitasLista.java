@@ -95,9 +95,7 @@ public class CitasLista extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
 
         // Consultar todas las peluquerías
         Query query = db.collection("Citas");
@@ -121,38 +119,10 @@ public class CitasLista extends Fragment {
                 result.putString("horario", horarioCita);
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
 
-
-
-
-
-                Navigation.findNavController(view).navigate(R.id.action_citas_to_detalles_citas, result);
+                Navigation.findNavController(view).navigate(R.id.action_citasLista_to_detalles_citas, result);
             }
         });
 
-        /*view = inflater.inflate(R.layout.fragment_menu_peluquero, container, false);
-        mFirestore = FirebaseFirestore.getInstance();
-        mRecycler = view.findViewById(R.id.recyclerView);
-        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Query query = mFirestore.collection("Citas");
-
-        FirestoreRecyclerOptions<com.example.hairdate.model.Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<com.example.hairdate.model.Citas>().setQuery(query, com.example.hairdate.model.Citas.class).build();
-
-        mAdapter = new CitasAdapter(firestoreRecyclerOptions);
-        mAdapter.notifyDataSetChanged();
-        mRecycler.setAdapter(mAdapter);
-
-        // Permite hacer click en las citas y te envia a detalles_citas
-        mAdapter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
-                // Envía el email y el horario a detalles_citas, para que este pueda cargar la cita correspondiente
-                Bundle result = new Bundle();
-                result.putString("email", emailActual);
-                result.putString("horario", horarioCita);
-                //getParentFragmentManager().setFragmentResult("citas_to_detallesCitas", result);
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
-            }
-        });*/
         // Inflate the layout for this fragment
         return view;
     }

@@ -88,7 +88,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="82dp"
         android:layout_marginBottom="654dp"
-        android:text="Derecha" />
+        android:background="@drawable/quantum_ic_arrow_back_grey600_24"
+        android:rotationY="180"/>
 
     <Button
         android:id="@+id/btn_productoIzquierda"
@@ -98,7 +99,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="216dp"
         android:layout_marginBottom="653dp"
-        android:text="<--" />
+        android:background="@drawable/quantum_ic_arrow_back_grey600_24" />
 
     <Button
         android:id="@+id/btn_cancelarCambios"
