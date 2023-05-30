@@ -155,6 +155,7 @@ public class crearUsuario_Peluquero extends Fragment {
         DocumentReference referencia = db.collection("Peluqueria").document();
         View view = inflater.inflate(R.layout.fragment_crear_usuario_peluquero, container, false);
         Spinner spn = (Spinner) view.findViewById(R.id.spinnerCalle_peluquero);
+        Spinner spntipo = (Spinner) view.findViewById(R.id.spinner_tipo_peluqueria);
         nombre = (EditText) view.findViewById(R.id.edTxt_nombre_peluquero);
         cif = (EditText) view.findViewById(R.id.edTxt_cif_peluquero);
         usuario = (EditText) view.findViewById(R.id.edTxt_usuario_peluquero);
@@ -241,6 +242,7 @@ public class crearUsuario_Peluquero extends Fragment {
                                         user.put("corte_tinte", corteTinte);
                                         user.put("tinte", tinte);
                                         user.put("peinado", peinado);
+                                        user.put("tipo", spntipo.getSelectedItem().toString());
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {

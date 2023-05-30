@@ -119,11 +119,14 @@ public class CitasLista extends Fragment {
                 result.putString("horario", horarioCita);
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
 
+
+
+
+
                 Navigation.findNavController(view).navigate(R.id.action_citasLista_to_detalles_citas, result);
             }
         });
 
-        // Inflate the layout for this fragment
         return view;
     }
 

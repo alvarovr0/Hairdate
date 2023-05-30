@@ -4,20 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.navigation.Navigation;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,10 +26,10 @@ import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link activity_profile#newInstance} factory method to
+ * Use the {@link activity_profile_cliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class activity_profile extends Fragment {
+public class activity_profile_cliente extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,7 +46,7 @@ public class activity_profile extends Fragment {
     private Button volverAtras;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-    public activity_profile() {
+    public activity_profile_cliente() {
         // Required empty public constructor
     }
 
@@ -61,8 +59,8 @@ public class activity_profile extends Fragment {
      * @return A new instance of fragment activity_profile.
      */
     // TODO: Rename and change types and number of parameters
-    public static activity_profile newInstance(String param1, String param2) {
-        activity_profile fragment = new activity_profile();
+    public static activity_profile_cliente newInstance(String param1, String param2) {
+        activity_profile_cliente fragment = new activity_profile_cliente();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -96,7 +94,6 @@ public class activity_profile extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("email", emailActual);
-                bundle.putString("ADondeVolver", ADondeVolver);
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
                 // Aquí puedes abrir la galería o la cámara para que el usuario pueda seleccionar una nueva imagen de perfil
                 Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -107,11 +104,11 @@ public class activity_profile extends Fragment {
         volverAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Envía la información a menuPeluquero y vuelve a ese fragment
+                // Envía la información a menuCliente y vuelve a ese fragment
                 Bundle bundle = new Bundle();
                 bundle.putString("email", emailActual);
-                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
-                Navigation.findNavController(view).navigate(R.id.action_activity_profile_to_menu_Peluquero);
+                getParentFragmentManager().setFragmentResult("menuCliente", bundle);
+                Navigation.findNavController(view).navigate(R.id.action_activity_profile_cliente_to_principal_cliente);
             }
         });
 
@@ -171,16 +168,13 @@ public class activity_profile extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ADondeVolver = "Cliente";
         storageReference = FirebaseStorage.getInstance().getReference();
         // Recoge los datos que han sido traidos desde menuPeluquero/menuCliente
         getParentFragmentManager().setFragmentResultListener("menuPeluquero_to_activityProfile", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                emailActual = result.getString("email");
-                ADondeVolver = result.getString("ADondeVolver");
+                emailActual = result.getString("email");;
 
-                //Toast.makeText(getContext(), ADondeVolver, Toast.LENGTH_SHORT).show();
 
                 // Muestra imagen si ya había alguna anteriormente
                 StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");

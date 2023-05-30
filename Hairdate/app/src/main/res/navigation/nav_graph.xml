@@ -82,9 +82,6 @@
         <action
             android:id="@+id/action_activity_profile_to_menu_Peluquero"
             app:destination="@id/menu_Peluquero" />
-        <action
-            android:id="@+id/action_activity_profile_to_principal_cliente"
-            app:destination="@id/principal_cliente" />
     </fragment>
     <fragment
         android:id="@+id/preferenciaCitasCliente"
@@ -122,6 +119,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_inicioSesion"
             app:destination="@id/inicioSesion" />
+        <action
+            android:id="@+id/action_principal_cliente_to_activity_profile_cliente"
+            app:destination="@id/activity_profile_cliente" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"
@@ -159,6 +159,9 @@
         android:label="fragment_detalles_citas"
         tools:layout="@layout/fragment_detalles_citas" >
         <action
+            android:id="@+id/action_detalles_citas_to_citasLista"
+            app:destination="@id/citasLista" />
+        <action
             android:id="@+id/action_detalles_citas_to_menu_Peluquero"
             app:destination="@id/menu_Peluquero" />
     </fragment>
@@ -186,12 +189,18 @@
         android:label="fragment_citas"
         tools:layout="@layout/fragment_citas" >
         <action
+            android:id="@+id/action_citasLista_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+        <action
             android:id="@+id/action_citasLista_to_detalles_citas"
             app:destination="@id/detalles_citas" />
     </fragment>
     <fragment
-        android:id="@+id/perfil_peluquero"
-        android:name="com.example.hairdate.perfil_peluquero"
-        android:label="fragment_perfil_peluquero"
-        tools:layout="@layout/fragment_perfil_peluquero" />
+        android:id="@+id/activity_profile_cliente"
+        android:name="com.example.hairdate.activity_profile_cliente"
+        android:label="activity_profile_cliente" >
+        <action
+            android:id="@+id/action_activity_profile_cliente_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
 </navigation>

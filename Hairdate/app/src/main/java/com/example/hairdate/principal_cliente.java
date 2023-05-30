@@ -157,7 +157,6 @@ public class principal_cliente extends Fragment {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 emailActual = document.getString("email");
-                                Toast.makeText(getActivity(), "emailActual es " + emailActual, Toast.LENGTH_SHORT).show();
 
                                 // Coloca el email como nombre de usuario
                                 usuario.setText(document.getString("usuario"));
@@ -273,6 +272,6 @@ public class principal_cliente extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("email", emailActual);
         getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
-        Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_activity_profile);
+        Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_activity_profile_cliente);
     }
 }

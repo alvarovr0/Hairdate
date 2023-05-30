@@ -125,14 +125,14 @@ public class detalles_citas extends Fragment {
                                     String UID_necesario = document.getString("UID");
                                     Query query2 = db.collection("Cliente").whereEqualTo("UID", UID_necesario);
                                     query2.get()
-                                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                            for (DocumentSnapshot document2 : queryDocumentSnapshots.getDocuments()) {
-                                                                cliente.setText(document2.getString("nombre") + " - " + document2.getString("email"));
-                                                            }
-                                                        }
-                                                    });
+                                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    for (DocumentSnapshot document2 : queryDocumentSnapshots.getDocuments()) {
+                                                        cliente.setText(document2.getString("nombre") + " - " + document2.getString("email"));
+                                                    }
+                                                }
+                                            });
 
                                 }
                             }
