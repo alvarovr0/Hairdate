@@ -10,61 +10,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imagePeluqueria"
+            android:layout_width="match_parent"
+            android:layout_height="276dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:paddingBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/txtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imagePeluqueria"
             android:gravity="center"
-            android:orientation="vertical">
+            android:paddingBottom="10dp"
+            android:text="Nombre de la Peluquería"
+            android:textSize="20dp" />
 
-            <ImageView
-                android:id="@+id/imagePeluqueria"
-                android:layout_width="match_parent"
-                android:layout_height="276dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:paddingBottom="10dp"
-                android:scaleType="fitXY"
-                 />
+        <TextView
+            android:id="@+id/txtDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNombre"
+            android:gravity="center"
+            android:text="Dirección de la Peluquería" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/txtNumTlf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtDireccion"
+            android:gravity="center"
+            android:text="6324805" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtHorario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNumTlf"
+            android:gravity="center"
+            android:text="Horario de la Peluquería" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtHorario"
+            android:gravity="center"
+            android:text="Peluqueros"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPeluqueros"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtNombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:text="Nombre de la Peluquería"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/txtDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Dirección de la Peluquería" />
-
-            <TextView
-                android:id="@+id/txtNumTlf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="6324805" />
-
-            <TextView
-                android:id="@+id/txtHorario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Horario de la Peluquería" />
-
-        </LinearLayout>
+            android:layout_below="@id/txtHorario"
+            android:layout_above="@id/btn_pedirCita" />
 
         <ImageButton
             android:id="@+id/imagen_fav"

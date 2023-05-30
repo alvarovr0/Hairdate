@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,9 +64,13 @@ public class perfil_peluqueria extends Fragment {
     private String peluqueriaId;
     private String userId;
     private Button btn_pedirCita;
+    String peluqueriaUid;
 
-    ImageView profileImage;
+    RecyclerView recyclerView;
+    PeluqueroAdapter adapter;
+
     private StorageReference storageReference;
+    ImageView profileImage;
 
     public perfil_peluqueria() {
         // Required empty public constructor
@@ -143,6 +153,8 @@ public class perfil_peluqueria extends Fragment {
 
         imagenPerfilPelu(rootView);
         pedirCita(rootView);
+        listaPeluqueros(rootView);
+
         return rootView;
     }
 
@@ -307,7 +319,7 @@ public class perfil_peluqueria extends Fragment {
         }
     }
 
-    public void imagenPerfilPelu(View rootView){
+    public void imagenPerfilPelu(View rootView) {
         profileImage = rootView.findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
         // Muestra una imagen
@@ -320,13 +332,85 @@ public class perfil_peluqueria extends Fragment {
         });
     }
 
-    public void pedirCita(View view){
+    public void pedirCita(View view) {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
-        btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_pedirCita.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));
     }
+
+    public void listaPeluqueros(View rootView) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        recyclerView = rootView.findViewById(R.id.recyclerViewPeluqueros);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String direccionPeluqueria = direccionTextView.getText().toString();
+
+            // Realiza la consulta para obtener la peluquería con la dirección dada
+            db.collection("Peluqueria")
+                    .whereEqualTo("direccion", direccionPeluqueria)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // Obtiene el primer documento de la consulta
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                String peluqueriaId = documentSnapshot.getId();
+
+                                // Consultar los peluqueros de la peluquería actual desde la anterior UID
+                                Query queryPeluqueros = db.collection("Peluquero")
+                                        .whereEqualTo("peluqueria", "/Peluqueria/" + peluqueriaId); // Filtrar por el UID de la peluquería
+
+                                FirestoreRecyclerOptions<Peluquero> firestoreRecyclerOptionsPeluqueros = new FirestoreRecyclerOptions.Builder<Peluquero>()
+                                        .setQuery(queryPeluqueros, Peluquero.class)
+                                        .build();
+
+                                adapter = new PeluqueroAdapter(firestoreRecyclerOptionsPeluqueros);
+                                adapter.notifyDataSetChanged();
+                                recyclerView.setAdapter(adapter);
+
+                            } else {
+                                Toast.makeText(getActivity(), "ERROR: No se encontró ninguna peluquería con esa dirección", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "ERROR: Ocurrió un error al obtener la ID de la peluquería", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(adapter !=null){
+            adapter.startListening();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(adapter !=null){
+            adapter.stopListening();
+        }
+    }
+
+
 
 }
