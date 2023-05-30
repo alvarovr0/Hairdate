@@ -194,78 +194,92 @@ public class crearUsuario_Peluquero extends Fragment {
                 String corteTinte = checkboxCorteTinte.isChecked() ? "si" : "no";
                 String tinte = checkboxTinte.isChecked() ? "si" : "no";
                 String peinado = checkboxPeinado.isChecked() ? "si" : "no";
-
-                if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
-                    // Verificar si el correo ya existe en la base de datos
-                    Query query = db.collection("Peluqueria").whereEqualTo("email", emailvalidator);
-                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().size() > 0) {
-                                    // El correo ya existe en la base de datos
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                                    builder.setTitle("Correo en uso")
-                                            .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
-                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                            .show();
-                                } else {
-                                    // El correo no existe en la base de datos
-                                    createAccount(emailvalidator, password);
-                                    Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("nombre", nombre.getText().toString());
-                                    user.put("CIF", cif.getText().toString());
-                                    user.put("usuario", usuario.getText().toString());
-                                    user.put("email", emailvalidator);
-                                    user.put("direccion", direccion_completa);
-                                    user.put("numeroTelefono", num_tlf.getText().toString());
-                                    user.put("horario", horario.getText().toString());
-                                    user.put("corte", corte);
-                                    user.put("corte_tinte", corteTinte);
-                                    user.put("tinte", tinte);
-                                    user.put("peinado", peinado);
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            user.put("UID", uid);
-                                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }, 3000);
+                if(emailvalidator.isEmpty() || direccion_completa.isEmpty() || password.isEmpty() || nombre.getText().toString().isEmpty() || cif.getText().toString().isEmpty() || usuario.getText().toString().isEmpty() || num_tlf.getText().toString().isEmpty() || horario.getText().toString().isEmpty()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Hay un campo vacio")
+                            .setMessage("Antes de poder crear una cuenta tienes que rellenar todos los campos")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
                                 }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-                } else {
-                    if (password.length() < 6) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setTitle("Contraseña inválida")
-                                .setMessage("La contraseña debe tener al menos 6 caracteres.")
-                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
+                            })
+                            .show();
+                } else{
+                    if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
+                        // Verificar si el correo ya existe en la base de datos
+                        Query query = db.collection("Peluqueria").whereEqualTo("email", emailvalidator);
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().size() > 0) {
+                                        // El correo ya existe en la base de datos
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                        builder.setTitle("Correo en uso")
+                                                .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
+                                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        // El correo no existe en la base de datos
+                                        createAccount(emailvalidator, password);
+                                        Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
+                                        Map<String, Object> user = new HashMap<>();
+                                        user.put("nombre", nombre.getText().toString());
+                                        user.put("CIF", cif.getText().toString());
+                                        user.put("usuario", usuario.getText().toString());
+                                        user.put("email", emailvalidator);
+                                        user.put("direccion", direccion_completa);
+                                        user.put("numeroTelefono", num_tlf.getText().toString());
+                                        user.put("horario", horario.getText().toString());
+                                        user.put("corte", corte);
+                                        user.put("corte_tinte", corteTinte);
+                                        user.put("tinte", tinte);
+                                        user.put("peinado", peinado);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                user.put("UID", uid);
+                                                referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Peluquero_to_inicioSesion);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }, 3000);
                                     }
-                                })
-                                .show();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
                     } else {
-                        Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                        if (password.length() < 6) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                            builder.setTitle("Contraseña inválida")
+                                    .setMessage("La contraseña debe tener al menos 6 caracteres.")
+                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
+
+
 
             }
         });
