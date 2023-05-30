@@ -58,6 +58,7 @@ public class perfil_peluqueria extends Fragment {
     private TextView numeroTelefonoTextView;
     private TextView nombreTextView;
     private TextView serviciosTextView;
+    private TextView tipoTextView;
     private ImageButton btn_fav;
     private boolean fav_marc;
     private String peluqueriaId;
@@ -112,6 +113,7 @@ public class perfil_peluqueria extends Fragment {
         numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
         nombreTextView = rootView.findViewById(R.id.txtNombre);
         serviciosTextView = rootView.findViewById(R.id.txtServicios);
+        tipoTextView = rootView.findViewById(R.id.txtTipo);
         btn_volverAtras = rootView.findViewById(R.id.btn_cancelar_perfilPeluqueria);
 
         // Obtener los argumentos pasados desde el fragmento anterior
@@ -125,6 +127,7 @@ public class perfil_peluqueria extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     String servicios = "";
+                    String tipo = "";
                     if (task.isSuccessful()) {
                         if (task.getResult() != null && !task.getResult().isEmpty()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
@@ -132,6 +135,7 @@ public class perfil_peluqueria extends Fragment {
                                 String corteTinte = document.getString("corte_tinte");
                                 String tinte = document.getString("tinte");
                                 String peinado = document.getString("peinado");
+                                tipo = document.getString("tipo");
                                 if(corte.equals("si")){
                                     servicios += "corte ";
                                 }
@@ -148,6 +152,7 @@ public class perfil_peluqueria extends Fragment {
                         }
                     }
                     serviciosTextView.setText(servicios);
+                    tipoTextView.setText(tipo);
                 }
             });
 
