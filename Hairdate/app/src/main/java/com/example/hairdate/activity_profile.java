@@ -25,7 +25,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link activity_profile#newInstance} factory method to
@@ -43,10 +42,11 @@ public class activity_profile extends Fragment {
     private String mParam2;
     ImageView profileImage;
     String emailActual;
+    String ADondeVolver;
     private Button changeImageButton;
+    private Button volverAtras;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-
     public activity_profile() {
         // Required empty public constructor
     }
@@ -78,25 +78,13 @@ public class activity_profile extends Fragment {
         changeImageButton = view.findViewById(R.id.change_image_button);
         volverAtras = view.findViewById(R.id.btn_volver_activityProfile);
 
-
-        storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("fragmentVerObjeto", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 emailActual = result.getString("email");
-                //Toast.makeText(view.getContext(), emailActual, Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("email", emailActual);
-                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
 
-                // Muestra imagen si ya había alguna anteriormente
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
+
+
             }
         });
 
@@ -132,7 +120,6 @@ public class activity_profile extends Fragment {
 
         return view;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +129,12 @@ public class activity_profile extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        //firebaseStorage = FirebaseStorage.getInstance();
+        //storageReference = firebaseStorage.getReference().child("profile_images");
+
+
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
