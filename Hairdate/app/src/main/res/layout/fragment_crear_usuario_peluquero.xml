@@ -62,7 +62,7 @@
                 android:gravity="center"
                 android:hint="Nombre"
                 android:inputType="textPersonName"
-                android:maxLength="20" />
+                />
 
             <TextView
                 android:id="@+id/txt_cif_peluquero"
@@ -265,6 +265,20 @@
                         android:layout_height="wrap_content"
                         android:text="Peinado"/>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_tipo_peluqueria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Tipo" />
+
+                <Spinner
+                    android:id="@+id/spinner_tipo_peluqueria"
+                    android:layout_width="289dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:entries="@array/tipoPeluqueria"/>
 
             </LinearLayout>
 
