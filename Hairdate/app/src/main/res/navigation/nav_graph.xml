@@ -71,11 +71,11 @@
             android:id="@+id/action_menu_Peluquero_to_inicioSesion"
             app:destination="@id/inicioSesion" />
         <action
-            android:id="@+id/action_menu_Peluquero_to_detalles_citas"
-            app:destination="@id/detalles_citas" />
-        <action
             android:id="@+id/action_menu_Peluquero_to_listaPeluqueros"
             app:destination="@id/listaPeluqueros" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_citasLista"
+            app:destination="@id/citasLista" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
@@ -180,6 +180,9 @@
         android:label="fragment_detalles_citas"
         tools:layout="@layout/fragment_detalles_citas" >
         <action
+            android:id="@+id/action_detalles_citas_to_citasLista"
+            app:destination="@id/citasLista" />
+        <action
             android:id="@+id/action_detalles_citas_to_menu_Peluquero"
             app:destination="@id/menu_Peluquero" />
     </fragment>
@@ -200,5 +203,17 @@
         <action
             android:id="@+id/action_listaPeluqueros_to_peluquero_detalle"
             app:destination="@id/peluquero_detalle" />
+    </fragment>
+    <fragment
+        android:id="@+id/citasLista"
+        android:name="com.example.hairdate.CitasLista"
+        android:label="fragment_citas"
+        tools:layout="@layout/fragment_citas" >
+        <action
+            android:id="@+id/action_citasLista_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+        <action
+            android:id="@+id/action_citasLista_to_detalles_citas"
+            app:destination="@id/detalles_citas" />
     </fragment>
 </navigation>

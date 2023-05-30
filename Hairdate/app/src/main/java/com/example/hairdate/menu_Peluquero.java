@@ -92,7 +92,7 @@ public class menu_Peluquero extends Fragment{
 
 
     public menu_Peluquero() {
-        
+
     }
 
     public static menu_Peluquero newInstance(String param1, String param2) {
@@ -175,6 +175,13 @@ public class menu_Peluquero extends Fragment{
             }
         });
 
+        btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_citasLista);
+            }
+        });
+
         // Cuando se pulsa el botón "Comprobar Stock" se cambia al fragment donde se puede comprobar el stock
         btn_controlStock.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
@@ -209,12 +216,6 @@ public class menu_Peluquero extends Fragment{
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
-            }
-        });
-        btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
             }
         });
 
