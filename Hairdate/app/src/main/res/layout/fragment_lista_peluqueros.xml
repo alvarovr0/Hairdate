@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ListaPeluqueros"
-    android:background="@color/fondo">
+    android:background="@color/fondo"
+    tools:context=".ListaPeluqueros">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,11 +18,11 @@
             android:orientation="horizontal">
 
             <com.example.hairdate.RoundedImageView
-                android:layout_margin="10dp"
                 android:id="@+id/img_imagenPerfilCliente"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
                 android:clickable="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/user_profile"
@@ -32,19 +32,19 @@
                 android:id="@+id/txt_nombreCliente"
                 android:layout_width="47dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Usuario"
                 android:gravity="center"
-                android:layout_margin="10dp"/>
+                android:text="Usuario" />
 
             <Button
                 android:id="@+id/btn_cerrarSesion"
                 android:layout_width="69dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Cerrar Sesión"
-                android:layout_margin="10dp"/>
+                android:text="Cerrar Sesión" />
 
         </LinearLayout>
 
@@ -58,13 +58,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Peluqueros"
-                android:textSize="20dp"/>
+                android:text="Lista de peluqueros"
+                android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewPeluqueros"
                 android:layout_width="match_parent"
                 android:layout_height="398dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_margin="10dp"/>
 
         </LinearLayout>
 

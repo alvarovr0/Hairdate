@@ -397,7 +397,7 @@ public class perfil_peluqueria extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(adapter !=null){
+        if (adapter != null) {
             adapter.startListening();
         }
 
@@ -406,11 +406,10 @@ public class perfil_peluqueria extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(adapter !=null){
+        if (adapter != null) {
             adapter.stopListening();
         }
     }
-
 
 
 }

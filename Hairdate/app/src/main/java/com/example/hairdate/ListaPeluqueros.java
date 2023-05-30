@@ -1,22 +1,34 @@
 package com.example.hairdate;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,11 +46,12 @@ public class ListaPeluqueros extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
     FirebaseFirestore db;
     RecyclerView recyclerView;
     PeluqueroAdapter adapter;
-    private StorageReference storageReference;
+    StorageReference storageReference;
+    RoundedImageView profileImage;
+    String numeroTelefono;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -78,9 +91,20 @@ public class ListaPeluqueros extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lista_peluqueros, container, false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        if(profileImage == null){
+            profileImage.setImageResource(R.drawable.user_profile);
+        }
         recyclerView = view.findViewById(R.id.recyclerViewPeluqueros);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        getParentFragmentManager().setFragmentResultListener("menu_peluquero", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                numeroTelefono = result.getString("numeroTelefono");
+
+            }
+        });
 
         // Obtener el UID del usuario actual
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -109,7 +133,59 @@ public class ListaPeluqueros extends Fragment {
                 }
             });
         }
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí puedes abrir la galería o la cámara para que el usuario pueda seleccionar una nueva imagen de perfil
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri imageUri = data.getData();
+                subirImagenAFirebase(imageUri);
+            }
+        }
+    }
+
+    private void subirImagenAFirebase(Uri imageUri) {
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Recoge los datos que han sido traidos desde menuPeluquero/menuCliente
+        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                numeroTelefono = result.getString("numeroTelefono");
+
+                // Muestra imagen si ya había alguna anteriormente
+                StorageReference profileRef = storageReference.child(numeroTelefono + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
+            }
+        });
+        // Sube la imagen al almacenamiento de Firebase
+        profileImage = getView().findViewById(R.id.imagePeluqueria);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Muestra una imagen
+        StorageReference profileRef = storageReference.child(numeroTelefono + "_pelu.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        });
     }
 
     @Override

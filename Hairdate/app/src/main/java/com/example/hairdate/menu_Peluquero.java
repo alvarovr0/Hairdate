@@ -71,13 +71,14 @@ public class menu_Peluquero extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    String nombreUsuario;
+    String numeroTelefono;
     String emailActual;
     boolean IrADetallerCitas;
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
     private Button btn_gestionPeluqueros;
+    private Button btn_gestionCitas;
     private View view;
 
     ImageView profileImage;
@@ -134,6 +135,7 @@ public class menu_Peluquero extends Fragment{
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
+        btn_gestionCitas =  view.findViewById(R.id.btn_comprobarCitas);
 
 
         // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
@@ -142,6 +144,7 @@ public class menu_Peluquero extends Fragment{
                 String volverAMenuPeluquero = "Peluquero";
                 Bundle bundle = new Bundle();
                 bundle.putString("email", emailActual);
+                bundle.putString("numeroTelefono", numeroTelefono);
                 bundle.putString("ADondeVolver", volverAMenuPeluquero);
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
@@ -182,6 +185,13 @@ public class menu_Peluquero extends Fragment{
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
+            }
+        });
+
+        btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
             }
         });
 

@@ -83,12 +83,8 @@ public class activity_profile extends Fragment {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 emailActual = result.getString("email");
 
-
-
             }
         });
-
-
 
         changeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +116,7 @@ public class activity_profile extends Fragment {
 
         return view;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,12 +126,7 @@ public class activity_profile extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        //firebaseStorage = FirebaseStorage.getInstance();
-        //storageReference = firebaseStorage.getReference().child("profile_images");
-
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
