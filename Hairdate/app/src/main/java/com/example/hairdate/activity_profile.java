@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -49,7 +50,9 @@ public class activity_profile extends Fragment {
     private String mParam2;
     ImageView profileImage;
     String emailActual;
+    String ADondeVolver;
     private Button changeImageButton;
+    private Button volverAtras;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     public activity_profile() {
@@ -81,29 +84,17 @@ public class activity_profile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activity_profile, container, false);
         profileImage = view.findViewById(R.id.profile_image);
         changeImageButton = view.findViewById(R.id.change_image_button);
+        volverAtras = view.findViewById(R.id.btn_volver_activityProfile);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
         getParentFragmentManager().setFragmentResultListener("fragmentVerObjeto", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 emailActual = result.getString("email");
-                //Toast.makeText(view.getContext(), emailActual, Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("email", emailActual);
-                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
 
-                // Muestra imagen si ya había alguna anteriormente
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
+
+
             }
         });
-
-
 
 
 
@@ -113,6 +104,25 @@ public class activity_profile extends Fragment {
                 // Aquí puedes abrir la galería o la cámara para que el usuario pueda seleccionar una nueva imagen de perfil
                 Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+
+        volverAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ADondeVolver == "Peluquero") {
+                    // Si viene de un peluquero, envía la información a menuPeluquero y vuelve a ese fragment
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", emailActual);
+                    getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
+                    Navigation.findNavController(view).navigate(R.id.action_activity_profile_to_menu_Peluquero);
+                }else {
+                    // Si viene de un cliente, envía la información a menuCliente y vuelve a ese fragment
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", emailActual);
+                    getParentFragmentManager().setFragmentResult("menuCliente", bundle);
+                    Navigation.findNavController(view).navigate(R.id.action_activity_profile_to_principal_cliente);
+                }
             }
         });
 
@@ -164,6 +174,33 @@ public class activity_profile extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 System.out.print("Error");
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ADondeVolver = "Cliente";
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Recoge los datos que han sido traidos desde menuPeluquero/menuCliente
+        getParentFragmentManager().setFragmentResultListener("menuPeluquero_to_activityProfile", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                emailActual = result.getString("email");
+                ADondeVolver = result.getString("ADondeVolver");
+
+                //Toast.makeText(getContext(), ADondeVolver, Toast.LENGTH_SHORT).show();
+
+                // Muestra imagen si ya había alguna anteriormente
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profileImage);
+                    }
+                });
             }
         });
     }

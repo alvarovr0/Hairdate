@@ -3,31 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/principal">
+    app:startDestination="@id/inicioSesion">
 
     <fragment
-        android:id="@+id/principal"
-        android:name="com.example.hairdate.principal"
-        android:label="fragment_principal"
-        tools:layout="@layout/fragment_principal" >
-        <action
-            android:id="@+id/action_principal_to_inicioSesion_Peluquero"
-            app:destination="@id/inicioSesion_Peluquero" />
-        <action
-            android:id="@+id/action_principal_to_inicioSesion_Cliente"
-            app:destination="@id/inicioSesion_Cliente" />
-    </fragment>
-    <fragment
-        android:id="@+id/inicioSesion_Peluquero"
-        android:name="com.example.hairdate.inicioSesion_Peluquero"
+        android:id="@+id/inicioSesion"
+        android:name="com.example.hairdate.inicioSesion"
         android:label="fragment_inicio_sesion__peluquero"
-        tools:layout="@layout/fragment_inicio_sesion__peluquero" >
+        tools:layout="@layout/fragment_inicio_sesion" >
         <action
-            android:id="@+id/action_inicioSesion_Peluquero_to_crearUsuario_Peluquero"
+            android:id="@+id/action_inicioSesion_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+        <action
+            android:id="@+id/action_inicioSesion_to_menu_cliente"
+            app:destination="@id/principal_cliente" />
+        <action
+            android:id="@+id/action_inicioSesion_to_tipo_cuenta"
+            app:destination="@id/tipo_cuenta" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tipo_cuenta"
+        android:name="com.example.hairdate.tipo_cuenta"
+        android:label="fragment_principal"
+        tools:layout="@layout/fragment_tipo_cuenta" >
+        <action
+            android:id="@+id/action_tipo_cuenta_to_crearUsuario_Peluquero"
             app:destination="@id/crearUsuario_Peluquero" />
         <action
-            android:id="@+id/action_inicioSesion_Peluquero_to_menu_Peluquero"
-            app:destination="@id/menu_Peluquero" />
+            android:id="@+id/action_tipo_cuenta_to_crearUsuario_Cliente"
+            app:destination="@id/crearUsuario_Cliente" />
     </fragment>
     <fragment
         android:id="@+id/crearUsuario_Peluquero"
@@ -35,8 +39,8 @@
         android:label="fragment_crear_usuario__peluquero"
         tools:layout="@layout/fragment_crear_usuario_peluquero" >
         <action
-            android:id="@+id/action_crearUsuario_Peluquero_to_inicioSesion_Peluquero"
-            app:destination="@id/inicioSesion_Peluquero" />
+            android:id="@+id/action_crearUsuario_Peluquero_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
     </fragment>
 
     <fragment
@@ -45,22 +49,10 @@
         android:label="fragment_crear_usuario__cliente"
         tools:layout="@layout/fragment_crear_usuario_cliente" >
         <action
-            android:id="@+id/action_crearUsuario_Cliente_to_inicioSesion_Cliente"
-            app:destination="@id/inicioSesion_Cliente" />
+            android:id="@+id/action_crearUsuario_Cliente_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
     </fragment>
 
-    <fragment
-        android:id="@+id/inicioSesion_Cliente"
-        android:name="com.example.hairdate.inicioSesion_Cliente"
-        android:label="fragment_incio_sesion__cliente"
-        tools:layout="@layout/fragment_inicio_sesion_cliente" >
-        <action
-            android:id="@+id/action_inicioSesion_Cliente_to_crearUsuario_Cliente"
-            app:destination="@id/crearUsuario_Cliente" />
-        <action
-            android:id="@+id/action_inicioSesion_Cliente_to_menu_cliente"
-            app:destination="@id/menu_cliente" />
-    </fragment>
     <fragment
         android:id="@+id/menu_Peluquero"
         android:name="com.example.hairdate.menu_Peluquero"
@@ -70,11 +62,14 @@
             android:id="@+id/action_menu_Peluquero_to_activity_profile"
             app:destination="@id/activity_profile" />
         <action
-            android:id="@+id/action_menu_Peluquero_to_inicioSesion_Peluquero"
-            app:destination="@id/inicioSesion_Peluquero" />
+            android:id="@+id/action_menu_Peluquero_to_stock_Peluquero"
+            app:destination="@id/stock_Peluquero" />
         <action
             android:id="@+id/action_menu_Peluquero_to_fragment_ver_objeto"
             app:destination="@id/fragment_ver_objeto" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
         <action
             android:id="@+id/action_menu_Peluquero_to_detalles_citas"
             app:destination="@id/detalles_citas" />
@@ -83,12 +78,41 @@
         android:id="@+id/activity_profile"
         android:name="com.example.hairdate.activity_profile"
         android:label="fragment_activity_profile"
-        tools:layout="@layout/fragment_activity_profile" />
+        tools:layout="@layout/fragment_activity_profile" >
+        <action
+            android:id="@+id/action_activity_profile_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+        <action
+            android:id="@+id/action_activity_profile_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/stock_Peluquero"
+        android:name="com.example.hairdate.stock_Peluquero"
+        android:label="fragment_stock__peluquero"
+        tools:layout="@layout/fragment_stock_peluquero" >
+        <action
+            android:id="@+id/action_stock_Peluquero_to_stock_item"
+            app:destination="@id/stock_item" />
+    </fragment>
+    <fragment
+        android:id="@+id/stock_item"
+        android:name="com.example.hairdate.stock_item"
+        android:label="fragment_stock_item"
+        tools:layout="@layout/fragment_stock_item" >
+        <action
+            android:id="@+id/action_stock_item_to_stock_Peluquero"
+            app:destination="@id/stock_Peluquero" />
+    </fragment>
     <fragment
         android:id="@+id/preferenciaCitasCliente"
         android:name="com.example.hairdate.preferenciaCitasCliente"
         android:label="fragment_preferencia_citas_cliente"
-        tools:layout="@layout/fragment_preferencia_citas_cliente" />
+        tools:layout="@layout/fragment_preferencia_citas_cliente" >
+        <action
+            android:id="@+id/action_preferenciaCitasCliente_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_ver_objeto"
         android:name="com.example.hairdate.fragment_ver_objeto"
@@ -98,19 +122,54 @@
             app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
-        android:id="@+id/menu_cliente"
-        android:name="com.example.hairdate.menu_cliente"
-        android:label="fragment_menu_cliente"
-        tools:layout="@layout/fragment_menu_cliente" >
-        <action
-            android:id="@+id/action_menu_cliente_to_preferenciaCitasCliente"
-            app:destination="@id/preferenciaCitasCliente" />
+        android:id="@+id/principal_cliente"
+        android:name="com.example.hairdate.principal_cliente"
+        android:label="fragment_menu_cliente">
         <action
             android:id="@+id/action_menu_cliente_to_activity_profile"
             app:destination="@id/activity_profile" />
         <action
-            android:id="@+id/action_menu_cliente_to_inicioSesion_Cliente"
-            app:destination="@id/inicioSesion_Cliente" />
+            android:id="@+id/action_menu_cliente_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
+        <action
+            android:id="@+id/action_principal_cliente_to_solicitar_cita"
+            app:destination="@id/solicitar_cita" />
+        <action
+            android:id="@+id/action_principal_cliente_to_perfil_peluqueria"
+            app:destination="@id/perfil_peluqueria" />
+        <action
+            android:id="@+id/action_principal_cliente_to_inicioSesion"
+            app:destination="@id/inicioSesion" />
+    </fragment>
+    <fragment
+        android:id="@+id/tipo_servicio"
+        android:name="com.example.hairdate.tipo_servicio"
+        android:label="fragment_tipo_servicio"
+        tools:layout="@layout/fragment_tipo_servicio" >
+        <action
+            android:id="@+id/action_tipo_servicio_to_preferenciaCitasCliente"
+            app:destination="@id/preferenciaCitasCliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/solicitar_cita"
+        android:name="com.example.hairdate.solicitar_cita"
+        android:label="fragment_solicitar_cita"
+        tools:layout="@layout/fragment_solicitar_cita" >
+        <action
+            android:id="@+id/action_solicitar_cita_to_tipo_servicio"
+            app:destination="@id/tipo_servicio" />
+    </fragment>
+    <fragment
+        android:id="@+id/perfil_peluqueria"
+        android:name="com.example.hairdate.perfil_peluqueria"
+        android:label="fragment_perfil_peluqueria"
+        tools:layout="@layout/fragment_perfil_peluqueria" >
+        <action
+            android:id="@+id/action_perfil_peluqueria_to_solicitar_cita"
+            app:destination="@id/solicitar_cita" />
+        <action
+            android:id="@+id/action_perfil_peluqueria_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
     </fragment>
     <fragment
         android:id="@+id/detalles_citas"

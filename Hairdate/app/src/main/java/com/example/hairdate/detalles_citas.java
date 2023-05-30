@@ -159,7 +159,7 @@ public class detalles_citas extends Fragment {
             @Override
             public void onClick(View view) {
                 android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) detalles_citas.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence) "Horario: " + horarioActual).setCancelable(false).setPositiveButton((CharSequence) "Sí", (android.content.DialogInterface.OnClickListener) (new android.content.DialogInterface.OnClickListener() {
+                constructorDialogo.setMessage((CharSequence) "Horario: " + horarioActual).setCancelable(false).setPositiveButton((CharSequence) "Sí", (DialogInterface.OnClickListener) (new DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
 
                         // Borra la cita de la base de datos
@@ -193,7 +193,7 @@ public class detalles_citas extends Fragment {
                                     }
                                 });
                     }
-                })).setNegativeButton((CharSequence) "No", (android.content.DialogInterface.OnClickListener) null);
+                })).setNegativeButton((CharSequence) "No", (DialogInterface.OnClickListener) null);
                 android.app.AlertDialog alerta = constructorDialogo.create();
                 alerta.setTitle((CharSequence) "¿Quieres cancelar esta cita?");
                 alerta.show();

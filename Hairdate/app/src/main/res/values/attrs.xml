@@ -7,4 +7,8 @@
         <attr name="backgroundCardColor" format="color"/>
         <attr name="iconPlaceholder" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="cornerRadius" format="dimension" />
+    </declare-styleable>
 </resources>

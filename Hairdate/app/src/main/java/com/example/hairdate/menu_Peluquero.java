@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,8 +130,6 @@ public class menu_Peluquero extends Fragment{
         IrADetallerCitas = true;
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
-
-
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
@@ -157,17 +156,24 @@ public class menu_Peluquero extends Fragment{
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
             }
-                });
+        });
 
 
 
 
-
+        // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
+                irAActivityProfile();
             }
         }));
+        // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                irAActivityProfile();
+            }
+        });
 
         // Cuando se pulsa el botón "Comprobar Stock" se cambia al fragment donde se puede comprobar el stock
         btn_controlStock.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -182,10 +188,22 @@ public class menu_Peluquero extends Fragment{
         btn_cerrarSesion.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
                 FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion_Peluquero);
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion);
             }
         }));
-
+        //onBackPressed();
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    // Consumir el evento del botón de retroceso
+                    return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -219,5 +237,13 @@ public class menu_Peluquero extends Fragment{
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+    public void irAActivityProfile() {
+        String volverAMenuPeluquero = "Peluquero";
+        Bundle bundle = new Bundle();
+        bundle.putString("email", emailActual);
+        bundle.putString("ADondeVolver", volverAMenuPeluquero);
+        getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
+        Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
     }
 }
