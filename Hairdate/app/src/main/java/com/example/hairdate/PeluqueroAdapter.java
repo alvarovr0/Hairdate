@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hairdate.model.Peluquero;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
@@ -62,8 +61,8 @@ public class PeluqueroAdapter extends FirestoreRecyclerAdapter<Peluquero, Peluqu
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nombre = itemView.findViewById(R.id.txtNombre);
-            horario = itemView.findViewById(R.id.txtHorario);
+            nombre = itemView.findViewById(R.id.txtNombrePeluquero);
+            horario = itemView.findViewById(R.id.txtHorarioPeluquero);
             especialidad = itemView.findViewById(R.id.txtEspecialidad);
         }
     }

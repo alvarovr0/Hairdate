@@ -10,11 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.hairdate.model.Peluquero;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -109,11 +105,28 @@ public class ListaPeluqueros extends Fragment {
                     args.putString("especialidad", peluquero.getEspecialidad());
                     args.putString("horario", peluquero.getHorario());
                     args.putString("nombre", peluquero.getNombre());
-                    getParentFragmentManager().setFragmentResult("resquestKey", args);
                     Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
                 }
             });
         }
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(adapter !=null){
+            adapter.startListening();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(adapter !=null){
+        adapter.stopListening();
+        }
+    }
+
 }

@@ -1,4 +1,15 @@
-package com.example.hairdate.model;
+package com.example.hairdate;
+
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
 
 public class Peluquero {
     private String nif;
@@ -6,6 +17,10 @@ public class Peluquero {
     private String usuario;
     private String horario;
     private String especialidad;
+
+    public Peluquero(){
+        //Contrucctor por defecto
+    }
 
     public Peluquero(String nif, String nombre, String usuario, String horario, String especialidad) {
         this.nif = nif;

@@ -132,6 +132,7 @@ public class menu_Peluquero extends Fragment{
         profileImage = view.findViewById(R.id.img_imagenPerfil);
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
 
 
@@ -190,8 +191,6 @@ public class menu_Peluquero extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        mAdapter.startListening();
-
         storageReference = FirebaseStorage.getInstance().getReference();
         // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
@@ -212,12 +211,5 @@ public class menu_Peluquero extends Fragment{
             }
         });
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAdapter.stopListening();
-    }
-
 
 }
