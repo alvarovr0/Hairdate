@@ -75,7 +75,7 @@ public class perfil_peluquero extends Fragment {
 
         pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                Navigation.findNavController(view).navigate(R.id.action_fragment_perfil_peluquero_to_solicitar_cita);
+                Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }}));
     }
 }
