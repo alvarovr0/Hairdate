@@ -63,6 +63,7 @@ public class perfil_peluqueria extends Fragment {
     private String peluqueriaId;
     private String userId;
     private Button btn_pedirCita;
+    private Button btn_volverAtras;
 
     ImageView profileImage;
     private StorageReference storageReference;
@@ -111,6 +112,7 @@ public class perfil_peluqueria extends Fragment {
         numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
         nombreTextView = rootView.findViewById(R.id.txtNombre);
         serviciosTextView = rootView.findViewById(R.id.txtServicios);
+        btn_volverAtras = rootView.findViewById(R.id.btn_cancelar_perfilPeluqueria);
 
         // Obtener los argumentos pasados desde el fragmento anterior
         if (getArguments() != null) {
@@ -149,7 +151,6 @@ public class perfil_peluqueria extends Fragment {
                 }
             });
 
-
             // Mostrar los datos en los TextView correspondientes
             direccionTextView.setText(direccion);
             horarioTextView.setText(horario);
@@ -178,9 +179,22 @@ public class perfil_peluqueria extends Fragment {
             }
         }));
 
+        // Te devuelve al fragment de principalCliente
+        btn_volverAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                volverAtras(rootView);
+            }
+        });
+
         imagenPerfilPelu(rootView);
         pedirCita(rootView);
         return rootView;
+    }
+
+    // Se ejecuta al pulsar el botón de "Volver". Te devuelve al fragment de principalCliente
+    public void volverAtras(View rootView) {
+        Navigation.findNavController(rootView).navigate(R.id.action_perfil_peluqueria_to_principal_cliente);
     }
 
     public void favoritos() {

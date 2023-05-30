@@ -170,6 +170,9 @@
         <action
             android:id="@+id/action_perfil_peluqueria_to_solicitar_cita"
             app:destination="@id/solicitar_cita" />
+        <action
+            android:id="@+id/action_perfil_peluqueria_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
     </fragment>
     <fragment
         android:id="@+id/detalles_citas"

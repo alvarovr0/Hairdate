@@ -88,6 +88,8 @@ public class principal_cliente extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
         usuario = view.findViewById(R.id.txt_nombreCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -145,6 +147,31 @@ public class principal_cliente extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
+
+            // Obtiene el email actual
+            Query queryEmail = db.collection("Cliente").whereEqualTo("UID", uid);
+            queryEmail.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                emailActual = document.getString("email");
+                                Toast.makeText(getActivity(), "emailActual es " + emailActual, Toast.LENGTH_SHORT).show();
+
+                                // Coloca el email como nombre de usuario
+                                usuario.setText(document.getString("usuario"));
+                                // Si existe una imagen, la coloca como imagen de perfil
+                                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Picasso.get().load(uri).into(profileImage);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
 
             // Consultar las peluquerías favoritas del usuario
             Query queryFav = db.collection("Favoritos").document(uid).collection("Peluquerias");
@@ -208,26 +235,6 @@ public class principal_cliente extends Fragment {
             adapterFav.startListening();
         }
         adapter.startListening();
-
-        storageReference = FirebaseStorage.getInstance().getReference();
-        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
-        getParentFragmentManager().setFragmentResultListener("menuCliente", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                emailActual = result.getString("email");
-
-                // Coloca el email como nombre de usuario
-                usuario.setText(emailActual);
-                // Si existe una imagen, la coloca como imagen de perfil
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
-            }
-        });
     }
 
     @Override
