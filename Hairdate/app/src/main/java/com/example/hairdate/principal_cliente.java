@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,17 +24,21 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -49,6 +54,9 @@ public class principal_cliente extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    String nombreUsuario;
+    String emailActual;
+
     FirebaseFirestore db;
     String emailActual;
     TextView usuario;
@@ -60,6 +68,7 @@ public class principal_cliente extends Fragment {
     View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
+    private TextView usuario;
 
     public principal_cliente() {
 
@@ -75,7 +84,6 @@ public class principal_cliente extends Fragment {
         return fragment;
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
@@ -83,6 +91,11 @@ public class principal_cliente extends Fragment {
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
         usuario = view.findViewById(R.id.txt_nombreCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txt_nombreCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        if(profileImage == null){
+            profileImage.setImageResource(R.drawable.user_profile);
+        }
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -152,7 +165,7 @@ public class principal_cliente extends Fragment {
                     args.putString("horario", peluqueria.getHorario());
                     args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
                     args.putString("nombre", peluqueria.getNombre());
-
+                    getParentFragmentManager().setFragmentResult("resquestKey", args);
                     Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
                 }
             });
@@ -177,26 +190,23 @@ public class principal_cliente extends Fragment {
             });
         }
 
-       cerrarSesion(view);
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    // Consumir el evento del botón de retroceso
-                    return true;
-                }
-                return false;
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
             }
-        });
+        }));
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        adapterFav.startListening();
+        if(adapterFav !=null){
+            adapterFav.startListening();
+        }
         adapter.startListening();
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -223,7 +233,9 @@ public class principal_cliente extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+    if(adapterFav !=null){
         adapterFav.stopListening();
+    }
         adapter.stopListening();
     }
 

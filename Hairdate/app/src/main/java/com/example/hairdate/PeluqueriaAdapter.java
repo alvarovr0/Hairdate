@@ -35,7 +35,6 @@ public class PeluqueriaAdapter extends FirestoreRecyclerAdapter<Peluqueria, Pelu
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Peluqueria model) {
-
         holder.horario.setText(model.getHorario());
         holder.direccion.setText(model.getDireccion());
         holder.numeroTelefono.setText(model.getNumeroTelefono());

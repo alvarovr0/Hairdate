@@ -197,7 +197,6 @@ public class inicioSesion extends Fragment {
                                         } else {
                                             // Error al ejecutar la consulta de Cliente
                                             // Manejar el error en consecuencia
-                                            // ...
                                         }
                                     }
                                 });
@@ -205,7 +204,6 @@ public class inicioSesion extends Fragment {
                         } else {
                             // Error al ejecutar la consulta de Peluquero
                             // Manejar el error en consecuencia
-                            // ...
                         }
                     }
                 });
@@ -225,6 +223,7 @@ public class inicioSesion extends Fragment {
         });
 
     }
+
     private void startSignIn(String correo, String contrasena) {
         //Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú tipo_cuenta, si no, no hace nada
         mAuth.signInWithEmailAndPassword(correo, contrasena)

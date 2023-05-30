@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu_Peluquero"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ListaPeluqueros"
     android:background="@color/fondo">
 
     <LinearLayout
@@ -18,60 +18,56 @@
             android:orientation="horizontal">
 
             <com.example.hairdate.RoundedImageView
-                android:id="@+id/img_imagenPerfil"
+                android:layout_margin="10dp"
+                android:id="@+id/img_imagenPerfilCliente"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/user_profile"/>
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/user_profile"
+                app:cornerRadius="70dp" />
 
             <TextView
-                android:id="@+id/txt_nombrePeluquero"
+                android:id="@+id/txt_nombreCliente"
                 android:layout_width="47dp"
-                android:layout_height="61dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:text="Usuario"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_margin="10dp"/>
 
             <Button
                 android:id="@+id/btn_cerrarSesion"
-                android:layout_width="100dp"
+                android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cerrar Sesión" />
+                android:text="Cerrar Sesión"
+                android:layout_margin="10dp"/>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_comprobarCitas"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Comprobar/gestionar Citas" />
+                android:text="Peluqueros"
+                android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_gestionPeluqueros"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPeluqueros"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gestionar/comprobar peluqueros" />
+                android:layout_height="398dp" />
 
-            <Button
-                android:id="@+id/btn_comprobarStock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Comprobar/gestionar productos" />
-
-            <CalendarView
-                android:id="@+id/calendario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
         </LinearLayout>
+
     </LinearLayout>
+
 </FrameLayout>

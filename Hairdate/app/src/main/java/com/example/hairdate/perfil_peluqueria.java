@@ -1,16 +1,12 @@
 package com.example.hairdate;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,7 +140,8 @@ public class perfil_peluqueria extends Fragment {
                 }
             }
         }));
-        imagenPerfil(rootView);
+
+        imagenPerfilPelu(rootView);
         pedirCita(rootView);
         return rootView;
     }
@@ -310,7 +307,7 @@ public class perfil_peluqueria extends Fragment {
         }
     }
 
-    public void imagenPerfil(View rootView){
+    public void imagenPerfilPelu(View rootView){
         profileImage = rootView.findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
         // Muestra una imagen

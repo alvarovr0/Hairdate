@@ -77,6 +77,7 @@ public class menu_Peluquero extends Fragment{
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+    private Button btn_gestionPeluqueros;
     private View view;
 
     ImageView profileImage;
@@ -114,7 +115,6 @@ public class menu_Peluquero extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -133,32 +133,7 @@ public class menu_Peluquero extends Fragment{
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-
-        mFirestore = FirebaseFirestore.getInstance();
-        mRecycler = view.findViewById(R.id.rvw_PeluqueroCitas);
-        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Query query = mFirestore.collection("Citas");
-
-        FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
-
-        mAdapter = new CitasAdapter(firestoreRecyclerOptions);
-        mAdapter.notifyDataSetChanged();
-        mRecycler.setAdapter(mAdapter);
-
-        // Permite hacer click en las citas y te envia a detalles_citas
-        mAdapter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
-                // Envía el email y el horario a detalles_citas, para que este pueda cargar la cita correspondiente
-                Bundle result = new Bundle();
-                result.putString("email", emailActual);
-                result.putString("horario", horarioCita);
-                getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
-            }
-        });
-
-
+        btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
 
 
         // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
@@ -204,14 +179,20 @@ public class menu_Peluquero extends Fragment{
                 return false;
             }
         });
+
+        btn_gestionPeluqueros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAdapter.startListening();
-
         storageReference = FirebaseStorage.getInstance().getReference();
         // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
         getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
