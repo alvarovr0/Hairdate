@@ -17,18 +17,28 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,11 +57,12 @@ public class ListaPeluqueros extends Fragment {
     private String mParam2;
 
     FirebaseFirestore db;
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewPeluqueros;
     PeluqueroAdapter adapter;
     StorageReference storageReference;
     RoundedImageView profileImage;
     String numeroTelefono;
+    TextView usuario;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -90,47 +101,49 @@ public class ListaPeluqueros extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_peluqueros, container, false);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txtNombrePeluquero);
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
-        if(profileImage == null){
+        if (profileImage == null) {
             profileImage.setImageResource(R.drawable.user_profile);
         }
-        recyclerView = view.findViewById(R.id.recyclerViewPeluqueros);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewPeluqueros = view.findViewById(R.id.recyclerViewPeluqueros);
+        recyclerViewPeluqueros.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getParentFragmentManager().setFragmentResultListener("menu_peluquero", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                numeroTelefono = result.getString("numeroTelefono");
-            }
-        });
-
-        // Obtener el UID del usuario actual
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
 
-            // Consultar las peluquerías favoritas del usuario
-            Query queryBarber = db.collection("Peluquero");
-            FirestoreRecyclerOptions<Peluquero> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluquero>().setQuery(queryBarber, Peluquero.class).build();
-
+            // Consulta los peluqueros que tienen una referencia a la peluquería especificada
+            Query query = db.collection("Peluquero").whereEqualTo("peluqueria", uid);
+            FirestoreRecyclerOptions<Peluquero> firestoreRecyclerOptionsFav = new FirestoreRecyclerOptions.Builder<Peluquero>().setQuery(query, Peluquero.class).build();
             adapter = new PeluqueroAdapter(firestoreRecyclerOptionsFav);
             adapter.notifyDataSetChanged();
-            recyclerView.setAdapter(adapter);
+            recyclerViewPeluqueros.setAdapter(adapter);
 
-            adapter.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    int position = recyclerView.getChildAdapterPosition(view);
-                    Peluquero peluquero = adapter.getItem(position);
+            query.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
 
-                    // Navegar al siguiente fragmento y pasar los datos como argumentos
-                    Bundle args = new Bundle();
-                    args.putString("especialidad", peluquero.getEspecialidad());
-                    args.putString("horario", peluquero.getHorario());
-                    args.putString("nombre", peluquero.getNombre());
-                    Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
-                }
-            });
+                                adapter.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View view) {
+                                        int position = recyclerViewPeluqueros.getChildAdapterPosition(view);
+                                        Peluquero peluquero = adapter.getItem(position);
+
+                                        // Navegar al siguiente fragmento y pasar los datos como argumentos
+                                        Bundle args = new Bundle();
+                                        args.putString("especialidad", peluquero.getEspecialidad());
+                                        args.putString("horario", peluquero.getHorario());
+                                        args.putString("nombre", peluquero.getNombre());
+                                        Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
+                                    }
+                                });
+
+                            }
+                        }
+                    });
         }
 
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +203,7 @@ public class ListaPeluqueros extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(adapter !=null){
+        if (adapter != null) {
             adapter.startListening();
         }
 
@@ -199,8 +212,8 @@ public class ListaPeluqueros extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(adapter !=null){
-        adapter.stopListening();
+        if (adapter != null) {
+            adapter.stopListening();
         }
     }
 

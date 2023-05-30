@@ -129,7 +129,6 @@ public class menu_Peluquero extends Fragment{
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-
         // Obtener el UID del usuario actual
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -142,7 +141,6 @@ public class menu_Peluquero extends Fragment{
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 emailActual = document.getString("email");
-
                                 // Coloca el email como nombre de usuario
                                 usuario.setText(document.getString("usuario"));
                                 // Si existe una imagen, la coloca como imagen de perfil
