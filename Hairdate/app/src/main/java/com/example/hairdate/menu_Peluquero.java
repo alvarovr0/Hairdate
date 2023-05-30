@@ -92,18 +92,9 @@ public class menu_Peluquero extends Fragment{
 
 
     public menu_Peluquero() {
-        // Required empty public constructor
+        
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment menu_Peluquero.
-     */
-    // TODO: Rename and change types and number of parameters
     public static menu_Peluquero newInstance(String param1, String param2) {
         menu_Peluquero fragment = new menu_Peluquero();
         Bundle args = new Bundle();
@@ -154,7 +145,6 @@ public class menu_Peluquero extends Fragment{
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 emailActual = document.getString("email");
-                                Toast.makeText(getActivity(), "emailActual es " + emailActual, Toast.LENGTH_SHORT).show();
 
                                 // Coloca el email como nombre de usuario
                                 usuario.setText(document.getString("usuario"));
@@ -235,12 +225,13 @@ public class menu_Peluquero extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
+        //mAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mAdapter.stopListening();
+        //mAdapter.stopListening();
     }
     public void irAActivityProfile() {
         String volverAMenuPeluquero = "Peluquero";
