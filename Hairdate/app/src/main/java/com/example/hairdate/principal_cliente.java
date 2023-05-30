@@ -58,7 +58,7 @@ public class principal_cliente extends Fragment {
     String emailActual;
 
     FirebaseFirestore db;
-    String emailActual;
+    //String emailActual;
     TextView usuario;
     RecyclerView recyclerView;
     RecyclerView recyclerViewFav;
@@ -68,7 +68,7 @@ public class principal_cliente extends Fragment {
     View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
-    private TextView usuario;
+    //private TextView usuario;
 
     public principal_cliente() {
 

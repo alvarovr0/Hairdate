@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +57,7 @@ public class perfil_peluqueria extends Fragment {
     private TextView horarioTextView;
     private TextView numeroTelefonoTextView;
     private TextView nombreTextView;
+    private TextView serviciosTextView;
     private ImageButton btn_fav;
     private boolean fav_marc;
     private String peluqueriaId;
@@ -105,6 +110,7 @@ public class perfil_peluqueria extends Fragment {
         horarioTextView = rootView.findViewById(R.id.txtHorario);
         numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
         nombreTextView = rootView.findViewById(R.id.txtNombre);
+        serviciosTextView = rootView.findViewById(R.id.txtServicios);
 
         // Obtener los argumentos pasados desde el fragmento anterior
         if (getArguments() != null) {
@@ -112,6 +118,37 @@ public class perfil_peluqueria extends Fragment {
             String horario = getArguments().getString("horario");
             String numeroTelefono = getArguments().getString("numeroTelefono");
             String nombre = getArguments().getString("nombre");
+            Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccion);
+            peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    String servicios = "";
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String corte = document.getString("corte");
+                                String corteTinte = document.getString("corte_tinte");
+                                String tinte = document.getString("tinte");
+                                String peinado = document.getString("peinado");
+                                if(corte.equals("si")){
+                                    servicios += "corte ";
+                                }
+                                if(corteTinte.equals("si")){
+                                    servicios += "corte + tinte ";
+                                }
+                                if(tinte.equals("si")){
+                                    servicios += "tinte ";
+                                }
+                                if(peinado.equals("si")){
+                                    servicios += "peinado ";
+                                }
+                            }
+                        }
+                    }
+                    serviciosTextView.setText(servicios);
+                }
+            });
+
 
             // Mostrar los datos en los TextView correspondientes
             direccionTextView.setText(direccion);
@@ -324,6 +361,23 @@ public class perfil_peluqueria extends Fragment {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
         btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
+                Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccionTextView.getText().toString());
+                peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String UID = "";
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null && !task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    UID = document.getString("UID");
+                                }
+                            }
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("bundlekey", UID);
+                        getParentFragmentManager().setFragmentResult("bundlekey", bundle);
+                    }
+                });
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));

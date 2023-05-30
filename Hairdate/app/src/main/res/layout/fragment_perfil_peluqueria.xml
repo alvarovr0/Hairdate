@@ -64,6 +64,13 @@
                 android:gravity="center"
                 android:text="Horario de la Peluquería" />
 
+            <TextView
+                android:id="@+id/txtServicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Servicios" />
+
         </LinearLayout>
 
         <ImageButton

@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -71,11 +72,12 @@ public class crearUsuario_Peluquero extends Fragment {
     private String mParam1;
     private String mParam2;
     private boolean ojoAbierto = false;
-    private EditText nombre, cif, usuario, email, contrasena, direccion, num_tlf;
+    private EditText nombre, cif, usuario, email, contrasena, direccion, num_tlf, horario;
     private Button botonRegistro;
     private ImageButton btn_eyeContrasena_inicio;
     private FirebaseAuth mAuth;
     private String uid;
+    private CheckBox checkboxCorte, checkboxTinte, checkboxPeinado, checkboxCorteTinte;
 
     public crearUsuario_Peluquero() {
         // Required empty public constructor
@@ -160,6 +162,11 @@ public class crearUsuario_Peluquero extends Fragment {
         direccion = (EditText) view.findViewById(R.id.edTxt_Direccion_peluquero);
         contrasena = (EditText) view.findViewById(R.id.edTxt_contrasena_peluquero);
         num_tlf = (EditText) view.findViewById(R.id.edTxt_num_peluquero);
+        horario = (EditText) view.findViewById(R.id.edTxt_horario_peluquero);
+        checkboxCorte = view.findViewById(R.id.checkboxCorte);
+        checkboxTinte = view.findViewById(R.id.checkboxTinte);
+        checkboxPeinado = view.findViewById(R.id.checkboxPeinado);
+        checkboxCorteTinte = view.findViewById(R.id.checkboxCorteTinte);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
         btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -183,6 +190,10 @@ public class crearUsuario_Peluquero extends Fragment {
                 String emailvalidator = email.getText().toString();
                 String direccion_completa = spn.getSelectedItem().toString() + "   " + direccion.getText().toString();
                 String password = contrasena.getText().toString();
+                String corte = checkboxCorte.isChecked() ? "si" : "no";
+                String corteTinte = checkboxCorteTinte.isChecked() ? "si" : "no";
+                String tinte = checkboxTinte.isChecked() ? "si" : "no";
+                String peinado = checkboxPeinado.isChecked() ? "si" : "no";
 
                 if (!emailvalidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailvalidator).matches() && password.length() >= 6) {
                     // Verificar si el correo ya existe en la base de datos
@@ -214,6 +225,11 @@ public class crearUsuario_Peluquero extends Fragment {
                                     user.put("email", emailvalidator);
                                     user.put("direccion", direccion_completa);
                                     user.put("numeroTelefono", num_tlf.getText().toString());
+                                    user.put("horario", horario.getText().toString());
+                                    user.put("corte", corte);
+                                    user.put("corte_tinte", corteTinte);
+                                    user.put("tinte", tinte);
+                                    user.put("peinado", peinado);
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
