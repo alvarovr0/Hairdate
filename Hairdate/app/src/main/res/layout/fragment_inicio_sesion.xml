@@ -4,8 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+<<<<<<<< HEAD:Hairdate/app/src/main/res/layout/fragment_inicio_sesion.xml
     android:background="@color/white"
     tools:context=".inicioSesion">
+========
+    android:background="?attr/primaryTextColor"
+    tools:context=".inicioSesion_Peluquero">
+>>>>>>>> ClienteJoseca:Hairdate/app/src/main/res/layout/fragment_inicio_sesion__cliente.xml
 
     <LinearLayout
         android:layout_width="match_parent"
