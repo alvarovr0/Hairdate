@@ -187,6 +187,7 @@ public class ListaPeluqueros extends Fragment {
                 });
             }
         });
+
         // Sube la imagen al almacenamiento de Firebase
         profileImage = getView().findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
