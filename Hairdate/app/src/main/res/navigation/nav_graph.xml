@@ -85,9 +85,6 @@
         <action
             android:id="@+id/action_activity_profile_to_menu_Peluquero"
             app:destination="@id/menu_Peluquero" />
-        <action
-            android:id="@+id/action_activity_profile_to_principal_cliente"
-            app:destination="@id/principal_cliente" />
     </fragment>
     <fragment
         android:id="@+id/stock_Peluquero"
@@ -143,6 +140,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_inicioSesion"
             app:destination="@id/inicioSesion" />
+        <action
+            android:id="@+id/action_principal_cliente_to_activity_profile_cliente"
+            app:destination="@id/activity_profile_cliente" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"
@@ -215,5 +215,13 @@
         <action
             android:id="@+id/action_citasLista_to_detalles_citas"
             app:destination="@id/detalles_citas" />
+    </fragment>
+    <fragment
+        android:id="@+id/activity_profile_cliente"
+        android:name="com.example.hairdate.activity_profile_cliente"
+        android:label="activity_profile_cliente" >
+        <action
+            android:id="@+id/action_activity_profile_cliente_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
     </fragment>
 </navigation>

@@ -56,11 +56,6 @@ import org.jetbrains.annotations.NotNull;
 
 import kotlin.jvm.internal.Intrinsics;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link menu_Peluquero#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class menu_Peluquero extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
@@ -238,7 +233,6 @@ public class menu_Peluquero extends Fragment{
         String volverAMenuPeluquero = "Peluquero";
         Bundle bundle = new Bundle();
         bundle.putString("email", emailActual);
-        bundle.putString("ADondeVolver", volverAMenuPeluquero);
         getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
         Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
     }
