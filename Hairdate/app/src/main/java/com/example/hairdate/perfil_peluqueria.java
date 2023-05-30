@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class perfil_peluqueria extends Fragment {
     private TextView horarioTextView;
     private TextView numeroTelefonoTextView;
     private TextView nombreTextView;
+    private TextView serviciosTextView;
     private ImageButton btn_fav;
     private boolean fav_marc;
     private String peluqueriaId;
@@ -68,6 +70,7 @@ public class perfil_peluqueria extends Fragment {
 
     RecyclerView recyclerView;
     PeluqueroAdapter adapter;
+    private Button btn_volverAtras;
 
     private StorageReference storageReference;
     ImageView profileImage;
@@ -115,6 +118,8 @@ public class perfil_peluqueria extends Fragment {
         horarioTextView = rootView.findViewById(R.id.txtHorario);
         numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
         nombreTextView = rootView.findViewById(R.id.txtNombre);
+        serviciosTextView = rootView.findViewById(R.id.txtServicios);
+        btn_volverAtras = rootView.findViewById(R.id.btn_cancelar_perfilPeluqueria);
 
         // Obtener los argumentos pasados desde el fragmento anterior
         if (getArguments() != null) {
@@ -122,6 +127,36 @@ public class perfil_peluqueria extends Fragment {
             String horario = getArguments().getString("horario");
             String numeroTelefono = getArguments().getString("numeroTelefono");
             String nombre = getArguments().getString("nombre");
+            Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccion);
+            peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    String servicios = "";
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String corte = document.getString("corte");
+                                String corteTinte = document.getString("corte_tinte");
+                                String tinte = document.getString("tinte");
+                                String peinado = document.getString("peinado");
+                                if(corte.equals("si")){
+                                    servicios += "corte ";
+                                }
+                                if(corteTinte.equals("si")){
+                                    servicios += "corte + tinte ";
+                                }
+                                if(tinte.equals("si")){
+                                    servicios += "tinte ";
+                                }
+                                if(peinado.equals("si")){
+                                    servicios += "peinado ";
+                                }
+                            }
+                        }
+                    }
+                    serviciosTextView.setText(servicios);
+                }
+            });
 
             // Mostrar los datos en los TextView correspondientes
             direccionTextView.setText(direccion);
@@ -151,11 +186,24 @@ public class perfil_peluqueria extends Fragment {
             }
         }));
 
+        // Te devuelve al fragment de principalCliente
+        btn_volverAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                volverAtras(rootView);
+            }
+        });
+
         imagenPerfilPelu(rootView);
         pedirCita(rootView);
         listaPeluqueros(rootView);
 
         return rootView;
+    }
+
+    // Se ejecuta al pulsar el botón de "Volver". Te devuelve al fragment de principalCliente
+    public void volverAtras(View rootView) {
+        Navigation.findNavController(rootView).navigate(R.id.action_perfil_peluqueria_to_principal_cliente);
     }
 
     public void favoritos() {
@@ -336,6 +384,23 @@ public class perfil_peluqueria extends Fragment {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
         btn_pedirCita.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
+                Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccionTextView.getText().toString());
+                peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String UID = "";
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null && !task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    UID = document.getString("UID");
+                                }
+                            }
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("bundlekey", UID);
+                        getParentFragmentManager().setFragmentResult("bundlekey", bundle);
+                    }
+                });
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));

@@ -58,17 +58,20 @@ public class principal_cliente extends Fragment {
     String emailActual;
 
     FirebaseFirestore db;
+    //String emailActual;
+    TextView usuario;
     RecyclerView recyclerView;
     RecyclerView recyclerViewFav;
     PeluqueriaAdapter adapter;
     PeluqueriaAdapter adapterFav;
     ImageView profileImage;
+    View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
-    private TextView usuario;
+    //private TextView usuario;
 
     public principal_cliente() {
-        // Required empty public constructor
+
     }
 
     @NonNull
@@ -84,8 +87,12 @@ public class principal_cliente extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
+        view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        usuario = view.findViewById(R.id.txt_nombreCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         usuario = view.findViewById(R.id.txt_nombreCliente);
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
@@ -105,6 +112,21 @@ public class principal_cliente extends Fragment {
         adapter = new PeluqueriaAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+
+        // Al pulsar el nombre, se te dirige a cambiarte la imagen de perfil
+        usuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moverAActivityProfile();
+            }
+        });
+        // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moverAActivityProfile();
+            }
+        });
 
         adapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -126,6 +148,31 @@ public class principal_cliente extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
+
+            // Obtiene el email actual
+            Query queryEmail = db.collection("Cliente").whereEqualTo("UID", uid);
+            queryEmail.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                emailActual = document.getString("email");
+                                Toast.makeText(getActivity(), "emailActual es " + emailActual, Toast.LENGTH_SHORT).show();
+
+                                // Coloca el email como nombre de usuario
+                                usuario.setText(document.getString("usuario"));
+                                // Si existe una imagen, la coloca como imagen de perfil
+                                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Picasso.get().load(uri).into(profileImage);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
 
             // Consultar las peluquerías favoritas del usuario
             Query queryFav = db.collection("Favoritos").document(uid).collection("Peluquerias");
@@ -210,5 +257,22 @@ public class principal_cliente extends Fragment {
             textNoFav.setVisibility(View.GONE);
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void cerrarSesion(View view){
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
+            }
+        }));
+    }
+
+    public void moverAActivityProfile() {
+        Bundle bundle = new Bundle();
+        bundle.putString("email", emailActual);
+        getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
+        Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_activity_profile);
     }
 }

@@ -21,6 +21,11 @@
         <TextView
             android:id="@+id/txtNombre"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imagePeluqueria"
             android:gravity="center"
@@ -28,13 +33,15 @@
             android:text="Nombre de la Peluquería"
             android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/txtDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtNombre"
-            android:gravity="center"
-            android:text="Dirección de la Peluquería" />
+            <ImageView
+                android:id="@+id/imagePeluqueria"
+                android:layout_width="match_parent"
+                android:layout_height="276dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:paddingBottom="10dp"
+                android:scaleType="fitXY"
+                />
 
         <TextView
             android:id="@+id/txtNumTlf"
@@ -64,8 +71,47 @@
             android:id="@+id/recyclerViewPeluqueros"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/txtHorario"
-            android:layout_above="@id/btn_pedirCita" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Nombre de la Peluquería"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txtDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Dirección de la Peluquería" />
+
+            <TextView
+                android:id="@+id/txtNumTlf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="6324805" />
+
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Horario de la Peluquería" />
+
+            <TextView
+                android:id="@+id/txtServicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Servicios" />
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/imagen_fav"
@@ -80,11 +126,23 @@
             android:src="@drawable/favorito_no" />
 
         <Button
+            android:id="@+id/btn_cancelar_perfilPeluqueria"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="220dp"
+            android:layout_marginBottom="16dp"
+            android:text="Cancelar" />
+
+        <Button
             android:id="@+id/btn_pedirCita"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginEnd="70dp"
             android:layout_marginBottom="16dp"
             android:text="Pedir Cita" />
 

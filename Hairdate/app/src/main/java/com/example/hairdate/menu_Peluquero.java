@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -84,25 +85,13 @@ public class menu_Peluquero extends Fragment{
     ImageView profileImage;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-
-    RecyclerView mRecycler;
-    CitasAdapter mAdapter;
     FirebaseFirestore mFirestore;
 
 
     public menu_Peluquero() {
-        // Required empty public constructor
+        
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment menu_Peluquero.
-     */
-    // TODO: Rename and change types and number of parameters
     public static menu_Peluquero newInstance(String param1, String param2) {
         menu_Peluquero fragment = new menu_Peluquero();
         Bundle args = new Bundle();
@@ -137,6 +126,37 @@ public class menu_Peluquero extends Fragment{
         btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
         btn_gestionCitas = view.findViewById(R.id.btn_comprobarCitas);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+
+
+        // Obtener el UID del usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            Query queryUsuario = db.collection("Peluqueria").whereEqualTo("UID", uid);
+            queryUsuario.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                emailActual = document.getString("email");
+
+                                // Coloca el email como nombre de usuario
+                                usuario.setText(document.getString("usuario"));
+                                // Si existe una imagen, la coloca como imagen de perfil
+                                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Picasso.get().load(uri).into(profileImage);
+                                    }
+                                });
+                            }
+                        }
+                    });
+            }
 
         // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -191,7 +211,7 @@ public class menu_Peluquero extends Fragment{
         btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_citasLista);
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
             }
         });
 
@@ -199,35 +219,6 @@ public class menu_Peluquero extends Fragment{
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        storageReference = FirebaseStorage.getInstance().getReference();
-        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
-        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                emailActual = result.getString("email");
-                // Coloca el email como nombre de usuario
-                usuario.setText(emailActual);
-                // Si existe una imagen, la coloca como imagen de perfil
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAdapter.stopListening();
-    }
     public void irAActivityProfile() {
         String volverAMenuPeluquero = "Peluquero";
         Bundle bundle = new Bundle();

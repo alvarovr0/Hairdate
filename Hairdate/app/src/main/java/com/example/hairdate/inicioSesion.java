@@ -126,7 +126,6 @@ public class inicioSesion extends Fragment {
                 alerta.show();
             }
         }));
-
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
         this.btn_eyeContrasena_inicio.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
