@@ -102,7 +102,6 @@ public class ListaPeluqueros extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 numeroTelefono = result.getString("numeroTelefono");
-
             }
         });
 

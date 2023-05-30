@@ -1,7 +1,5 @@
 package com.example.hairdate;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,19 +20,11 @@ import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +46,7 @@ public class activity_profile extends Fragment {
     private Button changeImageButton;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+
     public activity_profile() {
         // Required empty public constructor
     }

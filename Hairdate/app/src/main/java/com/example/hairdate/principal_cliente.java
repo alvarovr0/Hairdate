@@ -211,5 +211,4 @@ public class principal_cliente extends Fragment {
             recyclerViewFav.setVisibility(View.VISIBLE);
         }
     }
-
 }
