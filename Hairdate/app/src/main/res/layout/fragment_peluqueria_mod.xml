@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".peluqueria_mod">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/txt_tipo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Modificar datos"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center|top"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <TextView
+                android:id="@+id/txt_nuevo_nombre_peluquero"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:text="Nombre" />
+
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_nombre_peluquero"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                />
+
+            <TextView
+                android:id="@+id/txt_nuevo_cif_peluquero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:text="CIF" />
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_cif_peluquero"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="CIF"
+                android:inputType="textPersonName"
+                android:maxLength="9" />
+
+            <TextView
+                android:id="@+id/txt_nuevo_usuario_peluquero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Usuario" />
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_usuario_peluquero"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Usuario"
+                android:inputType="textPersonName"
+                android:maxLength="15" />
+
+            <TextView
+                android:id="@+id/txt_nuevo_direccion_peluquero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Dirección" />
+
+            <LinearLayout
+                android:layout_width="344dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner_nuevo_Calle_peluquero"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/array"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <EditText
+                    android:id="@+id/edTxt_nuevo_Direccion_peluquero"
+                    android:layout_width="193dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="Dirección"
+                    android:inputType="textPersonName"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_nuevo_num_peluquero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Número de teléfono"  />
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_num_peluquero"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                android:background="@drawable/rectangle"
+                android:hint="Núm. de tlf."
+                android:gravity="center"
+                android:minLines="9"/>
+
+            <TextView
+                android:id="@+id/txt_nuevo_horario_peluqueria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Horario" />
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_horario_peluquero"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:ems="10"
+                android:hint="09:00-20:00"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/txt_nuevo_servicios_peluqueria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Servicios que ofreces"
+                android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_nuevo_Corte"
+                        android:layout_width="123dp"
+                        android:layout_height="wrap_content"
+                        android:text="Corte" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_nuevo_Tinte"
+                        android:layout_width="123dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tinte"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_nuevo_CorteTinte"
+                        android:layout_width="123dp"
+                        android:layout_height="wrap_content"
+                        android:text="Corte + Tinte" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxPeinado"
+                        android:layout_width="123dp"
+                        android:layout_height="wrap_content"
+                        android:text="Peinado"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_nuevo_tipo_peluqueria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Tipo" />
+
+                <Spinner
+                    android:id="@+id/spinner_nuevo_tipo_peluqueria"
+                    android:layout_width="289dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:entries="@array/tipoPeluqueria"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_registro_peluquero"
+            android:layout_width="258dp"
+            android:layout_marginTop="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Guardar" />
+    </LinearLayout>
+</FrameLayout>

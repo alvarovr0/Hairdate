@@ -113,11 +113,11 @@ public class principal_cliente extends Fragment {
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
-        // Al pulsar el nombre, se te dirige a cambiarte la imagen de perfil
+        // Al pulsar el nombre, se te dirige a cambiarte los datos del perfil
         usuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moverAActivityProfile();
+                Navigation.findNavController(getView()).navigate(R.id.action_principal_cliente_to_cliente_mod);
             }
         });
         // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil

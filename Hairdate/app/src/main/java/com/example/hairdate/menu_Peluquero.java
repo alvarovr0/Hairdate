@@ -151,10 +151,10 @@ public class menu_Peluquero extends Fragment{
                     });
             }
 
-        // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
+        // Al pulsar en el nombre de usuario se envía a cambiar sus datos
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
-                irAActivityProfile();
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_peluqueria_mod);
             }
         }));
         // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil

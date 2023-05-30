@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".cliente_mod">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/txt_bienvenida"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Modificar Datos"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center|top"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <TextView
+                android:id="@+id/txt_nuevo_nombre_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:text="Nombre" />
+
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_nombre_cliente"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23dp"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:background="@drawable/rectangle"/>
+
+
+            <TextView
+                android:id="@+id/txt_nuevo_usuario_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Usuario" />
+
+            <EditText
+                android:id="@+id/edTxt_nuevo_usuario_cliente"
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23dp"
+                android:background="@drawable/rectangle"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Usuario"
+                android:inputType="textPersonName"
+                android:maxLength="15" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_mod_cliente"
+            android:layout_width="258dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="Guardar" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_marginTop="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
+            app:srcCompat="@drawable/cliente"/>
+    </LinearLayout>
+
+</FrameLayout>
