@@ -188,7 +188,6 @@ public class menu_Peluquero extends Fragment{
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_inicioSesion);
             }
         }));
-        //onBackPressed();
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {

@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,6 +68,7 @@ public class perfil_peluqueria extends Fragment {
     private String peluqueriaId;
     private String userId;
     private Button btn_pedirCita;
+    private Button btn_verProductos;
     String peluqueriaUid;
 
     RecyclerView recyclerView;
@@ -122,6 +124,7 @@ public class perfil_peluqueria extends Fragment {
         serviciosTextView = rootView.findViewById(R.id.txtServicios);
         tipoTextView = rootView.findViewById(R.id.txtTipo);
         btn_volverAtras = rootView.findViewById(R.id.btn_cancelar_perfilPeluqueria);
+        btn_verProductos = rootView.findViewById(R.id.btn_verProductos);
 
         // Obtener los argumentos pasados desde el fragmento anterior
         if (getArguments() != null) {
@@ -198,6 +201,34 @@ public class perfil_peluqueria extends Fragment {
                 volverAtras(rootView);
             }
         });
+        btn_verProductos.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CollectionReference peluqueriaRef = db.collection("Peluqueria");
+
+                Query query = peluqueriaRef.whereEqualTo("direccion", direccionTextView.getText().toString());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                String email = documentSnapshot.getString("email");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("email", email);
+                                getParentFragmentManager().setFragmentResult("correo", bundle);
+                                Navigation.findNavController(getView()).navigate(R.id.action_perfil_peluqueria_to_fragment_verProductos_Cliente);
+                            } else {
+                                Toast.makeText(getContext(), "No se encontró el documento.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Error al obtener los datos.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }));
 
         imagenPerfilPelu(rootView);
         pedirCita(rootView);

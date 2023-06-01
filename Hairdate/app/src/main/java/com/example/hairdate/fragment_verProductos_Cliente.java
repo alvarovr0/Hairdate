@@ -2,7 +2,6 @@ package com.example.hairdate;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,12 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,10 +35,10 @@ import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_ver_objeto#newInstance} factory method to
+ * Use the {@link fragment_verProductos_Cliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_ver_objeto extends Fragment {
+public class fragment_verProductos_Cliente extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,27 +48,35 @@ public class fragment_ver_objeto extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     ImageView productoImage;
     int numProducto;
     Uri imageUri;
     String emailActual;
-    private EditText tituloProducto;
-    private EditText cantidadProducto;
-    private EditText precioProducto;
+    private TextView tituloProducto;
+    private TextView cantidadProducto;
+    private TextView precioProducto;
     private Button botonIzquierda;
     private Button botonDerecha;
-    private Button botonGuardar;
-    private Button botonCancelar;
+    private Button botonAtras;;
     private FirebaseFirestore firestore;
     private StorageReference storageReference;
     private DocumentReference documentReference;
-    public fragment_ver_objeto() {
+
+    public fragment_verProductos_Cliente() {
         // Required empty public constructor
     }
 
-    public static fragment_ver_objeto newInstance(String param1, String param2) {
-        fragment_ver_objeto fragment = new fragment_ver_objeto();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment fragment_verProductos_Cliente.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static fragment_verProductos_Cliente newInstance(String param1, String param2) {
+        fragment_verProductos_Cliente fragment = new fragment_verProductos_Cliente();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,9 +87,7 @@ public class fragment_ver_objeto extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         numProducto = 1;
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -94,27 +97,23 @@ public class fragment_ver_objeto extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ver_objeto, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_ver_productos__cliente, container, false);
         productoImage = view.findViewById(R.id.imagenProducto_activityProfile);
-        tituloProducto = view.findViewById(R.id.edTxt_tituloProducto);
-        cantidadProducto = view.findViewById(R.id.edTxt_cantidadProducto);
-        precioProducto = view.findViewById(R.id.edTxt_precioProducto);
-        botonGuardar = view.findViewById(R.id.btn_guardarCambios);
-        botonCancelar = view.findViewById(R.id.btn_cancelarCambios);
+        tituloProducto = view.findViewById(R.id.Txt_tituloProducto);
+        cantidadProducto = view.findViewById(R.id.Txt_cantidadProducto);
+        precioProducto = view.findViewById(R.id.Txt_precioProducto);
         botonIzquierda = view.findViewById(R.id.btn_productoIzquierda);
         botonDerecha = view.findViewById(R.id.btn_productoDerecha);
+        botonAtras = view.findViewById(R.id.btn_atras);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        getParentFragmentManager().setFragmentResultListener("fragmentVerObjeto", this, new FragmentResultListener() {
+        getParentFragmentManager().setFragmentResultListener("correo", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 emailActual = result.getString("email");
                 //Toast.makeText(view.getContext(), emailActual, Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("email", emailActual);
-                getParentFragmentManager().setFragmentResult("menuPeluquero", bundle);
-
                 // Carga la imagen del primer producto si ya existe
                 StorageReference profileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -203,18 +202,10 @@ public class fragment_ver_objeto extends Fragment {
             }
         });
 
-        botonGuardar.setOnClickListener(new View.OnClickListener() {
+        botonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subirImagenAFirebase(imageUri);
-                subirTextoAFirebase();
-            }
-        });
-
-        botonCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_fragment_ver_objeto_to_menu_Peluquero);
+                Navigation.findNavController(view).navigate(R.id.action_fragment_verProductos_Cliente_to_principal_cliente);
             }
         });
 
@@ -232,33 +223,5 @@ public class fragment_ver_objeto extends Fragment {
         }
     }
 
-    private void subirImagenAFirebase(Uri imageUri) {
-        // Sube la imagen al almacenamiento de Firebase
-        StorageReference fileRef = storageReference.child(emailActual + "_producto" + numProducto + ".jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(productoImage);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.print("Error");
-            }
-        });
-    }
 
-    private void subirTextoAFirebase() {
-        firestore = FirebaseFirestore.getInstance();
-        Map<String, String> items = new HashMap<>();
-        items.put("titulo", tituloProducto.getText().toString().trim());
-        items.put("cantidad", cantidadProducto.getText().toString().trim());
-        items.put("precio", precioProducto.getText().toString().trim());
-        firestore.collection("productos").document(emailActual + "_producto" + numProducto).set(items);
-    }
 }
