@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -25,8 +26,8 @@
         android:textSize="17dp"
         android:typeface="serif" />
 
-    <EditText
-        android:id="@+id/edTxt_tituloProducto"
+    <TextView
+        android:id="@+id/Txt_tituloProducto"
         android:layout_width="268dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -37,7 +38,7 @@
         android:background="@drawable/rectangle"
         android:ellipsize="end"
         android:gravity="center"
-        android:hint="Inserte nombre de producto"
+        android:hint="Nombre de producto"
         android:inputType="text"
         android:maxLines="1" />
 
@@ -54,8 +55,8 @@
         android:textSize="17dp"
         android:typeface="serif" />
 
-    <EditText
-        android:id="@+id/edTxt_cantidadProducto"
+    <TextView
+        android:id="@+id/Txt_cantidadProducto"
         android:layout_width="268dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -66,19 +67,10 @@
         android:background="@drawable/rectangle"
         android:ellipsize="end"
         android:gravity="center"
-        android:hint="Inserte cantidad de producto"
+        android:hint="Cantidad de producto"
         android:inputType="number"
         android:maxLines="1" />
 
-    <Button
-        android:id="@+id/btn_guardarCambios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="9dp"
-        android:text="Guardar" />
 
     <Button
         android:id="@+id/btn_productoDerecha"
@@ -102,14 +94,14 @@
         android:background="@drawable/quantum_ic_arrow_back_grey600_24" />
 
     <Button
-        android:id="@+id/btn_cancelarCambios"
+        android:id="@+id/btn_atras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="229dp"
-        android:layout_marginBottom="9dp"
-        android:text="Cancelar" />
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="11dp"
+        android:text="Atras" />
 
     <TextView
         android:id="@+id/txt_precioProducto"
@@ -123,8 +115,8 @@
         android:text="Precio: (€)"
         android:textSize="17dp"
         android:typeface="serif" />
-    <EditText
-        android:id="@+id/edTxt_precioProducto"
+    <TextView
+        android:id="@+id/Txt_precioProducto"
         android:layout_width="268dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -135,7 +127,7 @@
         android:background="@drawable/rectangle"
         android:ellipsize="end"
         android:gravity="center"
-        android:hint="Inserte el precio de producto"
+        android:hint="Precio de producto"
         android:inputType="number"
         android:maxLines="1" />
 

@@ -68,7 +68,7 @@
                 android:layout_below="@id/txtServicios"
                 android:gravity="center"
                 android:orientation="vertical" />
-                
+
             <TextView
                 android:id="@+id/txtTipo"
                 android:layout_width="match_parent"
@@ -96,9 +96,19 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="220dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="284dp"
+            android:layout_marginBottom="15dp"
             android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/btn_verProductos"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="138dp"
+            android:layout_marginBottom="15dp"
+            android:text="Productos" />
 
         <Button
             android:id="@+id/btn_pedirCita"
@@ -107,7 +117,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginEnd="70dp"
+            android:layout_marginEnd="7dp"
             android:layout_marginBottom="16dp"
             android:text="Pedir Cita" />
 

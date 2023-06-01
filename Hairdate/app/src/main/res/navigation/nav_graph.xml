@@ -161,6 +161,9 @@
         <action
             android:id="@+id/action_perfil_peluqueria_to_principal_cliente"
             app:destination="@id/principal_cliente" />
+        <action
+            android:id="@+id/action_perfil_peluqueria_to_fragment_verProductos_Cliente"
+            app:destination="@id/fragment_verProductos_Cliente" />
     </fragment>
     <fragment
         android:id="@+id/detalles_citas"
@@ -252,6 +255,15 @@
         tools:layout="@layout/fragment_lista_citas_cliente" >
         <action
             android:id="@+id/action_listaCitasCliente_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_verProductos_Cliente"
+        android:name="com.example.hairdate.fragment_verProductos_Cliente"
+        android:label="fragment_ver_productos__cliente"
+        tools:layout="@layout/fragment_ver_productos__cliente" >
+        <action
+            android:id="@+id/action_fragment_verProductos_Cliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
     </fragment>
 </navigation>
