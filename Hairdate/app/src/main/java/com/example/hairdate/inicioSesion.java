@@ -241,28 +241,38 @@ public class inicioSesion extends Fragment {
     }
 
     private void startSignIn(String correo, String contrasena, final SignInCallback callback) {
-        mAuth.signInWithEmailAndPassword(correo, contrasena)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                callback.onSignInSuccess();
+        if(contrasena.isEmpty()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Error");
+            builder.setMessage("Inserta una contraseña");
+            builder.setPositiveButton("OK", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else{
+            mAuth.signInWithEmailAndPassword(correo, contrasena)
+                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if (user != null) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    callback.onSignInSuccess();
+                                } else {
+                                    // User is null, handle sign-in failure
+                                    Log.w(TAG, "signInWithEmail:failure - User is null");
+                                    callback.onSignInFailure();
+                                }
                             } else {
-                                // User is null, handle sign-in failure
-                                Log.w(TAG, "signInWithEmail:failure - User is null");
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 callback.onSignInFailure();
                             }
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            callback.onSignInFailure();
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     interface SignInCallback {
