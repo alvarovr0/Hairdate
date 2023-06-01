@@ -1,6 +1,10 @@
 package com.example.hairdate;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,21 +18,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hairdate.adapter.CitasAdapter;
 import com.example.hairdate.model.Citas;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +70,7 @@ public class ListaCitasCliente extends Fragment {
     TextView usuario;
     private Button btn_volver;
     private Button btn_cerrarSesion;
+    private String Id;
 
     public ListaCitasCliente() {
         // Required empty public constructor
@@ -110,7 +122,7 @@ public class ListaCitasCliente extends Fragment {
             String uid = currentUser.getUid();
 
             // Consulta los peluqueros que tienen una referencia a la peluquería especificada
-            Query query = db.collection("Citas").whereEqualTo("UIDCliente", uid);
+            Query query = db.collection("Citas").whereEqualTo("UID", uid);
             FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
             adapter = new CitasAdapter(firestoreRecyclerOptions);
             adapter.notifyDataSetChanged();
@@ -125,9 +137,11 @@ public class ListaCitasCliente extends Fragment {
                                 adapter.setOnClickListener(new View.OnClickListener() {
                                     public void onClick(View view) {
                                         int position = recyclerViewCitas.getChildAdapterPosition(view);
-                                        /*Citas citas = adapter.getItem(position);
+                                        Citas citas = adapter.getItem(position);
 
+                                        mostrarDialogoBorrarCita(citas);
                                         // Navegar al siguiente fragmento y pasar los datos como argumentos
+                                        /*
                                         Bundle args = new Bundle();
                                         args.putString("nombre", citas.getFecha_Hora());*/
                                         //Navigation.findNavController(view).navigate(R.id.action_listaCitasCliente_to_principal_cliente, args);
@@ -157,6 +171,61 @@ public class ListaCitasCliente extends Fragment {
 
         return view;
     }
+
+    private void mostrarDialogoBorrarCita(Citas cita) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Confirmar borrado")
+                .setMessage("¿Quieres borrar la cita seleccionada?")
+                .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Borrar la cita de la base de datos
+                        String fechaHora = cita.getFecha_Hora();
+                        CollectionReference collectionRef = db.collection("Citas");
+
+                        collectionRef.whereEqualTo("Fecha_Hora", fechaHora)
+                                .limit(1)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                            String citaId = documentSnapshot.getId();
+                                            db.collection("Citas").document(citaId)
+                                                    .delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            // La cita se borró exitosamente
+                                                            Toast.makeText(getActivity(), "Cita borrada", Toast.LENGTH_SHORT).show();
+                                                            // Realizar cualquier acción adicional necesaria
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getActivity(), "Ocurrió un error al borrar la cita", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), "Ocurrió un error al buscar la cita", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("Cancelar", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -238,5 +307,45 @@ public class ListaCitasCliente extends Fragment {
         if (adapter != null) {
             adapter.stopListening();
         }
+    }
+
+    public void IdDocumento() {
+        CollectionReference collectionRef = db.collection("Citas");
+
+        collectionRef.whereEqualTo("Fecha_hora", "valor")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                            // Obtener la ID del documento
+                            String documentId = documentSnapshot.getId();
+
+                            // Borrar el documento utilizando la ID obtenida
+                            collectionRef.document(documentId).delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Documento borrado exitosamente
+                                            Log.d(TAG, "Documento borrado correctamente");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Error al borrar el documento
+                                            Log.w(TAG, "Error al borrar el documento", e);
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error al realizar la consulta
+                        Log.w(TAG, "Error al obtener el documento", e);
+                    }
+                });
     }
 }

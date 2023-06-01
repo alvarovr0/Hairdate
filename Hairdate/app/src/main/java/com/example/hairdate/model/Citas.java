@@ -18,4 +18,5 @@ public class Citas {
     public void setFecha_Hora(String Fecha_Hora) {
         this.Fecha_Hora = Fecha_Hora;
     }
+
 }
