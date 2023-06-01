@@ -96,9 +96,9 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="284dp"
-            android:layout_marginBottom="15dp"
-            android:text="Cancelar" />
+            android:layout_marginEnd="303dp"
+            android:layout_marginBottom="16dp"
+            android:text="Volver" />
 
         <Button
             android:id="@+id/btn_verProductos"
@@ -106,8 +106,8 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="138dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="143dp"
+            android:layout_marginBottom="14dp"
             android:text="Productos" />
 
         <Button
