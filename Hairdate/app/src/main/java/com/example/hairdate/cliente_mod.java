@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -91,6 +92,39 @@ public class cliente_mod extends Fragment {
         // Referenciar las vistas del XML
         edTxtNuevoNombreCliente = view.findViewById(R.id.edTxt_nuevo_nombre_cliente);
         edTxtNuevoUsuarioCliente = view.findViewById(R.id.edTxt_nuevo_usuario_cliente);
+
+        // Obtener el UID del usuario actual
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            uid = user.getUid();
+        } else {
+            // Manejar el caso en el que el usuario no esté autenticado
+            return view;
+        }
+
+        CollectionReference usuariosRef = firestore.collection("Cliente");
+        Query query = usuariosRef.whereEqualTo("UID", uid);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+
+                        // Obtener los datos existentes del documento
+                        String nombre = documentSnapshot.getString("nombre");
+                        String usuario = documentSnapshot.getString("usuario");
+
+
+                        // Mostrar los datos en los campos correspondientes
+                        edTxtNuevoNombreCliente.setText(nombre);
+                        edTxtNuevoUsuarioCliente.setText(usuario);
+                    }
+                }
+            }
+        });
 
 
         // Referenciar el botón de guardar

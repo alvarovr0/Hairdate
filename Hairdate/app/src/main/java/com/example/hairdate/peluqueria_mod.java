@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,6 +47,7 @@ public class peluqueria_mod extends Fragment {
     private EditText edTxtNuevoDireccionPeluquero;
     private EditText edTxtNuevoNumPeluquero;
     private EditText edTxtNuevoHorarioPeluquero;
+    private CheckBox checkboxCorte, checkboxTinte, checkboxPeinado, checkboxCorteTinte;
 
     // Otras variables necesarias
     private FirebaseFirestore firestore;
@@ -102,6 +105,50 @@ public class peluqueria_mod extends Fragment {
         edTxtNuevoDireccionPeluquero = view.findViewById(R.id.edTxt_nuevo_Direccion_peluquero);
         edTxtNuevoNumPeluquero = view.findViewById(R.id.edTxt_nuevo_num_peluquero);
         edTxtNuevoHorarioPeluquero = view.findViewById(R.id.edTxt_nuevo_horario_peluquero);
+        checkboxCorte = view.findViewById(R.id.checkbox_nuevo_Corte);
+        checkboxTinte = view.findViewById(R.id.checkbox_nuevo_Tinte);
+        checkboxPeinado = view.findViewById(R.id.checkbox_nuevo_Peinado);
+        checkboxCorteTinte = view.findViewById(R.id.checkbox_nuevo_CorteTinte);
+
+        // Obtener el UID del usuario actual
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            uid = user.getUid();
+        } else {
+            // Manejar el caso en el que el usuario no esté autenticado
+            return view;
+        }
+
+        CollectionReference usuariosRef = firestore.collection("Peluqueria");
+        Query query = usuariosRef.whereEqualTo("UID", uid);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+
+                        // Obtener los datos existentes del documento
+                        String nombre = documentSnapshot.getString("nombre");
+                        String cif = documentSnapshot.getString("cif");
+                        String usuario = documentSnapshot.getString("usuario");
+                        String direccion = documentSnapshot.getString("direccion");
+                        String numTelefono = documentSnapshot.getString("numeroTelefono");
+                        String horario = documentSnapshot.getString("horario");
+
+                        // Mostrar los datos en los campos correspondientes
+                        edTxtNuevoNombrePeluquero.setText(nombre);
+                        edTxtNuevoCifPeluquero.setText(cif);
+                        edTxtNuevoUsuarioPeluquero.setText(usuario);
+                        edTxtNuevoDireccionPeluquero.setText(direccion);
+                        edTxtNuevoNumPeluquero.setText(numTelefono);
+                        edTxtNuevoHorarioPeluquero.setText(horario);
+                    }
+                }
+            }
+        });
 
         // Referenciar el botón de guardar
         Button btnGuardar = view.findViewById(R.id.btn_registro_peluquero);
@@ -139,14 +186,25 @@ public class peluqueria_mod extends Fragment {
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
                     if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        Spinner direccion = getView().findViewById(R.id.spinner_nuevo_Calle_peluquero);
+                        Spinner tipo = getView().findViewById(R.id.spinner_nuevo_tipo_peluqueria);
+                        String corte = checkboxCorte.isChecked() ? "si" : "no";
+                        String corteTinte = checkboxCorteTinte.isChecked() ? "si" : "no";
+                        String tinte = checkboxTinte.isChecked() ? "si" : "no";
+                        String peinado = checkboxPeinado.isChecked() ? "si" : "no";
                         DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                         DocumentReference usuarioRef = usuariosRef.document(documentSnapshot.getId());
                         usuarioRef.update("nombre", nuevoNombre);
                         usuarioRef.update("cif", nuevoCif);
                         usuarioRef.update("usuario", nuevoUsuario);
-                        usuarioRef.update("direccion", nuevaDireccion);
+                        usuarioRef.update("direccion", direccion.getSelectedItem().toString() + nuevaDireccion);
                         usuarioRef.update("numeroTelefono", nuevoNumTelefono);
                         usuarioRef.update("horario", nuevoHorario);
+                        usuarioRef.update("corte", corte);
+                        usuarioRef.update("corte_tinte", corteTinte);
+                        usuarioRef.update("tinte", tinte);
+                        usuarioRef.update("peinado", peinado);
+                        usuarioRef.update("tipo", tipo.getSelectedItem().toString());
 
                         Toast.makeText(getContext(), "Datos guardados exitosamente.", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(getView()).navigate(R.id.action_peluqueria_mod_to_menu_Peluquero);
