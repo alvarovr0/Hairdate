@@ -14,6 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link tipo_servicio#newInstance} factory method to
@@ -30,6 +37,7 @@ public class tipo_servicio extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button tinte, corte, tinteCorte, peinado;
+    private FirebaseFirestore db;
 
     public tipo_servicio() {
         // Required empty public constructor
@@ -67,22 +75,48 @@ public class tipo_servicio extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tipo_servicio, container, false);
+        db = FirebaseFirestore.getInstance();
         getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
                     @Override
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                         // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                         String result = bundle.getString("selectedDateTime");
+                        String resultUID = bundle.getString("UIDpelu");
                         Log.d("prueba", "Fecha seleccionada: " + result);
                         tinte = view.findViewById(R.id.btn_tinte);
                         corte = view.findViewById(R.id.btn_corte);
                         tinteCorte = view.findViewById(R.id.btn_tinteCorte);
                         peinado = view.findViewById(R.id.btn_peinado);
-
+                        Query peluqueroQuery = db.collection("Peluqueria").whereEqualTo("UID", resultUID);
+                        peluqueroQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String corteString = document.getString("corte");
+                                    String corteTinteString = document.getString("corte_tinte");
+                                    String tinteString = document.getString("tinte");
+                                    String peinadoString = document.getString("peinado");
+                                    if(corteString.equals("no")){
+                                        corte.setVisibility(View.INVISIBLE);
+                                    }
+                                    if(corteTinteString.equals("no")){
+                                        tinteCorte.setVisibility(View.INVISIBLE);
+                                    }
+                                    if(tinteString.equals("no")){
+                                        tinte.setVisibility(View.INVISIBLE);
+                                    }
+                                    if(peinadoString.equals("no")){
+                                        peinado.setVisibility(View.INVISIBLE);
+                                    }
+                                }
+                            }
+                        });
                         tinte.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
                             public final void onClick(View it) {
                                 Bundle resultservicio = new Bundle();
                                 resultservicio.putString("bundleKey", tinte.getText().toString());
                                 resultservicio.putString("fecha", result);
+                                resultservicio.putString("UIDpelu", resultUID);
                                 getParentFragmentManager().setFragmentResult("servicio", resultservicio);
                                 Navigation.findNavController(getView()).navigate(R.id.action_tipo_servicio_to_preferenciaCitasCliente);
                             }
@@ -93,6 +127,7 @@ public class tipo_servicio extends Fragment {
                                 Bundle resultservicio = new Bundle();
                                 resultservicio.putString("bundleKey", corte.getText().toString());
                                 resultservicio.putString("fecha", result);
+                                resultservicio.putString("UIDpelu", resultUID);
                                 getParentFragmentManager().setFragmentResult("servicio", resultservicio);
                                 Navigation.findNavController(getView()).navigate(R.id.action_tipo_servicio_to_preferenciaCitasCliente);
                             }
@@ -103,6 +138,7 @@ public class tipo_servicio extends Fragment {
                                 Bundle resultservicio = new Bundle();
                                 resultservicio.putString("bundleKey", tinteCorte.getText().toString());
                                 resultservicio.putString("fecha", result);
+                                resultservicio.putString("UIDpelu", resultUID);
                                 getParentFragmentManager().setFragmentResult("servicio", resultservicio);
                                 Navigation.findNavController(getView()).navigate(R.id.action_tipo_servicio_to_preferenciaCitasCliente);
                             }
@@ -113,6 +149,7 @@ public class tipo_servicio extends Fragment {
                                 Bundle resultservicio = new Bundle();
                                 resultservicio.putString("bundleKey", peinado.getText().toString());
                                 resultservicio.putString("fecha", result);
+                                resultservicio.putString("UIDpelu", resultUID);
                                 getParentFragmentManager().setFragmentResult("servicio", resultservicio);
                                 Navigation.findNavController(getView()).navigate(R.id.action_tipo_servicio_to_preferenciaCitasCliente);
                             }

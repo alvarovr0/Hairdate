@@ -1,15 +1,14 @@
 package com.example.hairdate;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +19,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -57,16 +60,21 @@ public class perfil_peluqueria extends Fragment {
     private TextView horarioTextView;
     private TextView numeroTelefonoTextView;
     private TextView nombreTextView;
-    private String emailActual;
+    private TextView serviciosTextView;
+    private TextView tipoTextView;
     private ImageButton btn_fav;
     private boolean fav_marc;
     private String peluqueriaId;
     private String userId;
     private Button btn_pedirCita;
-    private Button btn_cancelarCita;
+    String peluqueriaUid;
 
-    ImageView profileImage;
+    RecyclerView recyclerView;
+    PeluqueroAdapter adapter;
+    private Button btn_volverAtras;
+
     private StorageReference storageReference;
+    ImageView profileImage;
 
     public perfil_peluqueria() {
         // Required empty public constructor
@@ -111,7 +119,9 @@ public class perfil_peluqueria extends Fragment {
         horarioTextView = rootView.findViewById(R.id.txtHorario);
         numeroTelefonoTextView = rootView.findViewById(R.id.txtNumTlf);
         nombreTextView = rootView.findViewById(R.id.txtNombre);
-        btn_cancelarCita = rootView.findViewById(R.id.btn_cancelarCita_perfilPeluqueria);
+        serviciosTextView = rootView.findViewById(R.id.txtServicios);
+        tipoTextView = rootView.findViewById(R.id.txtTipo);
+        btn_volverAtras = rootView.findViewById(R.id.btn_cancelar_perfilPeluqueria);
 
         // Obtener los argumentos pasados desde el fragmento anterior
         if (getArguments() != null) {
@@ -119,7 +129,39 @@ public class perfil_peluqueria extends Fragment {
             String horario = getArguments().getString("horario");
             String numeroTelefono = getArguments().getString("numeroTelefono");
             String nombre = getArguments().getString("nombre");
-            String emailActual2 = getArguments().getString("email");
+            Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccion);
+            peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    String servicios = "";
+                    String tipo = "";
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String corte = document.getString("corte");
+                                String corteTinte = document.getString("corte_tinte");
+                                String tinte = document.getString("tinte");
+                                String peinado = document.getString("peinado");
+                                tipo = document.getString("tipo");
+                                if(corte.equals("si")){
+                                    servicios += "corte ";
+                                }
+                                if(corteTinte.equals("si")){
+                                    servicios += "corte + tinte ";
+                                }
+                                if(tinte.equals("si")){
+                                    servicios += "tinte ";
+                                }
+                                if(peinado.equals("si")){
+                                    servicios += "peinado ";
+                                }
+                            }
+                        }
+                    }
+                    serviciosTextView.setText(servicios);
+                    tipoTextView.setText(tipo);
+                }
+            });
 
             // Mostrar los datos en los TextView correspondientes
             direccionTextView.setText(direccion);
@@ -129,23 +171,6 @@ public class perfil_peluqueria extends Fragment {
             verificarFavorito();
 
         }
-
-        // Recoge el email mandado desde principal_cliente
-        getParentFragmentManager().setFragmentResultListener("perfilPeluqueria", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                emailActual = result.getString("email");
-                Toast.makeText(getActivity(), emailActual, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btn_cancelarCita.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                volverAtras(view);
-            }
-        });
-
         //Aquí se añade la función del cambio de estado del botón de favoritos
         this.btn_fav = (ImageButton) rootView.findViewById(R.id.imagen_fav);
         this.btn_fav.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
@@ -165,15 +190,24 @@ public class perfil_peluqueria extends Fragment {
                 }
             }
         }));
-        imagenPerfil(rootView);
+
+        // Te devuelve al fragment de principalCliente
+        btn_volverAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                volverAtras(rootView);
+            }
+        });
+
+        imagenPerfilPelu(rootView);
         pedirCita(rootView);
+        listaPeluqueros(rootView);
+
         return rootView;
     }
 
+    // Se ejecuta al pulsar el botón de "Volver". Te devuelve al fragment de principalCliente
     public void volverAtras(View rootView) {
-        Bundle bundle = new Bundle();
-        bundle.putString("email", emailActual);
-        getParentFragmentManager().setFragmentResult("menuCliente", bundle);
         Navigation.findNavController(rootView).navigate(R.id.action_perfil_peluqueria_to_principal_cliente);
     }
 
@@ -338,7 +372,7 @@ public class perfil_peluqueria extends Fragment {
         }
     }
 
-    public void imagenPerfil(View rootView){
+    public void imagenPerfilPelu(View rootView) {
         profileImage = rootView.findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
         // Muestra una imagen
@@ -351,12 +385,100 @@ public class perfil_peluqueria extends Fragment {
         });
     }
 
-    public void pedirCita(View view){
+    public void pedirCita(View view) {
         btn_pedirCita = view.findViewById(R.id.btn_pedirCita);
-        btn_pedirCita.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+        btn_pedirCita.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
+                Query peluqueriaQuery = db.collection("Peluqueria").whereEqualTo("direccion", direccionTextView.getText().toString());
+                peluqueriaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String UID = "";
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null && !task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    UID = document.getString("UID");
+                                }
+                            }
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("bundlekey", UID);
+                        getParentFragmentManager().setFragmentResult("bundlekey", bundle);
+                    }
+                });
                 Navigation.findNavController(view).navigate(R.id.action_perfil_peluqueria_to_solicitar_cita);
             }
         }));
     }
+
+    public void listaPeluqueros(View rootView) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        recyclerView = rootView.findViewById(R.id.recyclerViewPeluqueros);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String direccionPeluqueria = direccionTextView.getText().toString();
+
+            // Realiza la consulta para obtener la peluquería con la dirección dada
+            db.collection("Peluqueria")
+                    .whereEqualTo("direccion", direccionPeluqueria)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // Obtiene el primer documento de la consulta
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                String peluqueriaId = documentSnapshot.getId();
+
+                                // Consultar los peluqueros de la peluquería actual desde la anterior UID
+                                Query queryPeluqueros = db.collection("Peluquero")
+                                        .whereEqualTo("peluqueria", "/Peluqueria/" + peluqueriaId); // Filtrar por el UID de la peluquería
+
+                                FirestoreRecyclerOptions<Peluquero> firestoreRecyclerOptionsPeluqueros = new FirestoreRecyclerOptions.Builder<Peluquero>()
+                                        .setQuery(queryPeluqueros, Peluquero.class)
+                                        .build();
+
+                                adapter = new PeluqueroAdapter(firestoreRecyclerOptionsPeluqueros);
+                                adapter.notifyDataSetChanged();
+                                recyclerView.setAdapter(adapter);
+
+                            } else {
+                                Toast.makeText(getActivity(), "ERROR: No se encontró ninguna peluquería con esa dirección", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "ERROR: Ocurrió un error al obtener la ID de la peluquería", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
+
 }

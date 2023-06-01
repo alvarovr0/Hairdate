@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.example.hairdate.RoundedImageView
                 android:id="@+id/img_imagenPerfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/user"/>
+                android:src="@drawable/user_profile"/>
 
             <TextView
                 android:id="@+id/txt_nombrePeluquero"
@@ -32,19 +32,12 @@
                 android:text="Usuario"
                 android:gravity="center" />
 
-            <ImageView
-                android:id="@+id/img_campanaNoti"
-                android:layout_width="6dp"
-                android:layout_height="43dp"
-                android:layout_weight="1"
-                android:src="@drawable/bell" />
-
             <Button
                 android:id="@+id/btn_cerrarSesion"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cerrar Sesión" />
+                android:text="Cerrar Sesion" />
 
         </LinearLayout>
 
@@ -53,17 +46,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvw_PeluqueroCitas"
+            <Button
+                android:id="@+id/btn_comprobarCitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Comprobar/gestionar Citas" />
+
+            <Button
+                android:id="@+id/btn_gestionPeluqueros"
                 android:layout_width="match_parent"
-                android:layout_height="265dp" />
+                android:layout_height="wrap_content"
+                android:text="Gestionar/comprobar peluqueros" />
 
             <Button
                 android:id="@+id/btn_comprobarStock"
-                android:layout_width="201dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Comprobar Stock" />
+                android:text="Comprobar/gestionar productos" />
 
             <CalendarView
                 android:id="@+id/calendario"

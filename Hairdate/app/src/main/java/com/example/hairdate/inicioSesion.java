@@ -115,24 +115,15 @@ public class inicioSesion extends Fragment {
         Pass = (EditText) view.findViewById(R.id.edTxt_contrasena_inicio);
         crear.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
             public final void onClick(View it) {
-                android.app.AlertDialog.Builder constructorDialogo = new android.app.AlertDialog.Builder((Context) inicioSesion.this.requireActivity());
-                constructorDialogo.setMessage((CharSequence)"¿Quieres crear una cuenta?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (android.content.DialogInterface.OnClickListener)(new android.content.DialogInterface.OnClickListener() {
+                AlertDialog.Builder constructorDialogo = new AlertDialog.Builder((Context) inicioSesion.this.requireActivity());
+                constructorDialogo.setMessage((CharSequence)"¿Quieres crear una cuenta?").setCancelable(false).setPositiveButton((CharSequence)"Sí", (DialogInterface.OnClickListener)(new DialogInterface.OnClickListener() {
                     public final void onClick(DialogInterface dialogo, int id) {
                         Navigation.findNavController(view).navigate(R.id.action_inicioSesion_to_tipo_cuenta);
                     }
-                })).setNegativeButton((CharSequence)"No", (android.content.DialogInterface.OnClickListener)null);
-                android.app.AlertDialog alerta = constructorDialogo.create();
+                })).setNegativeButton((CharSequence)"No", (DialogInterface.OnClickListener)null);
+                AlertDialog alerta = constructorDialogo.create();
                 alerta.setTitle((CharSequence)"¿Quieres cambiar de ventana?");
                 alerta.show();
-            }
-        }));
-        btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                startSignIn(Email.getText().toString(), Pass.getText().toString());
-                /*Bundle nos permitirá enviar datos de un fragment almacenandolo*/
-                Bundle result = new Bundle();
-                result.putString("bundleKey",Email.getText().toString());
-                getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         }));
         this.btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.btn_eyeContrasena_inicio);
@@ -151,11 +142,13 @@ public class inicioSesion extends Fragment {
                 }
             }
         }));
+
         btn_iniciarSesion = (Button) view.findViewById(R.id.btn_iniciarSesion_inicio);
         Email = (EditText) view.findViewById(R.id.edTxt_usuario);
         Pass = (EditText) view.findViewById(R.id.edTxt_contrasena);
-        btn_iniciarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
+        btn_iniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 db = FirebaseFirestore.getInstance();
                 String email = Email.getText().toString().trim();
 
@@ -167,13 +160,22 @@ public class inicioSesion extends Fragment {
                         if (task.isSuccessful()) {
                             if (task.getResult() != null && !task.getResult().isEmpty()) {
                                 // Es un Peluquero
-                                Bundle result = new Bundle();
-                                result.putString("bundleKey",mAuth.getUid());
-                                result.putString("email", email);
-                                Log.d("UID", String.valueOf(result));
-                                getParentFragmentManager().setFragmentResult("menuPeluquero", result);
-                                startSignIn(email, Pass.getText().toString());
-                                Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_Peluquero);
+                                startSignIn(email, Pass.getText().toString(), new SignInCallback() {
+                                    @Override
+                                    public void onSignInSuccess() {
+                                        Bundle result = new Bundle();
+                                        result.putString("bundleKey", mAuth.getUid());
+                                        result.putString("email", email);
+                                        Log.d("UID", String.valueOf(result));
+                                        getParentFragmentManager().setFragmentResult("menuPeluquero", result);
+                                        Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_Peluquero);
+                                    }
+
+                                    @Override
+                                    public void onSignInFailure() {
+                                        Toast.makeText(getContext(), "Error: Inicio de sesión fallido", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             } else {
                                 // No es un Peluquero, verificar si es un Cliente
                                 Query clienteQuery = db.collection("Cliente").whereEqualTo("email", email);
@@ -183,13 +185,27 @@ public class inicioSesion extends Fragment {
                                         if (task.isSuccessful()) {
                                             if (task.getResult() != null && !task.getResult().isEmpty()) {
                                                 // Es un Cliente
-                                                startSignIn(email, Pass.getText().toString());
-                                                Bundle result = new Bundle();
-                                                result.putString("bundleKey", mAuth.getUid());
-                                                result.putString("email", email);
-                                                Log.d("UID", String.valueOf(result));
-                                                getParentFragmentManager().setFragmentResult("menuCliente", result);
-                                                Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_cliente);
+                                                startSignIn(email, Pass.getText().toString(), new SignInCallback() {
+                                                    @Override
+                                                    public void onSignInSuccess() {
+                                                        Bundle result = new Bundle();
+                                                        result.putString("bundleKey", mAuth.getUid());
+                                                        result.putString("email", email);
+                                                        Log.d("UID", String.valueOf(result));
+                                                        getParentFragmentManager().setFragmentResult("menuCliente", result);
+                                                        Navigation.findNavController(getView()).navigate(R.id.action_inicioSesion_to_menu_cliente);
+                                                    }
+
+                                                    @Override
+                                                    public void onSignInFailure() {
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                        builder.setTitle("Error");
+                                                        builder.setMessage("Inicio de sesión fallido");
+                                                        builder.setPositiveButton("OK", null);
+                                                        AlertDialog dialog = builder.create();
+                                                        dialog.show();
+                                                    }
+                                                });
                                             } else {
                                                 // No es un Cliente ni un Peluquero válido
                                                 Toast.makeText(getContext(), "No es un usuario válido", Toast.LENGTH_SHORT).show();
@@ -197,7 +213,6 @@ public class inicioSesion extends Fragment {
                                         } else {
                                             // Error al ejecutar la consulta de Cliente
                                             // Manejar el error en consecuencia
-                                            // ...
                                         }
                                     }
                                 });
@@ -205,12 +220,11 @@ public class inicioSesion extends Fragment {
                         } else {
                             // Error al ejecutar la consulta de Peluquero
                             // Manejar el error en consecuencia
-                            // ...
                         }
                     }
                 });
             }
-        }));
+        });
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {
@@ -225,35 +239,36 @@ public class inicioSesion extends Fragment {
         });
 
     }
-    private void startSignIn(String correo, String contrasena) {
-        //Comprueba que en la colección Peluquero el usuario y contraseña pasada por parametros existan, si existen se envía al menú tipo_cuenta, si no, no hace nada
+
+    private void startSignIn(String correo, String contrasena, final SignInCallback callback) {
         mAuth.signInWithEmailAndPassword(correo, contrasena)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            if (user != null) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                callback.onSignInSuccess();
+                            } else {
+                                // User is null, handle sign-in failure
+                                Log.w(TAG, "signInWithEmail:failure - User is null");
+                                callback.onSignInFailure();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Error");
-                            builder.setMessage("No es un email válido o no es un peluquero");
-                            builder.setPositiveButton("Ok", null);
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                            updateUI(null);
+                            callback.onSignInFailure();
                         }
                     }
                 });
     }
-    private void reload() { }
 
-    private void updateUI(FirebaseUser user) {
-
+    interface SignInCallback {
+        void onSignInSuccess();
+        void onSignInFailure();
     }
+    private void reload() { }
 
 }

@@ -164,69 +164,83 @@ public class crearUsuario_Cliente extends Fragment{
             public void onClick(View v) {
                 String emailValidator = email.getText().toString();
                 String password = contrasena.getText().toString();
-                if (!emailValidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailValidator).matches() && password.length() >= 6) {
-                    // Verificar si el correo ya existe en la colección "Cliente"
-                    Query query = db.collection("Cliente").whereEqualTo("email", emailValidator);
-                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().size() > 0) {
-                                    // El correo ya existe en la base de datos
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                                    builder.setTitle("Correo en uso")
-                                            .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
-                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                            .show();
-                                } else {
-                                    // El correo no existe en la base de datos
-                                    createAccount(emailValidator, password);
-                                    Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("nombre", nombre.getText().toString());
-                                    user.put("usuario", usuario.getText().toString());
-                                    user.put("email", emailValidator);
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            user.put("UID", uid);
-                                            referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if(task.isSuccessful()) {
-                                                        Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion);
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }, 3000);
+                if(nombre.getText().toString().isEmpty() || usuario.getText().toString().isEmpty() || emailValidator.isEmpty() || password.isEmpty()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Hay un campo vacio")
+                            .setMessage("Antes de poder crear una cuenta tienes que rellenar todos los campos")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
                                 }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-                } else {
-                    if (password.length() < 6) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setTitle("Contraseña inválida")
-                                .setMessage("La contraseña debe tener al menos 6 caracteres.")
-                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
+                            })
+                            .show();
+                } else{
+                    if (!emailValidator.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailValidator).matches() && password.length() >= 6) {
+                        // Verificar si el correo ya existe en la colección "Cliente"
+                        Query query = db.collection("Cliente").whereEqualTo("email", emailValidator);
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().size() > 0) {
+                                        // El correo ya existe en la base de datos
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                        builder.setTitle("Correo en uso")
+                                                .setMessage("El correo que has introducido ya está en uso, prueba con otro o inicia sesión.")
+                                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        // El correo no existe en la base de datos
+                                        createAccount(emailValidator, password);
+                                        Toast.makeText(view.getContext(), "Correo válido", Toast.LENGTH_LONG).show();
+                                        Map<String, Object> user = new HashMap<>();
+                                        user.put("nombre", nombre.getText().toString());
+                                        user.put("usuario", usuario.getText().toString());
+                                        user.put("email", emailValidator);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                user.put("UID", uid);
+                                                referencia.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()) {
+                                                            Navigation.findNavController(v).navigate(R.id.action_crearUsuario_Cliente_to_inicioSesion);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }, 3000);
                                     }
-                                })
-                                .show();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
                     } else {
-                        Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                        if (password.length() < 6) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                            builder.setTitle("Contraseña inválida")
+                                    .setMessage("La contraseña debe tener al menos 6 caracteres.")
+                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            Toast.makeText(view.getContext(), "Email no válido", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
+
             }
         });
         return view;

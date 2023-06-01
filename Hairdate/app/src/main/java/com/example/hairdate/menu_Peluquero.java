@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,11 +56,6 @@ import org.jetbrains.annotations.NotNull;
 
 import kotlin.jvm.internal.Intrinsics;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link menu_Peluquero#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class menu_Peluquero extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
@@ -77,30 +73,20 @@ public class menu_Peluquero extends Fragment{
     private TextView usuario;
     private Button btn_controlStock;
     private Button btn_cerrarSesion;
+    private Button btn_gestionPeluqueros;
+    private Button btn_gestionCitas;
     private View view;
 
     ImageView profileImage;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-
-    RecyclerView mRecycler;
-    CitasAdapter mAdapter;
     FirebaseFirestore mFirestore;
 
 
     public menu_Peluquero() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment menu_Peluquero.
-     */
-    // TODO: Rename and change types and number of parameters
     public static menu_Peluquero newInstance(String param1, String param2) {
         menu_Peluquero fragment = new menu_Peluquero();
         Bundle args = new Bundle();
@@ -113,7 +99,6 @@ public class menu_Peluquero extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -133,38 +118,43 @@ public class menu_Peluquero extends Fragment{
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
+        btn_gestionCitas = view.findViewById(R.id.btn_comprobarCitas);
 
-        mFirestore = FirebaseFirestore.getInstance();
-        mRecycler = view.findViewById(R.id.rvw_PeluqueroCitas);
-        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Query query = mFirestore.collection("Citas");
+        storageReference = FirebaseStorage.getInstance().getReference();
 
-        FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
 
-        mAdapter = new CitasAdapter(firestoreRecyclerOptions);
-        mAdapter.notifyDataSetChanged();
-        mRecycler.setAdapter(mAdapter);
+        // Obtener el UID del usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
 
-        // Permite hacer click en las citas y te envia a detalles_citas
-        mAdapter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String horarioCita = ((TextView) mRecycler.findViewHolderForAdapterPosition(mRecycler.getChildAdapterPosition(view)).itemView.findViewById(R.id.txt_horario)).getText().toString();
-                // Envía el email y el horario a detalles_citas, para que este pueda cargar la cita correspondiente
-                Bundle result = new Bundle();
-                result.putString("email", emailActual);
-                result.putString("horario", horarioCita);
-                getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
-                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_detalles_citas);
+            Query queryUsuario = db.collection("Peluqueria").whereEqualTo("UID", uid);
+            queryUsuario.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                emailActual = document.getString("email");
+                                // Coloca el email como nombre de usuario
+                                usuario.setText(document.getString("usuario"));
+                                // Si existe una imagen, la coloca como imagen de perfil
+                                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Picasso.get().load(uri).into(profileImage);
+                                    }
+                                });
+                            }
+                        }
+                    });
             }
-        });
 
-
-
-
-        // Al pulsar en el nombre de usuario se envía a cambiarse la imagen de perfil
+        // Al pulsar en el nombre de usuario se envía a cambiar sus datos
         usuario.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public final void onClick(View it) {
-                irAActivityProfile();
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_peluqueria_mod);
             }
         }));
         // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
@@ -172,6 +162,13 @@ public class menu_Peluquero extends Fragment{
             @Override
             public void onClick(View view) {
                 irAActivityProfile();
+            }
+        });
+
+        btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_citasLista);
             }
         });
 
@@ -204,45 +201,27 @@ public class menu_Peluquero extends Fragment{
                 return false;
             }
         });
+
+        btn_gestionPeluqueros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
+            }
+        });
+        btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_citasLista);
+            }
+        });
+
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAdapter.startListening();
-
-        storageReference = FirebaseStorage.getInstance().getReference();
-        // Recoge la informacion importante que se mande desde otros fragments cada vez que se abre este fragment
-        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                emailActual = result.getString("email");
-                // Coloca el email como nombre de usuario
-                usuario.setText(emailActual);
-                // Si existe una imagen, la coloca como imagen de perfil
-                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
-                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAdapter.stopListening();
-    }
     public void irAActivityProfile() {
         String volverAMenuPeluquero = "Peluquero";
         Bundle bundle = new Bundle();
         bundle.putString("email", emailActual);
-        bundle.putString("ADondeVolver", volverAMenuPeluquero);
         getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
         Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_activity_profile);
     }

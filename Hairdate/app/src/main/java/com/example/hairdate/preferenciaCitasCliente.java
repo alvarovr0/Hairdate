@@ -128,6 +128,7 @@ public class preferenciaCitasCliente extends Fragment {
                 // Exporta los datos del fragment que hemos solicitado antes y muestra el nombre del usuario insertado
                 String result = bundle.getString("bundleKey");
                 String resultHora = bundle.getString("fecha");
+                String peluUID = bundle.getString("UIDpelu");
                 Log.d("prueba", "Fecha seleccionada: " + resultHora);
                 if(result.equals("Tinte") || result.equals("Tinte + corte")){
                     preferencia.setVisibility(View.VISIBLE);
@@ -178,6 +179,7 @@ public class preferenciaCitasCliente extends Fragment {
                                 cita.put("UID", uid);
                                 cita.put("Servicio", result);
                                 cita.put("Preferencia", preferencia.getText().toString());
+                                cita.put("UIDPelu", peluUID);
                                 referencia.set(cita).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

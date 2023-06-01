@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".crearUsuario_Peluquero">
+    tools:context=".peluqueria_mod">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,10 +25,10 @@
 
             <TextView
                 android:id="@+id/txt_tipo"
-                android:layout_width="135dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Registrar"
+                android:text="Modificar datos"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
@@ -45,7 +44,7 @@
 
 
             <TextView
-                android:id="@+id/txt_nombre_peluquero"
+                android:id="@+id/txt_nuevo_nombre_peluquero"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
@@ -54,7 +53,7 @@
 
 
             <EditText
-                android:id="@+id/edTxt_nombre_peluquero"
+                android:id="@+id/edTxt_nuevo_nombre_peluquero"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -65,7 +64,7 @@
                 />
 
             <TextView
-                android:id="@+id/txt_cif_peluquero"
+                android:id="@+id/txt_nuevo_cif_peluquero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
@@ -73,7 +72,7 @@
                 android:text="CIF" />
 
             <EditText
-                android:id="@+id/edTxt_cif_peluquero"
+                android:id="@+id/edTxt_nuevo_cif_peluquero"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -84,14 +83,14 @@
                 android:maxLength="9" />
 
             <TextView
-                android:id="@+id/txt_usuario_peluquero"
+                android:id="@+id/txt_nuevo_usuario_peluquero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Usuario" />
 
             <EditText
-                android:id="@+id/edTxt_usuario_peluquero"
+                android:id="@+id/edTxt_nuevo_usuario_peluquero"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -102,58 +101,7 @@
                 android:maxLength="15" />
 
             <TextView
-                android:id="@+id/txt_email_peluquero"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Correo" />
-
-            <EditText
-                android:id="@+id/edTxt_Email_peluquero"
-                android:layout_width="289dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rectangle"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Email"
-                android:inputType="textEmailAddress" />
-
-            <TextView
-                android:id="@+id/txt_contrasena_peluquero"
-                android:layout_width="289dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Contraseña" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/edTxt_contrasena_peluquero"
-                    android:layout_width="258dp"
-                    android:layout_height="34dp"
-                    android:background="@drawable/rectangle"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="Contraseña"
-                    android:inputType="textPassword"
-                    android:maxLength="15"
-                    android:minHeight="48dp"
-                    android:minLines="6" />
-
-                <ImageButton
-                    android:id="@+id/ojoBoton_peluquero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:src="@drawable/eye_closed" />
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/txt_direccion_peluquero"
+                android:id="@+id/txt_nuevo_direccion_peluquero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -165,14 +113,14 @@
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/spinnerCalle_peluquero"
+                    android:id="@+id/spinner_nuevo_Calle_peluquero"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/array"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
-                    android:id="@+id/edTxt_Direccion_peluquero"
+                    android:id="@+id/edTxt_nuevo_Direccion_peluquero"
                     android:layout_width="193dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -185,14 +133,14 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txt_num_peluquero"
+                android:id="@+id/txt_nuevo_num_peluquero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Número de teléfono"  />
 
             <EditText
-                android:id="@+id/edTxt_num_peluquero"
+                android:id="@+id/edTxt_nuevo_num_peluquero"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -203,14 +151,14 @@
                 android:minLines="9"/>
 
             <TextView
-                android:id="@+id/txt_horario_peluqueria"
+                android:id="@+id/txt_nuevo_horario_peluqueria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Horario" />
 
             <EditText
-                android:id="@+id/edTxt_horario_peluquero"
+                android:id="@+id/edTxt_nuevo_horario_peluquero"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
@@ -219,7 +167,7 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/txt_servicios_peluqueria"
+                android:id="@+id/txt_nuevo_servicios_peluqueria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Servicios que ofreces"
@@ -236,13 +184,13 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkboxCorte"
+                        android:id="@+id/checkbox_nuevo_Corte"
                         android:layout_width="123dp"
                         android:layout_height="wrap_content"
                         android:text="Corte" />
 
                     <CheckBox
-                        android:id="@+id/checkboxTinte"
+                        android:id="@+id/checkbox_nuevo_Tinte"
                         android:layout_width="123dp"
                         android:layout_height="wrap_content"
                         android:text="Tinte"/>
@@ -254,7 +202,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkboxCorteTinte"
+                        android:id="@+id/checkbox_nuevo_CorteTinte"
                         android:layout_width="123dp"
                         android:layout_height="wrap_content"
                         android:text="Corte + Tinte" />
@@ -267,14 +215,14 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/txt_tipo_peluqueria"
+                    android:id="@+id/txt_nuevo_tipo_peluqueria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Tipo" />
 
                 <Spinner
-                    android:id="@+id/spinner_tipo_peluqueria"
+                    android:id="@+id/spinner_nuevo_tipo_peluqueria"
                     android:layout_width="289dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -290,6 +238,6 @@
             android:layout_marginTop="60dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Registrar" />
+            android:text="Guardar" />
     </LinearLayout>
 </FrameLayout>

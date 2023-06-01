@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -50,8 +54,11 @@ public class principal_cliente extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    FirebaseFirestore db;
+    String nombreUsuario;
     String emailActual;
+
+    FirebaseFirestore db;
+    //String emailActual;
     TextView usuario;
     RecyclerView recyclerView;
     RecyclerView recyclerViewFav;
@@ -61,6 +68,7 @@ public class principal_cliente extends Fragment {
     View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
+    //private TextView usuario;
 
     public principal_cliente() {
 
@@ -81,15 +89,20 @@ public class principal_cliente extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_principal_cliente, container, false);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
         usuario = view.findViewById(R.id.txt_nombreCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txt_nombreCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        if(profileImage == null){
+            profileImage.setImageResource(R.drawable.user_profile);
+        }
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFav = view.findViewById(R.id.recyclerViewFav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewFav.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        storageReference = FirebaseStorage.getInstance().getReference();
 
         // Consultar todas las peluquerías
         Query query = db.collection("Peluqueria");
@@ -100,11 +113,11 @@ public class principal_cliente extends Fragment {
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
-        // Al pulsar el nombre, se te dirige a cambiarte la imagen de perfil
+        // Al pulsar el nombre, se te dirige a cambiarte los datos del perfil
         usuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moverAActivityProfile();
+                Navigation.findNavController(getView()).navigate(R.id.action_principal_cliente_to_cliente_mod);
             }
         });
         // Al pulsar la imagen, se te dirige a cambiarte la imagen de perfil
@@ -115,7 +128,6 @@ public class principal_cliente extends Fragment {
             }
         });
 
-        // onClickListener de las peluquerias NO favoritas
         adapter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int position = recyclerView.getChildAdapterPosition(view);
@@ -128,11 +140,6 @@ public class principal_cliente extends Fragment {
                 args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
                 args.putString("nombre", peluqueria.getNombre());
 
-                // Pasa el email al siguiente fragment
-                Bundle bundle = new Bundle();
-                bundle.putString("email", emailActual);
-                getParentFragmentManager().setFragmentResult("menuPeluquero_to_perfilPeluqueria", bundle);
-
                 Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
             }
         });
@@ -142,6 +149,7 @@ public class principal_cliente extends Fragment {
         if (currentUser != null) {
             String uid = currentUser.getUid();
 
+            // Obtiene el email actual
             Query queryEmail = db.collection("Cliente").whereEqualTo("UID", uid);
             queryEmail.get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -149,7 +157,6 @@ public class principal_cliente extends Fragment {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 emailActual = document.getString("email");
-                                Toast.makeText(getActivity(), "emailActual es " + emailActual, Toast.LENGTH_SHORT).show();
 
                                 // Coloca el email como nombre de usuario
                                 usuario.setText(document.getString("usuario"));
@@ -174,7 +181,6 @@ public class principal_cliente extends Fragment {
             adapterFav.notifyDataSetChanged();
             recyclerViewFav.setAdapter(adapterFav);
 
-            // onClickListener de las peluquerias favoritas
             adapterFav.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     int position = recyclerViewFav.getChildAdapterPosition(view);
@@ -186,13 +192,7 @@ public class principal_cliente extends Fragment {
                     args.putString("horario", peluqueria.getHorario());
                     args.putString("numeroTelefono", peluqueria.getNumeroTelefono());
                     args.putString("nombre", peluqueria.getNombre());
-                    args.putString("email", emailActual);
-
-                    // Pasa el email al siguiente fragment
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email", emailActual);
-                    getParentFragmentManager().setFragmentResult("perfilPeluqueria", bundle);
-
+                    getParentFragmentManager().setFragmentResult("resquestKey", args);
                     Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_perfil_peluqueria, args);
                 }
             });
@@ -217,33 +217,32 @@ public class principal_cliente extends Fragment {
             });
         }
 
-       cerrarSesion(view);
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    // Consumir el evento del botón de retroceso
-                    return true;
-                }
-                return false;
+        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
+        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
+            public final void onClick(View it) {
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
             }
-        });
+        }));
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        adapterFav.startListening();
+        if(adapterFav !=null){
+            adapterFav.startListening();
+        }
         adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+    if(adapterFav !=null){
         adapterFav.stopListening();
+    }
         adapter.stopListening();
     }
 
@@ -273,6 +272,6 @@ public class principal_cliente extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("email", emailActual);
         getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
-        Navigation.findNavController(view).navigate(R.id.action_menu_cliente_to_activity_profile);
+        Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_activity_profile_cliente);
     }
 }

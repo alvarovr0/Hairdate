@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -130,64 +131,66 @@ public class solicitar_cita extends Fragment {
                 // Resto del código para manejar la fecha seleccionada...
                 // Por ejemplo, puedes mostrarla en un Toast
                 showToast("Fecha seleccionada: " + selectedDateString);
-
-                // Crear el Bundle y establecer el FragmentResult
-                Bundle result = new Bundle();
-                result.putString("selectedDate", selectedDateString);
-                getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         });
-
-        btnSelectDateTime.setOnClickListener(new View.OnClickListener() {
+        getParentFragmentManager().setFragmentResultListener("bundlekey", this,  new FragmentResultListener() {
             @Override
-            public void onClick(View v) {
-                int selectedYear = datePicker.getYear();
-                int selectedMonth = datePicker.getMonth();
-                int selectedDay = datePicker.getDayOfMonth();
-                int selectedHour = timePicker.getHour();
-                int selectedMinute = timePicker.getMinute();
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                String UID = result.getString("bundlekey");
+                btnSelectDateTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int selectedYear = datePicker.getYear();
+                        int selectedMonth = datePicker.getMonth();
+                        int selectedDay = datePicker.getDayOfMonth();
+                        int selectedHour = timePicker.getHour();
+                        int selectedMinute = timePicker.getMinute();
 
-                // Validar si la hora seleccionada está dentro de la franja horaria permitida
-                if (selectedHour < 9 || selectedHour > 20) {
-                    showToast("Debes seleccionar una hora entre las 09:00 y las 20:00");
-                    return;
-                }
+                        // Validar si la hora seleccionada está dentro de la franja horaria permitida
+                        if (selectedHour < 9 || selectedHour > 20) {
+                            showToast("Debes seleccionar una hora entre las 09:00 y las 20:00");
+                            return;
+                        }
 
-                if (selectedMinute % 30 != 0) {
-                    showToast("Debes seleccionar una hora en intervalos de 30 minutos");
-                    return;
-                }
+                        if (selectedMinute % 30 != 0) {
+                            showToast("Debes seleccionar una hora en intervalos de 30 minutos");
+                            return;
+                        }
 
-                calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
-                String selectedDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(calendar.getTime());
+                        calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
+                        String selectedDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(calendar.getTime());
 
-                Bundle result = new Bundle();
-                result.putString("selectedDateTime", selectedDateTimeString);
+                        Bundle resultfecha = new Bundle();
+                        resultfecha.putString("selectedDateTime", selectedDateTimeString);
+                        resultfecha.putString("UIDpelu", UID.toString());
+                        // Verificar si la fecha y hora están en la base de datos de Firebase
+                        Query queryPrueba = db.collection("Citas").whereEqualTo("Fecha_Hora", selectedDateTimeString);
+                        queryPrueba.get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot querySnapshot) {
+                                        if (querySnapshot.isEmpty()) {
+                                            // No se encontraron documentos con la fecha y hora especificadas
+                                            getParentFragmentManager().setFragmentResult("requestKey", resultfecha);
+                                            Navigation.findNavController(getView()).navigate(R.id.action_solicitar_cita_to_tipo_servicio);
+                                        } else {
+                                            // Se encontró al menos un documento con la fecha y hora especificadas
+                                            showToast("En esta fecha y hora ya hay una cita programada");
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("MyApp", "Error al obtener los documentos: ", e);
+                                    }
+                                });
 
-                // Verificar si la fecha y hora están en la base de datos de Firebase
-                Query queryPrueba = db.collection("Citas").whereEqualTo("Fecha_Hora", selectedDateTimeString);
-                queryPrueba.get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                if (querySnapshot.isEmpty()) {
-                                    // No se encontraron documentos con la fecha y hora especificadas
-                                    getParentFragmentManager().setFragmentResult("requestKey", result);
-                                    Navigation.findNavController(getView()).navigate(R.id.action_solicitar_cita_to_tipo_servicio);
-                                } else {
-                                    // Se encontró al menos un documento con la fecha y hora especificadas
-                                    showToast("En esta fecha y hora ya hay una cita programada");
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("MyApp", "Error al obtener los documentos: ", e);
-                            }
-                        });
+                    }
+                });
             }
         });
+
 
 
         return view;

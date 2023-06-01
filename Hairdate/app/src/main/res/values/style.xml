@@ -10,10 +10,13 @@
     </style>
     <!-- Dark base activity theme -->
     <style name="ActivityTheme.Primary.Base.Dark"    parent="Theme.AppCompat.NoActionBar">
-        <item name="primaryTextColor">#33343B</item>
-        <item name="secondaryTextColor">#8033343B</item>
-        <item name="backgroundCardColor">#28292e</item>
-        <item name="dividerColor">#F2F2F3</item>
+        <item name="primaryTextColor">#EA759E</item>
+        <item name="secondaryTextColor">#EA759E</item>
+        <item name="backgroundCardColor">#9E5481</item>
+        <item name="dividerColor">#5D4A80</item>
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#3D3055</item>
 
     </style>
 
