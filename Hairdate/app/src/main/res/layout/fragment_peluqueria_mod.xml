@@ -97,8 +97,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Usuario"
-                android:inputType="textPersonName"
-                android:maxLength="15" />
+                android:inputType="textPersonName"/>
 
             <TextView
                 android:id="@+id/txt_nuevo_direccion_peluquero"
@@ -208,7 +207,7 @@
                         android:text="Corte + Tinte" />
 
                     <CheckBox
-                        android:id="@+id/checkboxPeinado"
+                        android:id="@+id/checkbox_nuevo_Peinado"
                         android:layout_width="123dp"
                         android:layout_height="wrap_content"
                         android:text="Peinado"/>

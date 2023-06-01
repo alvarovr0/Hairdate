@@ -13,7 +13,6 @@ import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.text.InputType;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -29,24 +28,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,7 +156,7 @@ public class crearUsuario_Peluquero extends Fragment {
         horario = (EditText) view.findViewById(R.id.edTxt_horario_peluquero);
         checkboxCorte = view.findViewById(R.id.checkboxCorte);
         checkboxTinte = view.findViewById(R.id.checkboxTinte);
-        checkboxPeinado = view.findViewById(R.id.checkboxPeinado);
+        checkboxPeinado = view.findViewById(R.id.checkbox_nuevo_Peinado);
         checkboxCorteTinte = view.findViewById(R.id.checkboxCorteTinte);
         botonRegistro = (Button) view.findViewById(R.id.btn_registro_peluquero);
         btn_eyeContrasena_inicio = (ImageButton) view.findViewById(R.id.ojoBoton_peluquero);
