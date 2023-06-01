@@ -9,16 +9,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.hairdate.adapter.CitasAdapter;
+import com.example.hairdate.model.Citas;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -40,12 +51,14 @@ public class ListaCitasCliente extends Fragment {
     private String mParam2;
 
     FirebaseFirestore db;
-    RecyclerView recyclerViewPeluqueros;
-    PeluqueroAdapter adapter;
+    RecyclerView recyclerViewCitas;
+    CitasAdapter adapter;
     StorageReference storageReference;
     RoundedImageView profileImage;
-    String numeroTelefono;
+    String emailActual;
     TextView usuario;
+    private Button btn_volver;
+    private Button btn_cerrarSesion;
 
     public ListaCitasCliente() {
         // Required empty public constructor
@@ -83,6 +96,54 @@ public class ListaCitasCliente extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lista_citas_cliente, container, false);
 
+        db = FirebaseFirestore.getInstance();
+        usuario = view.findViewById(R.id.txt_nombreCliente);
+        profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
+        if (profileImage == null) {
+            profileImage.setImageResource(R.drawable.user_profile);
+        }
+        recyclerViewCitas = view.findViewById(R.id.recyclerViewCitas);
+        recyclerViewCitas.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            // Consulta los peluqueros que tienen una referencia a la peluquería especificada
+            Query query = db.collection("Citas").whereEqualTo("UIDCliente", uid);
+            FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
+            adapter = new CitasAdapter(firestoreRecyclerOptions);
+            adapter.notifyDataSetChanged();
+            recyclerViewCitas.setAdapter(adapter);
+
+            query.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+
+                                adapter.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View view) {
+                                        int position = recyclerViewCitas.getChildAdapterPosition(view);
+                                        /*Citas citas = adapter.getItem(position);
+
+                                        // Navegar al siguiente fragmento y pasar los datos como argumentos
+                                        Bundle args = new Bundle();
+                                        args.putString("nombre", citas.getFecha_Hora());*/
+                                        //Navigation.findNavController(view).navigate(R.id.action_listaCitasCliente_to_principal_cliente, args);
+                                    }
+                                });
+
+                            }
+                            if (queryDocumentSnapshots.isEmpty()) {
+                                mostrarTextoSinCitas(true);
+                            } else {
+                                mostrarTextoSinCitas(false);
+                            }
+                        }
+                    });
+        }
+
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +152,8 @@ public class ListaCitasCliente extends Fragment {
                 startActivityForResult(openGalleryIntent, 1000);
             }
         });
+
+        volver(view);
 
         return view;
     }
@@ -109,13 +172,13 @@ public class ListaCitasCliente extends Fragment {
     private void subirImagenAFirebase(Uri imageUri) {
         storageReference = FirebaseStorage.getInstance().getReference();
         // Recoge los datos que han sido traidos desde menuPeluquero/menuCliente
-        getParentFragmentManager().setFragmentResultListener("menuPeluquero", this, new FragmentResultListener() {
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                numeroTelefono = result.getString("numeroTelefono");
+                emailActual = result.getString("email");
 
                 // Muestra imagen si ya había alguna anteriormente
-                StorageReference profileRef = storageReference.child(numeroTelefono + "_profile.jpg");
+                StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -129,12 +192,51 @@ public class ListaCitasCliente extends Fragment {
         profileImage = getView().findViewById(R.id.imagePeluqueria);
         storageReference = FirebaseStorage.getInstance().getReference();
         // Muestra una imagen
-        StorageReference profileRef = storageReference.child(numeroTelefono + "_pelu.jpg");
+        StorageReference profileRef = storageReference.child(emailActual + "_profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(profileImage);
             }
         });
+    }
+
+    public void volver(View view) {
+        btn_volver = view.findViewById(R.id.btn_volver);
+        btn_volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_listaCitasCliente_to_principal_cliente);
+            }
+        });
+    }
+
+    private void mostrarTextoSinCitas(boolean mostrar) {
+        TextView textoSinCitas = getView().findViewById(R.id.txt_sinCitas);
+
+        if (mostrar) {
+            textoSinCitas.setVisibility(View.VISIBLE);
+            recyclerViewCitas.setVisibility(View.GONE);
+        } else {
+            textoSinCitas.setVisibility(View.GONE);
+            recyclerViewCitas.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
     }
 }
