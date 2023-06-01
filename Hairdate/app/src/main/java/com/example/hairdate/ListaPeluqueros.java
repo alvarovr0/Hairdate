@@ -159,6 +159,8 @@ public class ListaPeluqueros extends Fragment {
             }
         });
 
+        addPeluquero(view);
+
         return view;
     }
 
