@@ -68,6 +68,7 @@ public class principal_cliente extends Fragment {
     View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
+    private Button btn_misCitas;
     //private TextView usuario;
 
     public principal_cliente() {
@@ -225,6 +226,8 @@ public class principal_cliente extends Fragment {
             }
         }));
 
+        misCitas(view);
+
         return view;
     }
 
@@ -258,20 +261,20 @@ public class principal_cliente extends Fragment {
         }
     }
 
-    public void cerrarSesion(View view){
-        btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
-        btn_cerrarSesion.setOnClickListener((View.OnClickListener)(new View.OnClickListener() {
-            public final void onClick(View it) {
-                FirebaseAuth.getInstance().signOut();
-                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
-            }
-        }));
-    }
-
     public void moverAActivityProfile() {
         Bundle bundle = new Bundle();
         bundle.putString("email", emailActual);
         getParentFragmentManager().setFragmentResult("menuPeluquero_to_activityProfile", bundle);
         Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_activity_profile_cliente);
+    }
+
+    public void misCitas(View view){
+        btn_misCitas = view.findViewById(R.id.btn_misCitas);
+        btn_misCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_listaCitasCliente);
+            }
+        });
     }
 }

@@ -18,10 +18,15 @@
             android:orientation="horizontal">
 
             <com.example.hairdate.RoundedImageView
+                android:layout_margin="10dp"
                 android:id="@+id/img_imagenPerfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/user_profile"/>
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/user_profile"
+                app:cornerRadius="70dp" />
 
             <TextView
                 android:id="@+id/txt_nombrePeluquero"
@@ -55,9 +60,10 @@
 
             <Button
                 android:id="@+id/btn_gestionPeluqueros"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gestionar/comprobar peluqueros" />
+                android:text="Gestionar/comprobar peluqueros"
+                android:layout_gravity="center"/>
 
             <Button
                 android:id="@+id/btn_comprobarStock"
@@ -71,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:clickable="false"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

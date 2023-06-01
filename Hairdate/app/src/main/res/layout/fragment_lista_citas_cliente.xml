@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".principal_cliente"
-    android:background="@color/fondo">
+    tools:context=".ListaCitasCliente">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,8 +29,8 @@
 
             <TextView
                 android:id="@+id/txt_nombreCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="47dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:text="Usuario"
@@ -39,16 +38,8 @@
                 android:layout_margin="10dp"/>
 
             <Button
-                android:id="@+id/btn_misCitas"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Mis citas"
-                android:layout_weight="1"
-                android:layout_margin="10dp"/>
-
-            <Button
                 android:id="@+id/btn_cerrarSesion"
-                android:layout_width="wrap_content"
+                android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cerrar Sesión"
@@ -66,8 +57,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Peluquerías Favoritas"
-                android:textSize="20dp"/>
+                android:text="Mis citas"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFav"
@@ -93,18 +85,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="636dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Peluquerias"
-                android:textSize="20dp"/>
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recyclerViewCitas"
                 android:layout_width="match_parent"
                 android:layout_height="398dp" />
 

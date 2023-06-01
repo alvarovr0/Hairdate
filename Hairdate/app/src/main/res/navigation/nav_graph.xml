@@ -128,6 +128,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_cliente_mod"
             app:destination="@id/cliente_mod" />
+        <action
+            android:id="@+id/action_principal_cliente_to_listaCitasCliente"
+            app:destination="@id/listaCitasCliente" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"
@@ -235,6 +238,20 @@
         tools:layout="@layout/fragment_cliente_mod" >
         <action
             android:id="@+id/action_cliente_mod_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/peluqueria_mod"
+        android:name="com.example.hairdate.peluqueria_mod"
+        android:label="fragment_peluqueria_mod"
+        tools:layout="@layout/fragment_peluqueria_mod" />
+    <fragment
+        android:id="@+id/listaCitasCliente"
+        android:name="com.example.hairdate.ListaCitasCliente"
+        android:label="fragment_lista_citas_cliente"
+        tools:layout="@layout/fragment_lista_citas_cliente" >
+        <action
+            android:id="@+id/action_listaCitasCliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
     </fragment>
 </navigation>
