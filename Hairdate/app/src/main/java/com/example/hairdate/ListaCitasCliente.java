@@ -138,13 +138,7 @@ public class ListaCitasCliente extends Fragment {
                                     public void onClick(View view) {
                                         int position = recyclerViewCitas.getChildAdapterPosition(view);
                                         Citas citas = adapter.getItem(position);
-
                                         mostrarDialogoBorrarCita(citas);
-                                        // Navegar al siguiente fragmento y pasar los datos como argumentos
-                                        /*
-                                        Bundle args = new Bundle();
-                                        args.putString("nombre", citas.getFecha_Hora());*/
-                                        //Navigation.findNavController(view).navigate(R.id.action_listaCitasCliente_to_principal_cliente, args);
                                     }
                                 });
 
@@ -309,43 +303,4 @@ public class ListaCitasCliente extends Fragment {
         }
     }
 
-    public void IdDocumento() {
-        CollectionReference collectionRef = db.collection("Citas");
-
-        collectionRef.whereEqualTo("Fecha_hora", "valor")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot querySnapshot) {
-                        for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                            // Obtener la ID del documento
-                            String documentId = documentSnapshot.getId();
-
-                            // Borrar el documento utilizando la ID obtenida
-                            collectionRef.document(documentId).delete()
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            // Documento borrado exitosamente
-                                            Log.d(TAG, "Documento borrado correctamente");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Error al borrar el documento
-                                            Log.w(TAG, "Error al borrar el documento", e);
-                                        }
-                                    });
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Error al realizar la consulta
-                        Log.w(TAG, "Error al obtener el documento", e);
-                    }
-                });
-    }
 }

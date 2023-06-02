@@ -2,6 +2,7 @@ package com.example.hairdate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hairdate.adapter.CitasAdapter;
+import com.example.hairdate.model.Citas;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -65,8 +69,7 @@ public class ListaPeluqueros extends Fragment {
     RoundedImageView profileImage;
     String numeroTelefono;
     TextView usuario;
-
-    private Button btn_addPeluquero;
+    Button btn_addPeluquero;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -136,12 +139,38 @@ public class ListaPeluqueros extends Fragment {
                                         int position = recyclerViewPeluqueros.getChildAdapterPosition(view);
                                         Peluquero peluquero = adapter.getItem(position);
 
-                                        // Navegar al siguiente fragmento y pasar los datos como argumentos
-                                        Bundle args = new Bundle();
-                                        args.putString("especialidad", peluquero.getEspecialidad());
-                                        args.putString("horario", peluquero.getHorario());
-                                        args.putString("nombre", peluquero.getNombre());
-                                        Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        builder.setTitle("Confirmación")
+                                                .setMessage("¿Qué acción desea realizar?")
+                                                .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // Navegar al siguiente fragmento y pasar los datos como argumentos
+                                                        Bundle args = new Bundle();
+                                                        args.putString("especialidad", peluquero.getEspecialidad());
+                                                        args.putString("horario", peluquero.getHorario());
+                                                        args.putString("nombre", peluquero.getNombre());
+                                                        Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluquero_detalle, args);
+                                                    }
+                                                })
+                                                .setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // Se realiza el borrado
+                                                        mostrarDialogoBorrarPeluquero(peluquero);
+                                                    }
+                                                })
+                                                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // Cancelar la acción
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+
                                     }
                                 });
 
@@ -207,14 +236,29 @@ public class ListaPeluqueros extends Fragment {
         });
     }
 
-    public void addPeluquero(View view){
+    public void addPeluquero(View view) {
+        btn_addPeluquero = view.findViewById(R.id.btn_addPeluquero);
         btn_addPeluquero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Confirmación")
+                        .setMessage("¿Desea añadir un nuevo peluquero?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluqueroAgregar);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_peluqueroAgregar);
             }
         });
     }
@@ -235,5 +279,57 @@ public class ListaPeluqueros extends Fragment {
             adapter.stopListening();
         }
     }
+
+    private void mostrarDialogoBorrarPeluquero(Peluquero peluquero) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Confirmar borrado")
+                .setMessage("¿Quieres borrar el peluquero seleccionado?")
+                .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Borrar al peluquero de la base de datos
+                        String nif = peluquero.getNif();
+                        CollectionReference collectionRef = db.collection("Peluquero");
+
+                        collectionRef.whereEqualTo("NIF", nif)
+                                .limit(1)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                            String peluqueroId = documentSnapshot.getId();
+                                            db.collection("Peluquero").document(peluqueroId)
+                                                    .delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(getActivity(), "El peluquero se borró exitosamente", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getActivity(), "Ocurrió un error al borrar el peluquero", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), "Ocurrió un error al buscar al peluquero", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("Cancelar", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }
