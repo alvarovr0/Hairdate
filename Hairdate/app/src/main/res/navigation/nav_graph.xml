@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_menu_Peluquero_to_peluqueria_mod"
             app:destination="@id/peluqueria_mod" />
+        <action
+            android:id="@+id/action_menu_Peluquero_to_chat"
+            app:destination="@id/chat" />
     </fragment>
     <fragment
         android:id="@+id/activity_profile"
@@ -128,6 +131,9 @@
         <action
             android:id="@+id/action_principal_cliente_to_cliente_mod"
             app:destination="@id/cliente_mod" />
+        <action
+            android:id="@+id/action_principal_cliente_to_chat_cliente"
+            app:destination="@id/chat_cliente" />
     </fragment>
     <fragment
         android:id="@+id/tipo_servicio"
@@ -225,6 +231,23 @@
         tools:layout="@layout/fragment_cliente_mod" >
         <action
             android:id="@+id/action_cliente_mod_to_principal_cliente"
+            app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.example.hairdate.chat_peluquero"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat_peluquero" >
+        <action
+            android:id="@+id/action_chat_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+    </fragment>
+    <fragment
+        android:id="@+id/chat_cliente"
+        android:name="com.example.hairdate.chat_cliente"
+        android:label="chat_cliente" >
+        <action
+            android:id="@+id/action_chat_cliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
     </fragment>
 </navigation>

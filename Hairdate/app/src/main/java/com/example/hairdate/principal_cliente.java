@@ -68,6 +68,7 @@ public class principal_cliente extends Fragment {
     View view;
     private StorageReference storageReference;
     private Button btn_cerrarSesion;
+    private Button btn_chat;
     //private TextView usuario;
 
     public principal_cliente() {
@@ -93,6 +94,7 @@ public class principal_cliente extends Fragment {
 
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
         usuario = view.findViewById(R.id.txt_nombreCliente);
+        btn_chat = view.findViewById(R.id.btn_chat_menuCliente);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         usuario = view.findViewById(R.id.txt_nombreCliente);
         profileImage = view.findViewById(R.id.img_imagenPerfilCliente);
@@ -224,6 +226,14 @@ public class principal_cliente extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_inicioSesion);
             }
         }));
+
+        // Al pulsar el boton Chat, te lleva al fragment chatCliente
+        btn_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_principal_cliente_to_chat_cliente);
+            }
+        });
 
         return view;
     }
