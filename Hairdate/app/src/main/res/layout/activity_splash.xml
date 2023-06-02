@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/aquamarine2">
+
+    <ImageView
+        android:id="@+id/imageViewSplash"
+        android:layout_width="223dp"
+        android:layout_height="241dp"
+        android:scaleType="centerInside"
+        android:scrollbars="none"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/logotiposplash"
+        android:stateListAnimator="@android:anim/fade_in" />
+
+</RelativeLayout>
