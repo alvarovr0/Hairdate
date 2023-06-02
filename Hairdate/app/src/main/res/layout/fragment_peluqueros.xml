@@ -6,9 +6,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Peluqueros">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hola esto es peluqueros"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hola esto es peluqueros"/>
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/user" />
+
+        <Button
+            android:id="@+id/change_image_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cambiar imagen" />
+
+        <Button
+            android:id="@+id/btn_volver_activityProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver" />
+
+    </LinearLayout>
 
 </FrameLayout>
