@@ -22,6 +22,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CitasLista#newInstance} factory method to
@@ -97,11 +102,16 @@ public class CitasLista extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // Obtener fecha actual
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+
+        // Formatear la fecha actual como "yyyy-MM-dd"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String formattedDate = dateFormat.format(currentDate);
         // Consultar todas las peluquerías
-        Query query = db.collection("Citas");
-
+        Query query = db.collection("Citas").whereGreaterThanOrEqualTo("Fecha_Hora", formattedDate);;
         FirestoreRecyclerOptions<Citas> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Citas>().setQuery(query, Citas.class).build();
-
         adapter = new CitasAdapter(firestoreRecyclerOptions);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
@@ -118,11 +128,6 @@ public class CitasLista extends Fragment {
                 result.putString("email", emailActual);
                 result.putString("horario", horarioCita);
                 getParentFragmentManager().setFragmentResult("menuPeluquero_to_detallesCitas", result);
-
-
-
-
-
                 Navigation.findNavController(view).navigate(R.id.action_citasLista_to_detalles_citas, result);
             }
         });
