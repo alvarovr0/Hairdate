@@ -207,6 +207,7 @@ public class menu_Peluquero extends Fragment{
         btn_gestionPeluqueros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
             }
         });
