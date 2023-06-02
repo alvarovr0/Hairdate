@@ -75,6 +75,7 @@ public class menu_Peluquero extends Fragment{
     private Button btn_cerrarSesion;
     private Button btn_gestionPeluqueros;
     private Button btn_gestionCitas;
+    private Button btn_chat;
     private View view;
 
     ImageView profileImage;
@@ -116,6 +117,7 @@ public class menu_Peluquero extends Fragment{
 
         profileImage = view.findViewById(R.id.img_imagenPerfil);
         usuario = view.findViewById(R.id.txt_nombrePeluquero);
+        btn_chat = view.findViewById(R.id.btn_chat_menuPeluquero);
         btn_controlStock = view.findViewById(R.id.btn_comprobarStock);
         btn_cerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         btn_gestionPeluqueros = view.findViewById(R.id.btn_gestionPeluqueros);
@@ -201,12 +203,15 @@ public class menu_Peluquero extends Fragment{
             }
         });
 
+        // Al pulsar el boton de gestionar peluqueros, te lleva al fragment listaPeluqueros
         btn_gestionPeluqueros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_listaPeluqueros);
             }
         });
+
+        // Al pulsar el boton de gestionar citas, te lleva al fragment citasLista
         btn_gestionCitas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,6 +219,13 @@ public class menu_Peluquero extends Fragment{
             }
         });
 
+        // Al pulsar el boton de chat, te lleva al fragment chat
+        btn_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_Peluquero_to_chat_peluquero);
+            }
+        });
         return view;
     }
 

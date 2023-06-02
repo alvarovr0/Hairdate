@@ -71,6 +71,13 @@
                 android:layout_gravity="center"
                 android:text="Comprobar/gestionar productos" />
 
+            <Button
+                android:id="@+id/btn_chat_menuPeluquero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Chat" />
+
             <CalendarView
                 android:id="@+id/calendario"
                 android:layout_width="match_parent"
