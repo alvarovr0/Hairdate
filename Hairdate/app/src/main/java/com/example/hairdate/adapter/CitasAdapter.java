@@ -30,7 +30,6 @@ public class CitasAdapter extends FirestoreRecyclerAdapter<Citas, CitasAdapter.V
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_peluquerocitas_single, parent, false);
 
         v.setOnClickListener(this);
-        
 
         return new ViewHolder(v);
     }

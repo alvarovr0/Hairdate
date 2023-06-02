@@ -178,25 +178,16 @@
             app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
-        android:id="@+id/peluquero_detalle"
-        android:name="com.example.hairdate.Peluquero_detalle"
-        android:label="fragment_peluquero_detalle"
-        tools:layout="@layout/fragment_peluquero_detalle" >
-        <action
-            android:id="@+id/action_peluquero_detalle_to_menu_Peluquero"
-            app:destination="@id/menu_Peluquero" />
-    </fragment>
-    <fragment
         android:id="@+id/listaPeluqueros"
         android:name="com.example.hairdate.ListaPeluqueros"
         android:label="fragment_lista_peluqueros"
         tools:layout="@layout/fragment_lista_peluqueros" >
         <action
-            android:id="@+id/action_listaPeluqueros_to_peluquero_detalle"
-            app:destination="@id/peluquero_detalle" />
-        <action
             android:id="@+id/action_listaPeluqueros_to_peluqueroAgregar"
             app:destination="@id/peluqueroAgregar" />
+        <action
+            android:id="@+id/action_listaPeluqueros_to_peluquero_detalle"
+            app:destination="@id/peluquero_detalle" />
     </fragment>
     <fragment
         android:id="@+id/citasLista"
@@ -225,14 +216,14 @@
         tools:layout="@layout/fragment_peluquero_agregar" >
         <action
             android:id="@+id/action_peluqueroAgregar_to_listaPeluqueros"
-            app:destination="@id/listaPeluqueros" />
+            app:destination="@id/listaPeluqueros" /><![CDATA[
+
         android:id="@+id/peluqueria_mod"
         android:name="com.example.hairdate.peluqueria_mod"
         android:label="fragment_peluqueria_mod"
         tools:layout="@layout/fragment_peluqueria_mod" >
-        <action
-            android:id="@+id/action_peluqueria_mod_to_menu_Peluquero"
-            app:destination="@id/menu_Peluquero" />
+
+    ]]>
     </fragment>
     <fragment
         android:id="@+id/cliente_mod"
@@ -247,7 +238,11 @@
         android:id="@+id/peluqueria_mod"
         android:name="com.example.hairdate.peluqueria_mod"
         android:label="fragment_peluqueria_mod"
-        tools:layout="@layout/fragment_peluqueria_mod" />
+        tools:layout="@layout/fragment_peluqueria_mod" >
+        <action
+            android:id="@+id/action_peluqueria_mod_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
+    </fragment>
     <fragment
         android:id="@+id/listaCitasCliente"
         android:name="com.example.hairdate.ListaCitasCliente"
@@ -265,5 +260,14 @@
         <action
             android:id="@+id/action_fragment_verProductos_Cliente_to_principal_cliente"
             app:destination="@id/principal_cliente" />
+    </fragment>
+    <fragment
+        android:id="@+id/peluquero_detalle"
+        android:name="com.example.hairdate.Peluquero_detalle"
+        android:label="fragment_peluquero_detalle"
+        tools:layout="@layout/fragment_peluquero_detalle" >
+        <action
+            android:id="@+id/action_peluquero_detalle_to_listaPeluqueros"
+            app:destination="@id/listaPeluqueros" />
     </fragment>
 </navigation>

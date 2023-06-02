@@ -25,7 +25,6 @@
                 android:layout_gravity="center_vertical"
                 android:clickable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/user_profile"
                 app:cornerRadius="70dp" />
 
             <TextView
