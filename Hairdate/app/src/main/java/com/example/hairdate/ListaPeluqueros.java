@@ -70,6 +70,7 @@ public class ListaPeluqueros extends Fragment {
     String numeroTelefono;
     TextView usuario;
     Button btn_addPeluquero;
+    Button btn_volver;
 
     public ListaPeluqueros() {
         // Required empty public constructor
@@ -189,8 +190,19 @@ public class ListaPeluqueros extends Fragment {
         });
 
         addPeluquero(view);
+        volver(view);
 
         return view;
+    }
+
+    private void volver(View view) {
+        btn_volver = view.findViewById(R.id.btn_volver);
+        btn_volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_listaPeluqueros_to_menu_Peluquero);
+            }
+        });
     }
 
     @Override

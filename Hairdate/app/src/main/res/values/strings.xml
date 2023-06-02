@@ -18,4 +18,11 @@
         <item>Unisex</item>
     </string-array>
     <string name="create_account"><u>Toca aquí para crear una.</u></string>
+    <string-array name="tipoPeluquero">
+        <item>Tinte</item>
+        <item>Corte</item>
+        <item>Tinte + Corte</item>
+        <item>Peinado</item>
+        <item>Tinte + Corte + Peinado</item>
+    </string-array>
 </resources>

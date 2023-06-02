@@ -173,7 +173,6 @@ public class peluqueria_mod extends Fragment {
         if (nuevoNombre.isEmpty() || nuevoCif.isEmpty() || nuevoUsuario.isEmpty() || nuevaDireccion.isEmpty()
                 || nuevoNumTelefono.isEmpty() || nuevoHorario.isEmpty()) {
             Toast.makeText(getContext(), "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
-            return;
         }
 
         // Actualizar los datos en la base de datos

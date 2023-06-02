@@ -188,6 +188,9 @@
         <action
             android:id="@+id/action_listaPeluqueros_to_peluquero_detalle"
             app:destination="@id/peluquero_detalle" />
+        <action
+            android:id="@+id/action_listaPeluqueros_to_menu_Peluquero"
+            app:destination="@id/menu_Peluquero" />
     </fragment>
     <fragment
         android:id="@+id/citasLista"
