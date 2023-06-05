@@ -194,7 +194,7 @@ public class peluqueria_mod extends Fragment {
                         DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                         DocumentReference usuarioRef = usuariosRef.document(documentSnapshot.getId());
                         usuarioRef.update("nombre", nuevoNombre);
-                        usuarioRef.update("cif", nuevoCif);
+                        usuarioRef.update("CIF", nuevoCif);
                         usuarioRef.update("usuario", nuevoUsuario);
                         usuarioRef.update("direccion", direccion.getSelectedItem().toString() + nuevaDireccion);
                         usuarioRef.update("numeroTelefono", nuevoNumTelefono);
