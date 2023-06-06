@@ -132,7 +132,7 @@ public class peluqueria_mod extends Fragment {
 
                         // Obtener los datos existentes del documento
                         String nombre = documentSnapshot.getString("nombre");
-                        String cif = documentSnapshot.getString("cif");
+                        String cif = documentSnapshot.getString("CIF");
                         String usuario = documentSnapshot.getString("usuario");
                         String direccion = documentSnapshot.getString("direccion");
                         String numTelefono = documentSnapshot.getString("numeroTelefono");
